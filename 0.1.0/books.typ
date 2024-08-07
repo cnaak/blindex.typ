@@ -1,17 +1,14 @@
-// !center 92 | frame 92 -f '/=/ ' | sed 's|^/.|//|g;s|./$|//|g'
 //============================================================================================//
 //                               Biblical / Indexing Constants                                //
 //============================================================================================//
 
 
-// !center 92 | frame 92 -f '/-/ ' | sed 's|^/.|//|g;s|./$|//|g'
 //--------------------------------------------------------------------------------------------//
 //                              Biblical Literature Unique ID's                               //
 //--------------------------------------------------------------------------------------------//
 
-// Book's unique ID - Full English Name to an Integer arbitrary (unique) ID dictionary
-// List of Deuterocanonical / Apocripha
-// From: https://www.logos.com/bible-book-abbreviations
+// Book's unique ID dictionary:
+// "full-english-name": unique integer ID
 #let bUID = (
   // 10.00 - Pentateuch
   "Genesis":                    1001,
@@ -19,7 +16,7 @@
   "Leviticus":                  1003,
   "Numbers":                    1004,
   "Deuteronomy":                1005,
-  // 11.00 - Historical
+  // 11.00 - OT Historical
   "Joshua":                     1101,
   "Judges":                     1102,
   "Ruth":                       1103,
@@ -38,7 +35,7 @@
   "Proverbs":                   1203,
   "Ecclesiastes":               1204,
   "Song of Solomon":            1205,
-  // 13.00 - Prophetic
+  // 13.00 - OT Prophetic
   "Isaiah":                     1301,
   "Jeremiah":                   1302,
   "Lamentations":               1303,
@@ -56,14 +53,14 @@
   "Haggai":                     1315,
   "Zechariah":                  1316,
   "Malachi":                    1317,
-  // 14.00 - Gospel
+  // 14.00 - NT Gospels
   "Matthew":                    1401,
   "Mark":                       1402,
   "Luke":                       1403,
   "John":                       1404,
   // 15.00 - NT Historical
   "Acts":                       1501,
-  // 16.00 - Paul's
+  // 16.00 - NT Paul's letters
   "Romans":                     1601,
   "1 Corinthians":              1602,
   "2 Corinthians":              1603,
@@ -77,7 +74,7 @@
   "2 Timothy":                  1611,
   "Titus":                      1612,
   "Philemon":                   1613,
-  // 17.00 - Universal
+  // 17.00 - NT Universal letters
   "Hebrews":                    1700,
   "James":                      1701,
   "1 Peter":                    1702,
@@ -169,7 +166,7 @@
   "Gospels":
     (1401, 1402, 1403, 1404,),
   "Acts":
-    (1405,),
+    (1501,),
   "Paul-Letters":
     (1601, 1602, 1603, 1604, 1605, 1606, 1607, 1608, 1609, 1610, 1611, 1612, 1613,),
   "Universal-Letters":

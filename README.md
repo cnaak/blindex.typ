@@ -121,10 +121,10 @@ Books are sorted following the LXX ordering.
 
 #pagebreak()
 
-#bibliography("./tmp-01.yml", title: "References", style: "ieee")
+#bibliography("test-01-readme.yml", title: "References", style: "ieee")
 ```
 
-The listing of the bibliography file, `./tmp-01.yml`, as shown in the example, is:
+The listing of the bibliography file, `test-01-readme.yml`, as shown in the example, is:
 
 ```yml
 2012-LXX-SBB:
@@ -147,13 +147,14 @@ The listing of the bibliography file, `./tmp-01.yml`, as shown in the example, i
 
 This example results in a 4-page document like this one:
 
-![Compiled Higher-Level Example](https://github.com/cnaak/packages/blob/main/packages/preview/blindex/0.1.0/thumbnail.png)
+![Compiled Higher-Level
+Example](https://github.com/cnaak/blindex.typ/blob/55d275e4fdab1f47c13e1fe01cbb2b397de5e0fb/thumbnail.png)
 
 ## Citing
 
 This package can be cited with the following bibliography database entry:
 
-```yaml
+```yml
 blindex-package:
   type: Web
   author: Naaktgeboren, C.

@@ -18,6 +18,32 @@ according to various Biblical literature book ordering conventions, including:
 - `"Oecumenic-Bible"` -- The Jewish Tanakh + Old Testament Deuterocanonical + New Testament;
 - `"code"` -- All registered Biblical literature books: All Protestant + All Apocripha.
 
+## Biblical Literature Abbrevations
+
+It is common practice among theologians to refer to biblical literature books by their
+abbreviations. Practice shows that abbreviation conventions are language- and tradition-
+dependent. Therefore, `blindex` usage reflects this fact, while offering a way to input
+arbitrary language-tradition abbreviations, in the `lang.typ` source file.
+
+### Language and Traditions (Variants)
+
+The `blindex` implementation generalizes the concept of __tradition__ (in the context of
+biblical literature book abbreviation bookkeeping) as language **variants**, since the software
+can have things such as a "default" of "n-char" variants.
+
+As of the current release, supported languages include:
+
+Language           | Variant           | Description                | Name
+---                | ---               | ---                        | ---
+English            | 3-char            | A 3-char abbreviations     | `en-3`
+English            | Logos             | Used in `logos.com`        | `en-logos`
+Portuguese (BR)    | Protestant        | Protestant for Brazil      | `br-pro`
+Portuguese (BR)    | Catholic          | Catholic for Brazil        | `br-cat`
+
+Language files declares **one** `typst` dictionary named `aDict`, whose keys are string book
+ID's, and (`abbr: "str"`, `full: "string"`) dictionary values with the corresponding book's
+abbreviation and full name in the stated language/tradition.
+
 ## Low-Level Indexing Command
 
 The `blindex` library has a low-level, not typesetting index entry marking function
@@ -35,26 +61,6 @@ just by calling:
 ```
 
 Optional arguments control style and sorting convention parameters, as shown below.
-
-### Language and Traditions
-
-Note, in the above low-level example, that `"1Thess"` is a valid Biblical literature
-abbreviation in the `"en"` language.  Languages (more generally, language-traditions) are added
-to the `lang/` subfolder as `typst` files named as `<language-tradition.typ>`, for the
-`"language-tradition"` language-tradition.
-
-As of revision 0.1.0, supported languages include:
-
-Language         | Tradition     | Description             | source file
----              | ---           | ---                     | ---
-English          | (none)        | Default English         | `lang/en.typ`
-English          | 3-char        | A 3-char abbreviations  | `lang/en-3.typ`
-Portuguese (BR)  | Catholic      | Catholic for Brazil     | `lang/br-cat.typ`
-Portuguese (BR)  | Protestant    | Protestant for Brazil   | `lang/br-pro.typ`
-
-Language files declares **one** `typst` dictionary named `aDict`, whose keys are string book
-ID's, and (`abbr: "str"`, `full: "string"`) dictionary values with the corresponding book's
-abbreviation and full name in the stated language/tradition.
 
 ## Higher-Level Quoting-Indexing Commands
 

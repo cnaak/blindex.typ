@@ -208,4 +208,111 @@
 }
 
 
+//--------------------------------------------------------------------------------------------//
+//                    Brazilian Portuguese, Protestant, "br-pro", language                    //
+//--------------------------------------------------------------------------------------------//
+
+#{
+  let LANG = "br-pro"
+  lDict.at("1001").insert(LANG, ("Gn",  "Gênesis"))
+  lDict.at("1002").insert(LANG, ("Êx",  "Êxodo"))
+  lDict.at("1003").insert(LANG, ("Lv",  "Levítico"))
+  lDict.at("1004").insert(LANG, ("Nm",  "Números"))
+  lDict.at("1005").insert(LANG, ("Dt",  "Deuteronômio"))
+  lDict.at("1101").insert(LANG, ("Js",  "Josué"))
+  lDict.at("1102").insert(LANG, ("Jz",  "Juízes"))
+  lDict.at("1103").insert(LANG, ("Rt",  "Rute"))
+  lDict.at("1104").insert(LANG, ("1Sm", "1 Samuel"))
+  lDict.at("1105").insert(LANG, ("2Sm", "2 Samuel"))
+  lDict.at("1106").insert(LANG, ("1Rs", "1 Reis"))
+  lDict.at("1107").insert(LANG, ("2Rs", "2 Reis"))
+  lDict.at("1108").insert(LANG, ("1Cr", "1 Crônicas"))
+  lDict.at("1109").insert(LANG, ("2Cr", "2 Crônicas"))
+  lDict.at("1110").insert(LANG, ("Ed",  "Esdras"))
+  lDict.at("1111").insert(LANG, ("Ne",  "Neemias"))
+  lDict.at("1112").insert(LANG, ("Et",  "Ester"))
+  lDict.at("1201").insert(LANG, ("Jó",  "Jó"))
+  lDict.at("1202").insert(LANG, ("Sl",  "Salmos"))
+  lDict.at("1203").insert(LANG, ("Pv",  "Provérbios"))
+  lDict.at("1204").insert(LANG, ("Ec",  "Eclesiastes"))
+  lDict.at("1205").insert(LANG, ("Ct",  "Cântico dos Cânticos"))
+  lDict.at("1301").insert(LANG, ("Is",  "Isaías"))
+  lDict.at("1302").insert(LANG, ("Jr",  "Jeremias"))
+  lDict.at("1303").insert(LANG, ("Lm",  "Lamentações"))
+  lDict.at("1304").insert(LANG, ("Ez",  "Ezequiel"))
+  lDict.at("1305").insert(LANG, ("Dn",  "Daniel"))
+  lDict.at("1306").insert(LANG, ("Os",  "Oséias"))
+  lDict.at("1307").insert(LANG, ("Jl",  "Joel"))
+  lDict.at("1308").insert(LANG, ("Am",  "Amos"))
+  lDict.at("1309").insert(LANG, ("Ob",  "Obadias"))
+  lDict.at("1310").insert(LANG, ("Jn",  "Jonas"))
+  lDict.at("1311").insert(LANG, ("Mq",  "Miquéias"))
+  lDict.at("1312").insert(LANG, ("Na",  "Naum"))
+  lDict.at("1313").insert(LANG, ("Hc",  "Habacuc"))
+  lDict.at("1314").insert(LANG, ("Sf",  "Sofonias"))
+  lDict.at("1315").insert(LANG, ("Ag",  "Ageu"))
+  lDict.at("1316").insert(LANG, ("Zc",  "Zacarias"))
+  lDict.at("1317").insert(LANG, ("Ml",  "Malaquias"))
+  lDict.at("1401").insert(LANG, ("Mt",  "Mateus"))
+  lDict.at("1402").insert(LANG, ("Mc",  "Marcos"))
+  lDict.at("1403").insert(LANG, ("Lc",  "Lucas"))
+  lDict.at("1404").insert(LANG, ("Jo",  "João"))
+  lDict.at("1501").insert(LANG, ("At",  "Atos dos Apóstolos"))
+  lDict.at("1601").insert(LANG, ("Rm",  "Romanos"))
+  lDict.at("1602").insert(LANG, ("1Co", "1 Coríntios"))
+  lDict.at("1603").insert(LANG, ("2Co", "2 Coríntios"))
+  lDict.at("1604").insert(LANG, ("Gl",  "Gálatas"))
+  lDict.at("1605").insert(LANG, ("Ef",  "Efésios"))
+  lDict.at("1606").insert(LANG, ("Fp",  "Filipenses"))
+  lDict.at("1607").insert(LANG, ("Cl",  "Colossenses"))
+  lDict.at("1608").insert(LANG, ("1Ts", "1 Tessalonicenses"))
+  lDict.at("1609").insert(LANG, ("2Ts", "2 Tessalonicenses"))
+  lDict.at("1610").insert(LANG, ("1Tm", "1 Timóteo"))
+  lDict.at("1611").insert(LANG, ("2Tm", "2 Timóteo"))
+  lDict.at("1612").insert(LANG, ("Tt",  "Tito"))
+  lDict.at("1613").insert(LANG, ("Fm",  "Filemon"))
+  lDict.at("1700").insert(LANG, ("Hb",  "Hebreus"))
+  lDict.at("1701").insert(LANG, ("Tg",  "Tiago"))
+  lDict.at("1702").insert(LANG, ("1Pe", "1 Pedro"))
+  lDict.at("1703").insert(LANG, ("2Pe", "2 Pedro"))
+  lDict.at("1704").insert(LANG, ("1Jo", "1 João"))
+  lDict.at("1705").insert(LANG, ("2Jo", "2 João"))
+  lDict.at("1706").insert(LANG, ("3Jo", "3 João"))
+  lDict.at("1707").insert(LANG, ("Jd",  "Judas"))
+  lDict.at("1801").insert(LANG, ("Ap",  "Apocalipse"))
+  lDict.at("3101").insert(LANG, ("1Ed", "1 Esdras"))
+  lDict.at("3102").insert(LANG, ("Jt",  "Judite"))
+  lDict.at("3103").insert(LANG, ("Tb",  "Tobias"))
+  lDict.at("3104").insert(LANG, ("1Mc", "1 Macabeus"))
+  lDict.at("3105").insert(LANG, ("2Mc", "2 Macabeus"))
+  lDict.at("3106").insert(LANG, ("3Mc", "3 Macabeus"))
+  lDict.at("3107").insert(LANG, ("4Mc", "4 Macabeus"))
+  lDict.at("3108").insert(LANG, ("EG",  "Ester (Grego)"))
+  lDict.at("3201").insert(LANG, ("SA",  "Salmo Adicional"))
+  lDict.at("3202").insert(LANG, ("Od",  "Odes"))
+  lDict.at("3203").insert(LANG, ("Sb",  "Sabedoria (de Salomão)"))
+  lDict.at("3204").insert(LANG, ("Si",  "Sirácida (Eclesiástico)"))
+  lDict.at("3205").insert(LANG, ("SS",  "Salmos de Salomão"))
+  lDict.at("3206").insert(LANG, ("Ba",  "Baruque"))
+  lDict.at("3207").insert(LANG, ("CJ",  "Carta de Jeremias"))
+  lDict.at("3208").insert(LANG, ("Su",  "Susana"))
+  lDict.at("3209").insert(LANG, ("BD",  "Bel e o Dragão"))
+  lDict.at("3210").insert(LANG, ("TJ",  "Canção dos Três Jovens"))
+  lDict.at("5101").insert(LANG, ("3Ed", "3 Esdras"))
+  lDict.at("5102").insert(LANG, ("4Ed", "4 Esdras"))
+  lDict.at("5103").insert(LANG, ("OM",  "Oração de Manassés"))
+}
+
+
+//--------------------------------------------------------------------------------------------//
+//                     Brazilian Portuguese, Catholic, "br-cat", language                     //
+//--------------------------------------------------------------------------------------------//
+
+#{
+  let LANG = "br-cat"
+}
+
+
+
+
 

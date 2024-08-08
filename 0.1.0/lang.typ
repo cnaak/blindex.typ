@@ -1,4 +1,11 @@
 //============================================================================================//
+//                                          Imports                                           //
+//============================================================================================//
+
+#import "./books.typ": iBoo
+
+
+//============================================================================================//
 //                                   blindex Languages File                                   //
 //============================================================================================//
 
@@ -8,23 +15,24 @@
 // Populate lDict with book keys
 #for K in iBoo.keys() { lDict.insert(K, (:)) }
 
+
 //--------------------------------------------------------------------------------------------//
 //                         Default, 3-char English, "en-3", language                          //
 //--------------------------------------------------------------------------------------------//
 
 #{
   let LANG = "en-3"
-  lDict.at("1001").insert(LANG, ("Gen", "Genesis"           ))
-  lDict.at("1002").insert(LANG, ("Exo", "Exodus"            ))
-  lDict.at("1003").insert(LANG, ("Lev", "Leviticus"         ))
-  lDict.at("1004").insert(LANG, ("Num", "Numbers"           ))
-  lDict.at("1005").insert(LANG, ("Det", "Deuteronomy"       ))
-  lDict.at("1101").insert(LANG, ("Jos", "Joshua"            ))
-  lDict.at("1102").insert(LANG, ("Jdg", "Judges"            ))
-  lDict.at("1103").insert(LANG, ("Rth", "Ruth"              ))
-  lDict.at("1104").insert(LANG, ("1Sm", "1 Samuel"          ))
-  lDict.at("1105").insert(LANG, ("2Sm", "2 Samuel"          ))
-  lDict.at("1106").insert(LANG, ("1Ki", "1 Kings"           ))
+  lDict.at("1001").insert(LANG, ("Gen", "Genesis"             ))
+  lDict.at("1002").insert(LANG, ("Exo", "Exodus"              ))
+  lDict.at("1003").insert(LANG, ("Lev", "Leviticus"           ))
+  lDict.at("1004").insert(LANG, ("Num", "Numbers"             ))
+  lDict.at("1005").insert(LANG, ("Det", "Deuteronomy"         ))
+  lDict.at("1101").insert(LANG, ("Jos", "Joshua"              ))
+  lDict.at("1102").insert(LANG, ("Jdg", "Judges"              ))
+  lDict.at("1103").insert(LANG, ("Rth", "Ruth"                ))
+  lDict.at("1104").insert(LANG, ("1Sm", "1 Samuel"            ))
+  lDict.at("1105").insert(LANG, ("2Sm", "2 Samuel"            ))
+  lDict.at("1106").insert(LANG, ("1Ki", "1 Kings"             ))
   lDict.at("1107").insert(LANG, ("2Ki", "2 Kings"             ))
   lDict.at("1108").insert(LANG, ("1Ch", "1 Chronicles"        ))
   lDict.at("1109").insert(LANG, ("2Ch", "2 Chronicles"        ))

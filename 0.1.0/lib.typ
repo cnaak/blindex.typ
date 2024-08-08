@@ -1,13 +1,19 @@
 //============================================================================================//
+//                                          Includes                                          //
+//============================================================================================//
+
+#import "./books.typ": iBoo, bSort
+#import "./lang.typ": lDict
+
+//============================================================================================//
 //                                    Book Info Retrieving                                    //
 //============================================================================================//
 
 // abrv to dict -> dict
 #let a2d(abrv, lang) = {
-  import "./lang/" + lang + ".typ": aDict
-  import "./books.typ": iBoo, bSort
   let ret = ()
-  for (KEY, VAL) in aDict {
+  for (KEY, VALUE) in lDict {
+    VAL = (abbr: VALUE.at(lang).at(0), full: VALUE.at(lang).at(1))
     if abrv == VAL.abbr {
       let SRT = (:)
       let BID = int(KEY)

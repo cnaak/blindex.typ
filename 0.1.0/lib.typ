@@ -13,7 +13,7 @@
 #let a2d(abrv, lang) = {
   let ret = ()
   for (KEY, VALUE) in lDict {
-    VAL = (abbr: VALUE.at(lang).at(0), full: VALUE.at(lang).at(1))
+    let VAL = (abbr: VALUE.at(lang).at(0), full: VALUE.at(lang).at(1))
     if abrv == VAL.abbr {
       let SRT = (:)
       let BID = int(KEY)

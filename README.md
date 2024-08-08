@@ -1,7 +1,8 @@
 # Blindex: Index-making of Biblical literature citations in Typst
 
-`blindex` is a `typst` package specifically designed for the generation of indices of Biblical
-literature citations in documents.
+Blindex (`blindex:0.1.0`) is a Typst package specifically designed for the generation of
+indices of Biblical literature citations in documents. Target audience includes theologians and
+authors of documents that frequently cite biblical literature.
 
 ## Index Sorting Options
 
@@ -31,7 +32,7 @@ The `blindex` implementation generalizes the concept of __tradition__ (in the co
 biblical literature book abbreviation bookkeeping) as language **variants**, since the software
 can have things such as a "default" of "n-char" variants.
 
-As of the current release, supported languages include:
+As of the current release, supported languages include the following few ones:
 
 Language           | Variant           | Description                | Name
 ---                | ---               | ---                        | ---
@@ -40,35 +41,39 @@ English            | Logos             | Used in `logos.com`        | `en-logos`
 Portuguese (BR)    | Protestant        | Protestant for Brazil      | `br-pro`
 Portuguese (BR)    | Catholic          | Catholic for Brazil        | `br-cat`
 
-Language files declares **one** `typst` dictionary named `aDict`, whose keys are string book
-ID's, and (`abbr: "str"`, `full: "string"`) dictionary values with the corresponding book's
-abbreviation and full name in the stated language/tradition.
+Additional language-variations can be added to the `lang.typ` source file by the author and/or
+by pull requests to the `dev` branch of the (UNFORKED!) development repository
+`https://github.com/cnaak/blindex.typ`.
 
 ## Low-Level Indexing Command
 
-The `blindex` library has a low-level, not typesetting index entry marking function
-`blindex(abrv, lang, entry)`, whose arguments are (abbreviation, language, entry), as in:
+The `blindex` library has a low-level, index entry marking function `#blindex(abrv, lang,
+entry)`, whose arguments are (abbreviation, language, entry), as in:
 
 ```typst
 "the citation..." #blindex("1Thess", "en", [1.1--3]) citation's typesetting...
 ```
 
-Indices can be generated (typeset) in arbitrary amounts and locations throughout the document,
-just by calling:
+Following the usual index making strategy in Typst, this user `#blindex` command only adds the
+index-marking `#metadata` in the document, without producing any visible typeset output.
+
+Biblical literature index listings can be generated (typeset) in arbitrary amounts and locations
+throughout the document, just by calling the user `#mkIndex` command:
 
 ```typst
 #mkIndex()
 ```
 
-Optional arguments control style and sorting convention parameters, as shown below.
+Optional arguments control style and sorting convention parameters, as exemplified below.
 
 ## Higher-Level Quoting-Indexing Commands
 
 The library also offers higher-level functions to assemble the entire (i) citation typesetting,
-(ii) index entry, and (iii) citation's typesetting (with some typesetting (styling) options),
-that reduces argument redundancy. Commands are `#iQuot(...)` and `#bQuot(...)`, respectively for
-inline and block quoting of Biblical literature, with automatic indexing and bibliography
-citation. Mandatory arguments are:
+(ii) index entry, (iii) citation typesetting, and (iv) bibliography entrying (with some
+typesetting (styling) options), of the passage.  Such commands are `#iQuot(...)` and
+`#bQuot(...)`, respectively for **inline** and **block** quoting of Biblical literature, with
+automatic indexing and bibliography citation. Mandatory arguments are identical for either
+command:
 
 ```typst
 paragraph text...
@@ -78,6 +83,20 @@ more text...
 // Displayed block quote of Biblical literature:
 #bQuot(body, abrv, lang, pssg, version, cited)
 ```
+
+In which:
+
+- `body` (`content`) is the quoted biblical literature text;
+- `abrv` (`string`) is the book abbreviation according to the
+- `lang` (`string`) language-variant (see above);
+- `pssg` (`content`) is the quoted text passage --- usually chapter and verses --- as they will
+  appear in the text and in the biblical literature index;
+- `version` (`string`) is a translation identifier, such as `"LXX"`, or `"KJV"`; and
+- `cited` (`label`) is the corresponding bibliography entry label, which can be constructed
+  through:
+
+`label("bib-key")`, where `bib-key` is the bibliographic entry key, in the bibliography database
+--- whether `bibTeX` or `Hayagriva`.
 
 ## Higher-Level Example
 

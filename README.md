@@ -161,7 +161,7 @@ blindex-package:
   title:
     value: "Blindex: Index-making of Biblical literature citations in Typst"
     short: "Blindex: Index-making in Typst"
-  url: https://github.com/cnaak/packages/tree/main/packages/preview/blindex
+  url: https://github.com/cnaak/blindex.typ
   version: 0.1.0
   date: 2024-08
 ```

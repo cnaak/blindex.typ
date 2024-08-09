@@ -1,6 +1,6 @@
-# Blindex: Index-making of Biblical literature citations in Typst
+# Blindex: index-making of Biblical literature citations in Typst
 
-Blindex (`blindex:0.1.0`) is a Typst package specifically designed for the generation of
+Blindex (`blindex:0.2.0`) is a Typst package specifically designed for the generation of
 indices of Biblical literature citations in documents. Target audience includes theologians and
 authors of documents that frequently cite biblical literature.
 
@@ -40,6 +40,7 @@ English            | 3-char            | A 3-char abbreviations     | `en-3`
 English            | Logos             | Used in `logos.com`        | `en-logos`
 Portuguese (BR)    | Protestant        | Protestant for Brazil      | `br-pro`
 Portuguese (BR)    | Catholic          | Catholic for Brazil        | `br-cat`
+French             | Œcuménique (TOB)  | Ecumenical in French       | `fr-TOB`
 
 Additional language-variations can be added to the `lang.typ` source file by the author and/or
 by pull requests to the `dev` branch of the (UNFORKED!) development repository

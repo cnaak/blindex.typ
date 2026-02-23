@@ -115,20 +115,23 @@
 //--------------------------------------------------------------------------------------------//
 
 #let PARS = (
-  fnt: (
-    ver: ("Noto Sans", "Fira Sans", "Libertinus Sans"),
-    quo: ("EB Garamond", "Libertinus Serif"),
-    cit: ("Crimson Pro", "Libertinus Serif"),
-  ),
-  sty: (
-    ver: "normal",
-    quo: "normal",
-    cit: "normal",
-  ),
-  wgt: (
-    ver: "black",
-    quo: "regular",
-    cit: "regular",
+  fmt: (
+    ver: (
+      font: ("Noto Sans", "Fira Sans", "Libertinus Sans"),
+      style: "normal",
+      weight: "black",
+      size: 0.6em,
+    ),
+    quo: (
+      font: ("EB Garamond", "Libertinus Serif"),
+      style: "normal",
+      weight: "regular",
+    ),
+    cit: (
+      font: ("Crimson Pro", "Libertinus Serif"),
+      style: "normal",
+      weight: "regular",
+    ),
   ),
   quo: (
     double: false,
@@ -149,29 +152,35 @@
 //                                      Quote Functions                                       //
 //--------------------------------------------------------------------------------------------//
 
-#let ver(body, fnt: PARS.fnt.ver, siz: 0.60em, wgt = "black", spc = [#h(0.2em)]) = {
-  box(baseline: siz - 1em)[#text(font: fnt, size: siz, weight: wgt)[#body#spc]]
+#let ver(body, fmt: PARS.fmt.ver, spc = [#h(0.2em)]) = {
+  box(baseline: fmt.size - 1em)[#text(..fmt)[#body#spc]]
 }
 
 // "raw" Quoting of Biblical Literature
 #let rQuot(body,
            lan: "en",
-           fnt: PARS.fnt.quo,
-           wgt: PARS.wgt.quo,
+           fmt: PARS.fmt.quo,
            fil: PARS.fil.bck,
            quo: PARS.quo,
            opq = ["],
            clq = ["]) = {
   set smartquote(..quo)
-  [#opq#highlight(fill: fil, text(font: fnt, weight: wgt, lang: lan)[#body])#clq]
+  set text(lang: lan)
+  [#opq#highlight(fill: fil, text(..fmt)[#body])#clq]
 }
 
 // "line" Citation of Biblical Literature
-#let lCite(abrv, lang, pssg, version) = [
-  --- #a2d(abrv, lang).at(0).full~#pssg (#version)]
+#let lCite(abrv, lang, pssg, version, cite: none,
+           lan: "en",
+           fmt: PARS.fmt.cit,
+           fil: PARS.fil.cit) = {
+  set text(lang: lan)
+  text(..fmt)[--- #a2d(abrv, lang).at(0).full~#pssg (#version#{if cite != none [ #cite]})]
+}
 
 // "inline" Quoting of Biblical Literature
-#let iQuot(body, abrv, lang, pssg, version, tfmt: TFMT, fill: true, quotes: QUOT) = {
+#let iQuot(body, abrv, lang, pssg, version, cite: none,
+           ) = {
   rQuot(body, tfmt: tfmt, fill: fill, quotes: quotes)
   lCite(abrv, lang, pssg, version)
   blindex(abrv, lang, pssg)

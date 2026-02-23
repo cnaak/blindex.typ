@@ -180,35 +180,25 @@
 
 // "inline" Quoting of Biblical Literature
 #let iQuot(body, abrv, lang, pssg, version, cite: none,
-           ) = {
-  rQuot(body, tfmt: tfmt, fill: fill, quotes: quotes)
-  lCite(abrv, lang, pssg, version)
+           quo: (lan: "en", fmt: PARS.fmt.quo, fil: PARS.fil.bck, quo: PARS.quo, opq = ["], clq = ["]),
+           cit: (lan: "en", fmt: PARS.fmt.cit, fil: PARS.fil.cit)) = {
+  rQuot(body, ..quo)
+  lCite(abrv, lang, pssg, version, cite, ..cit)
   blindex(abrv, lang, pssg)
 }
 
 // "block" Quoting of Biblical Literature
-#let bQuot(body, abrv, lang, pssg, version, tfmt: TFMT, fill: true, quotes: QUOT,
-  width: 90%, inset: 4pt, fill-below: false,
+#let bQuot(body, abrv, lang, pssg, version, cite: none,
+           quo: (lan: "en", fmt: PARS.fmt.quo, fil: PARS.fil.bck, quo: PARS.quo, opq = ["], clq = ["]),
+           cit: (lan: "en", fmt: PARS.fmt.cit, fil: PARS.fil.cit),
+           blk: (wid: 90%, ins: 4pt, bkg: PARS.fil.bkg, cit: PARS.fil.cit)) = {
 ) = {
-  set smartquote(..quotes)
   align(center,
     stack(dir: ttb,
-      block(width: width,
-        fill: if fill { FILL } else { none },
-        inset: inset,
-        align(left,
-          par(leading: 0.65em, justify: true, linebreaks: "optimized",
-            ["#text(..tfmt, body)"]
-          )
-        ),
-      ),
-      block(width: width,
-        fill: if fill-below { FILL } else { none },
-        inset: inset,
-        align(right,
-          lCite(abrv, lang, pssg, version)
-        )
-      ),
+      block(width: blk.wid, fill: blk.bkg, inset: blk.ins,
+            align(left)[#rQuot(body, ..quo)]),
+      block(width: blk.wid, fill: blk.cit, inset: blk.ins,
+            align(right)[#lCite(abrv, lang, pssg, version, cite, ..cit)]),
       blindex(abrv, lang, pssg)
     )
   )

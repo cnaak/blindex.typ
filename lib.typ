@@ -179,18 +179,18 @@
 }
 
 // "inline" Quoting of Biblical Literature
-#let iQuot(body, abrv, lang, pssg, version, cite: none,
-           quo: (lan: "en", fmt: PARS.fmt.quo, fil: PARS.fil.bck, quo: PARS.quo, opq = ["], clq = ["]),
-           cit: (lan: "en", fmt: PARS.fmt.cit, fil: PARS.fil.cit)) = {
-  rQuot(body, ..quo)
-  lCite(abrv, lang, pssg, version, cite, ..cit)
+#let iQuot(body, abrv, lang, pssg, version, cite: none, qlang = "en", clang = "en",
+           quo: (fmt: PARS.fmt.quo, fil: PARS.fil.bck, quo: PARS.quo, opq = ["], clq = ["]),
+           cit: (fmt: PARS.fmt.cit, fil: PARS.fil.cit)) = {
+  rQuot(body, lan = qlang, ..quo)
+  lCite(abrv, lang, pssg, version, cite, lan = clan, ..cit)
   blindex(abrv, lang, pssg)
 }
 
 // "block" Quoting of Biblical Literature
-#let bQuot(body, abrv, lang, pssg, version, cite: none,
-           quo: (lan: "en", fmt: PARS.fmt.quo, fil: PARS.fil.bck, quo: PARS.quo, opq = ["], clq = ["]),
-           cit: (lan: "en", fmt: PARS.fmt.cit, fil: PARS.fil.cit),
+#let bQuot(body, abrv, lang, pssg, version, cite: none, qlang = "en", clang = "en",
+           quo: (fmt: PARS.fmt.quo, fil: PARS.fil.bck, quo: PARS.quo, opq = ["], clq = ["]),
+           cit: (fmt: PARS.fmt.cit, fil: PARS.fil.cit),
            blk: (wid: 90%, ins: 4pt, bkg: PARS.fil.bkg, cit: PARS.fil.cit)) = {
 ) = {
   align(center,

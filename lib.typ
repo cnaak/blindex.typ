@@ -6,6 +6,27 @@
 #import "./lang.typ": lDict
 
 //============================================================================================//
+//                                          Settings                                          //
+//============================================================================================//
+
+// default quoted Text ForMaT
+#let TFMT = (font: "libertinus serif", weight: "regular", lang: "en")
+
+// Citation quotes control
+#let QUOT = (
+  double: false,
+  enabled: true,
+  alternative: false,
+  quotes: (
+    single: ("\u{2018}", "\u{2019}"),
+    double: ("\u{201C}", "\u{201D}"),
+  )
+)
+
+// Biblical Literature fill, for background
+#let FILL = rgb("D0D0D0") // Results in a transparent light gray
+
+//============================================================================================//
 //                                    Book Info Retrieving                                    //
 //============================================================================================//
 
@@ -48,15 +69,14 @@
 //============================================================================================//
 
 // Biblical Literature Indexing
-#let blindex(abrv, lang, entry) = context [
-  #metadata((
+// The declaration spacing is to avoid spurious spacings in the document
+#let blindex(abrv, lang, entry) = context [#metadata((
       ABRV: abrv,
       LANG: lang,
       DATA: a2d(abrv, lang),
       ENTR: entry,
       WHRE: here().position(),
-    ))<bl_index>
-]
+    ))<bl_index>]
 
 // Index making. {BSS} is the Book Sorting Scheme, a key of the {bSort} dict, defined at
 // "./books.typ" and written to <metadata>.<bl_index>.<instance>.at(i).at(bUID).DATA.SORT
@@ -111,67 +131,60 @@
 //                                Biblical Literature Quoting                                 //
 //============================================================================================//
 
-// Biblical Literature fill, for background
-#let blFill = rgb("00000020") // Results in a transparent light gray
+#let ver(body) = {
+  box(baseline: -0.25em)[
+    #text(font: "Fira Sans", size: 0.75em, weight: "black")[#body#h(0.2em)]
+  ]
+}
 
 // "raw" Quoting of Biblical Literature
-#let rQuot(body,
-  tfmt: (font: "Linux Libertine", weight: "medium", lang: "en"),
-  fill: true, quotes: true,
-) = {
+#let rQuot(body, tfmt: TFMT, fill: true, quotes: QUOT) = {
+  set smartquote(..quotes)
   if fill {
-    if quotes { smartquote(double: true) }
-    highlight(fill: blFill, text(..tfmt, body))
-    if quotes { smartquote(double: true)} }
+    ["#highlight(fill: FILL, text(..tfmt, body))"]
+  }
   else {
-    if quotes { smartquote(double: true) }
-    text(..tfmt, body)
-    if quotes { smartquote(double: true)} }
+    ["#text(..tfmt, body)"]
+  }
 }
 
 // "line" Citation of Biblical Literature
-#let lCite(abrv, lang, pssg, version, cited) = [
-  --- #a2d(abrv, lang).at(0).full~#pssg (#version)~#cite(cited)]
+#let lCite(abrv, lang, pssg, version) = [
+  --- #a2d(abrv, lang).at(0).full~#pssg (#version)]
 
 // "inline" Quoting of Biblical Literature
-#let iQuot(body, abrv, lang, pssg, version, cited,
-  tfmt: (font: "Linux Libertine", weight: "medium", lang: "en"),
-  fill: true, quotes: true,
-) = {
+#let iQuot(body, abrv, lang, pssg, version, tfmt: TFMT, fill: true, quotes: QUOT) = {
   rQuot(body, tfmt: tfmt, fill: fill, quotes: quotes)
-  lCite(abrv, lang, pssg, version, cited)
+  lCite(abrv, lang, pssg, version)
   blindex(abrv, lang, pssg)
 }
 
 // "block" Quoting of Biblical Literature
-#let bQuot(body, abrv, lang, pssg, version, cited,
-  tfmt: (font: "Linux Libertine", weight: "medium", lang: "en"),
-  fill: true, quotes: false, width: 90%, inset: 4pt, fill-below: false,
+#let bQuot(body, abrv, lang, pssg, version, tfmt: TFMT, fill: true, quotes: QUOT,
+  width: 90%, inset: 4pt, fill-below: false,
 ) = {
+  set smartquote(..quotes)
   align(center,
     stack(dir: ttb,
       block(width: width,
-        fill: if fill { blFill } else { none },
+        fill: if fill { FILL } else { none },
         inset: inset,
         align(left,
           par(leading: 0.65em, justify: true, linebreaks: "optimized",
-            if quotes { [#smartquote(double: true)] } else { [] } +
-            [#text(..tfmt, body)] +
-            if quotes { [#smartquote(double: true)] } else { [] }
+            ["#text(..tfmt, body)"]
           )
         ),
       ),
       block(width: width,
-        fill: if fill-below { blFill } else { none },
+        fill: if fill-below { FILL } else { none },
         inset: inset,
         align(right,
-          lCite(abrv, lang, pssg, version, cited)
+          lCite(abrv, lang, pssg, version)
         )
       ),
       blindex(abrv, lang, pssg)
     )
   )
 }
-
 
 

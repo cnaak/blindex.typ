@@ -6,27 +6,6 @@
 #import "./lang.typ": lDict
 
 //============================================================================================//
-//                                          Settings                                          //
-//============================================================================================//
-
-// default quoted Text ForMaT
-#let TFMT = (font: "libertinus serif", weight: "regular", lang: "en")
-
-// Citation quotes control
-#let QUOT = (
-  double: false,
-  enabled: true,
-  alternative: false,
-  quotes: (
-    single: ("\u{2018}", "\u{2019}"),
-    double: ("\u{201C}", "\u{201D}"),
-  )
-)
-
-// Biblical Literature fill, for background
-#let FILL = rgb("D0D0D0") // Results in a transparent light gray
-
-//============================================================================================//
 //                                    Book Info Retrieving                                    //
 //============================================================================================//
 
@@ -131,21 +110,60 @@
 //                                Biblical Literature Quoting                                 //
 //============================================================================================//
 
-#let ver(body) = {
-  box(baseline: -0.25em)[
-    #text(font: "Fira Sans", size: 0.75em, weight: "black")[#body#h(0.2em)]
-  ]
+//--------------------------------------------------------------------------------------------//
+//                                       Quote Settings                                       //
+//--------------------------------------------------------------------------------------------//
+
+#let PARS = (
+  fnt: (
+    ver: ("Noto Sans", "Fira Sans", "Libertinus Sans"),
+    quo: ("EB Garamond", "Libertinus Serif"),
+    cit: ("Crimson Pro", "Libertinus Serif"),
+  ),
+  sty: (
+    ver: "normal",
+    quo: "normal",
+    cit: "normal",
+  ),
+  wgt: (
+    ver: "black",
+    quo: "regular",
+    cit: "regular",
+  ),
+  quo: (
+    double: false,
+    enabled: true,
+    alternative: false,
+    quotes: (
+      single: ("\u{2018}", "\u{2019}"),
+      double: ("\u{201C}", "\u{201D}"),
+    )
+  ),
+  fil: (
+    bck: rgb("D0D0D0FF"),
+    cit: rgb("FFFFFF00"),
+  ),
+)
+
+//--------------------------------------------------------------------------------------------//
+//                                      Quote Functions                                       //
+//--------------------------------------------------------------------------------------------//
+
+#let ver(body, fnt: PARS.fnt.ver, siz: 0.60em, wgt = "black", spc = [#h(0.2em)]) = {
+  box(baseline: siz - 1em)[#text(font: fnt, size: siz, weight: wgt)[#body#spc]]
 }
 
 // "raw" Quoting of Biblical Literature
-#let rQuot(body, tfmt: TFMT, fill: true, quotes: QUOT) = {
-  set smartquote(..quotes)
-  if fill {
-    ["#highlight(fill: FILL, text(..tfmt, body))"]
-  }
-  else {
-    ["#text(..tfmt, body)"]
-  }
+#let rQuot(body,
+           lan: "en",
+           fnt: PARS.fnt.quo,
+           wgt: PARS.wgt.quo,
+           fil: PARS.fil.bck,
+           quo: PARS.quo,
+           opq = ["],
+           clq = ["]) = {
+  set smartquote(..quo)
+  [#opq#highlight(fill: fil, text(font: fnt, weight: wgt, lang: lan)[#body])#clq]
 }
 
 // "line" Citation of Biblical Literature

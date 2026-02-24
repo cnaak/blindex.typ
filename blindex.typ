@@ -193,9 +193,9 @@
 }
 
 // "inline" Quoting of Biblical Literature
-#let iQuot(body, abrv, lang, pssg, version: none, cite: none, qlang: "en", clang: "en",
-           quo: (fmt: pkg-pars.fmt.quo, bkg: pkg-pars.bkg.quo, quo: pkg-pars.quo, opq: ["], clq: ["]),
-           cit: (fmt: pkg-pars.fmt.cit, )) = {
+#let iq(body, abrv, lang, pssg, version: none, cite: none, qlang: "en", clang: "en",
+        quo: (fmt: pkg-pars.fmt.quo, bkg: pkg-pars.bkg.quo, quo: pkg-pars.quo, opq: ["], clq: ["]),
+        cit: (fmt: pkg-pars.fmt.cit, )) = {
   rq(body, lan: qlang, ..quo)
   lc(abrv, lang, pssg, version: version, cite: cite, lan: clang, ..cit)
   blindex(abrv, lang, pssg)

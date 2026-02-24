@@ -34,7 +34,7 @@ said, “I see a rod of an almond tree.” #ver(12)Then the LORD said to me, “
 well, for I am watching over My word to perform it.”], "Jer", "en-3", [1.11,12], version:
 [NASB95], cite: [@NASB95])
 
-Also, David says: #iQuot([The LORD is my shepherd, I shall not want.], "Psa", "en-3", [23.1],
+Also, David says: #iq([The LORD is my shepherd, I shall not want.], "Psa", "en-3", [23.1],
 version: "NASB95").
 
 Moreover,

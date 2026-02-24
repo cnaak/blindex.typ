@@ -75,7 +75,7 @@ The library also offers higher-level functions to assemble the entire (i) quote 
 document-wide standardization through `function` redefinitions through `with`, according to
 `typst` documentation.
 
-Higher-level quoting-indexing functions are `#iQuot(...)`, `#bQuot(...)`, respectively for
+Higher-level quoting-indexing functions are `#iq(...)`, `#bQuot(...)`, respectively for
 **inline** and **block** quoting of Biblical literature, with automatic indexing and
 bibliography citation. There's also a helper `#ver(...)` for convenient verse number formatting,
 mostly aimed at being used within block quotes.
@@ -84,7 +84,7 @@ Mandatory arguments are identical for either command:
 
 ```typst
 paragraph text...
-#iQuot(body, abrv, lang, pssg)
+#iq(body, abrv, lang, pssg)
 more text...
 
 // Displayed block quote of Biblical literature:

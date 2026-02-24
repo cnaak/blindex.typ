@@ -20,7 +20,7 @@
 )
 
 // Custom package functions
-#let iQ = iQuot.with(quo: CFG.quo, cit: CFG.cit)
+#let iQ = iq.with(quo: CFG.quo, cit: CFG.cit)
 #let bQ = bQuot.with(quo: CFG.quo, cit: CFG.CIT)
 
 // Bibliography data
@@ -81,17 +81,17 @@ KJV:
 
 = Quick Intro
 
-== Inline citations with `#iQuot`
+== Inline citations with `#iq`
 
 Inline biblical literature citations are made by calling the
 
-```typst #iQuot(body, abrv, lang, pssg[, options])```
+```typst #iq(body, abrv, lang, pssg[, options])```
 
-function, which, without passing any option, results in: #iQuot([For God so loved the world,
+function, which, without passing any option, results in: #iq([For God so loved the world,
 that He gave His only begotten Son, that whoever believes in Him shall not perish, but have
 eternal life.], "Jhn", "en-3", [3:16]).
 
-```typst #iQuot()``` options include:
+```typst #iq()``` options include:
 - `version` -- specifies the biblical translation/version;
 - `cite` -- specifies the chapter and verse;
 - `qlang` and `clang` -- specify the quote and citation languages;
@@ -103,10 +103,10 @@ eternal life.], "Jhn", "en-3", [3:16]).
 Controls for text and background colors are available:
 
 ```typst
-#iQuot([…], "Jhn", "en-3", [3:18], quo: (fmt: (fill: red), bkg: none))
+#iq([…], "Jhn", "en-3", [3:18], quo: (fmt: (fill: red), bkg: none))
 ```
 
-which renders as: #iQuot([He who believes in Him is not judged; he who does not believe has
+which renders as: #iq([He who believes in Him is not judged; he who does not believe has
 been judged already, because he has not believed in the name of the only begotten Son of
 God.], "Jhn", "en-3",
 [3:18], quo: (fmt: (fill: red), bkg: none)).
@@ -117,34 +117,34 @@ Controls for version rendering and citation are available through the `version` 
 options:
 
 ```typst
-#iQuot([…], "Jhn", "en-3", [3:19], version: "NASB95", cite: [@NASB95])
+#iq([…], "Jhn", "en-3", [3:19], version: "NASB95", cite: [@NASB95])
 ```
 
-which renders as: #iQuot([This is the judgment, that the Light has come into the world, and
+which renders as: #iq([This is the judgment, that the Light has come into the world, and
 men loved the darkness rather than the Light, for their deeds were evil.], "Jhn", "en-3",
 [3:19], version: "NASB95", cite: [@NASB95]).
 
 === Multilingual Examples
 
-Take, for instance the following all-English citation with default options: #iQuot([Seek the
+Take, for instance the following all-English citation with default options: #iq([Seek the
 #smallcaps[Lord] while He may be found; Call upon Him while He is near.], "Isa", "en-3",
 [55:6]). Multilingual support is flexibly achieved with the `qlang` and/or `clang` options
 --- for quote and citation languages, respectively --- as
 
 ```typst
-#iQuot([…], "Isa", "en-3", [55:6], version: "LSG", cite: [@LSG1910], qlang: "fr")
+#iq([…], "Isa", "en-3", [55:6], version: "LSG", cite: [@LSG1910], qlang: "fr")
 ```
 
-produces: #iQuot([Cherchez l’Éternel pendant qu’il se trouve; Invoquez-le, tandis qu’il est
+produces: #iq([Cherchez l’Éternel pendant qu’il se trouve; Invoquez-le, tandis qu’il est
 près.], "Isa", "en-3", [55:6], version: "LSG", cite: [@LSG1910], qlang: "fr") --- note the
 proper French-style quotation marks and the English-formatted citation.  On the other hand,
 for an all-French citation, the following
 
 ```typst
-#iQuot([…], "Es", "fr-TOB", [55:6], qlang: "fr", clang: "fr")
+#iq([…], "Es", "fr-TOB", [55:6], qlang: "fr", clang: "fr")
 ```
 
-renders as #iQuot([Cherchez l’Éternel pendant qu’il se trouve; Invoquez-le, tandis qu’il est
+renders as #iq([Cherchez l’Éternel pendant qu’il se trouve; Invoquez-le, tandis qu’il est
 près.], "Es", "fr-TOB", [55:6], qlang: "fr", clang: "fr").
 
 === Fine-Tuning Quotes
@@ -152,10 +152,10 @@ près.], "Es", "fr-TOB", [55:6], qlang: "fr", clang: "fr").
 Manual specification of opening and closing quotes can be tweaked as:
 
 ```typst
-#iQuot([…], "Jhn", "en-3", [3:20], quo: (opq: [], clq: []))
+#iq([…], "Jhn", "en-3", [3:20], quo: (opq: [], clq: []))
 ```
 
-which renders as: #iQuot([For everyone who does evil hates the Light, and does not come to
+which renders as: #iq([For everyone who does evil hates the Light, and does not come to
 the Light for fear that his deeds will be exposed.], "Jhn", "en-3", [3:20], quo: (opq: [],
 clq: [])) --- note the absence of opening and closing quotes due to the `quo.opq` and
 `quo.clq` parameters specified as empty `typst` `contents`.
@@ -191,7 +191,7 @@ version: "KJV")
 = Usage Example
 
 In the context of telling God's prophecies appart from those of false prophets, the
-Septuagint uses the phrase #iQuot([ὁμοίως λαλήσαντι], "Deut", "en-logos", [18:22], version:
+Septuagint uses the phrase #iq([ὁμοίως λαλήσαντι], "Deut", "en-logos", [18:22], version:
 "LXX", cite: [@LXX-SBB-2012], quo: (fmt: (font: "Alegreya", style: "italic"), opq: [], clq:
 [])) (_homoios lalesanti_), which can be translated as "speaking in the same manner" or
 "speaking thus." This phrase emphasizes that legitimate prophecies from God should be
@@ -214,7 +214,7 @@ stated," without introducing arbitrary flexibility or vagueness.
 = Biblical Citations
 
 The main point of the package is to enable the _automatic generation of a biblical
-literature citation index_, once all the citations have been made with the `#iQuot` and
+literature citation index_, once all the citations have been made with the `#iq` and
 `#bQuot` functions, irrespective of whether or not `#ver()` has been used. This is simply
 accomplished by calling the following function:
 

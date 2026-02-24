@@ -3,7 +3,7 @@
 //============================================================================================//
 
 #import "./books.typ": iboo, bsort
-#import "./lang.typ": lDict
+#import "./lang.typ": ldict
 
 //============================================================================================//
 //                                    Book Info Retrieving                                    //
@@ -12,7 +12,7 @@
 // abrv to dict -> dict
 #let a2d(abrv, lang) = {
   let ret = ()
-  for (KEY, VALUE) in lDict {
+  for (KEY, VALUE) in ldict {
     let VAL = (abbr: VALUE.at(lang).at(0), full: VALUE.at(lang).at(1))
     if abrv == VAL.abbr {
       let SRT = (:)
@@ -78,7 +78,7 @@
           booHArr.push(__d.full)
         }
       } else { // Single book display
-        booHArr.push(lDict.at(__r.DATA.at(0).BUID).at(lang).at(1))
+        booHArr.push(ldict.at(__r.DATA.at(0).BUID).at(lang).at(1))
       }
       let booHead = if mbhf-join.len() > 1 {
         booHArr.join(mbhf-join.at(0), last: mbhf-join.at(1))

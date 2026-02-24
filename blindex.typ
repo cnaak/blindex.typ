@@ -2,8 +2,8 @@
 //                                          Includes                                          //
 //============================================================================================//
 
-#import "./books.typ": iBoo, bSort
-#import "./lang.typ": lDict
+#import "./books.typ": iboo, bsort
+#import "./lang.typ": ldict
 
 //============================================================================================//
 //                                    Book Info Retrieving                                    //
@@ -12,13 +12,13 @@
 // abrv to dict -> dict
 #let a2d(abrv, lang) = {
   let ret = ()
-  for (KEY, VALUE) in lDict {
+  for (KEY, VALUE) in ldict {
     let VAL = (abbr: VALUE.at(lang).at(0), full: VALUE.at(lang).at(1))
     if abrv == VAL.abbr {
       let SRT = (:)
       let BID = int(KEY)
-      for SS in bSort.keys() {
-        let DB = bSort.at(SS)
+      for SS in bsort.keys() {
+        let DB = bsort.at(SS)
         let IDX = none
         for idx in range(DB.len()) {
           if DB.at(idx) == BID {
@@ -33,7 +33,7 @@
           "lang": lang,           // Query's used {lang}
           "abrv": VAL.abbr,       // Query's used {abrv}
           "full": VAL.full,       // Book's full name
-          "STDN": iBoo.at(KEY),   // Book's Standard Name (English)
+          "STDN": iboo.at(KEY),   // Book's Standard Name (English)
           "SORT": SRT,            // Book's index in existing sorting schemes
         )
       )
@@ -57,9 +57,9 @@
       WHRE: here().position(),
     ))<bl_index>]
 
-// Index making. {BSS} is the Book Sorting Scheme, a key of the {bSort} dict, defined at
-// "./books.typ" and written to <metadata>.<bl_index>.<instance>.at(i).at(bUID).DATA.SORT
-#let mkIndex(lang: "en-3",
+// Index making. {BSS} is the Book Sorting Scheme, a key of the {bsort} dict, defined at
+// "./books.typ" and written to <metadata>.<bl_index>.<instance>.at(i).at(buid).DATA.SORT
+#let mk-index(lang: "en-3",
   cols: 1, gutter: 8pt, wgt: (bk: "bold", tx: "regular", pg: "extrabold"), pattern: [.],
   merged-book-headings-full: true, mbhf-join: (" / ",),
   sorting-tradition: "Oecumenic-Bible", exclude-missing: false,
@@ -78,7 +78,7 @@
           booHArr.push(__d.full)
         }
       } else { // Single book display
-        booHArr.push(lDict.at(__r.DATA.at(0).BUID).at(lang).at(1))
+        booHArr.push(ldict.at(__r.DATA.at(0).BUID).at(lang).at(1))
       }
       let booHead = if mbhf-join.len() > 1 {
         booHArr.join(mbhf-join.at(0), last: mbhf-join.at(1))
@@ -123,7 +123,7 @@
 //                                       Quote Settings                                       //
 //--------------------------------------------------------------------------------------------//
 
-#let PARS = (
+#let pkg-pars = (
   fmt: (
     ver: (
       font: ("Noto Sans", ),
@@ -161,28 +161,28 @@
 //                                      Quote Functions                                       //
 //--------------------------------------------------------------------------------------------//
 
-#let ver(body, fmt: PARS.fmt.ver, spc: [#h(0.2em)]) = {
+#let ver(body, fmt: pkg-pars.fmt.ver, spc: [#h(0.2em)]) = {
   box(baseline: fmt.size - 0.85em)[#text(..fmt)[#body#spc]]
 }
 
 // "raw" Quoting of Biblical Literature
-#let rQuot(body,
-           lan: "en",
-           fmt: PARS.fmt.quo,
-           bkg: PARS.bkg.quo,
-           quo: PARS.quo,
-           opq: ["],
-           clq: ["]) = {
+#let rq(body,
+        lan: "en",
+        fmt: pkg-pars.fmt.quo,
+        bkg: pkg-pars.bkg.quo,
+        quo: pkg-pars.quo,
+        opq: ["],
+        clq: ["]) = {
   set text(lang: lan)
   set smartquote(..quo)
   [#opq#highlight(fill: bkg, text(..fmt)[#body])#clq]
 }
 
 // "line" Citation of Biblical Literature
-#let lCite(abrv, lang, pssg, version: none, cite: none,
-           lan: "en",
-           fmt: PARS.fmt.cit,
-           sep: [ ---]) = {
+#let lc(abrv, lang, pssg, version: none, cite: none,
+        lan: "en",
+        fmt: pkg-pars.fmt.cit,
+        sep: [ ---]) = {
   set text(lang: lan)
   if version == none {
     text(..fmt)[#sep~#a2d(abrv, lang).at(0).full~#pssg#{if cite != none [ #cite]}]
@@ -193,25 +193,25 @@
 }
 
 // "inline" Quoting of Biblical Literature
-#let iQuot(body, abrv, lang, pssg, version: none, cite: none, qlang: "en", clang: "en",
-           quo: (fmt: PARS.fmt.quo, bkg: PARS.bkg.quo, quo: PARS.quo, opq: ["], clq: ["]),
-           cit: (fmt: PARS.fmt.cit, )) = {
-  rQuot(body, lan: qlang, ..quo)
-  lCite(abrv, lang, pssg, version: version, cite: cite, lan: clang, ..cit)
+#let iq(body, abrv, lang, pssg, version: none, cite: none, qlang: "en", clang: "en",
+        quo: (fmt: pkg-pars.fmt.quo, bkg: pkg-pars.bkg.quo, quo: pkg-pars.quo, opq: ["], clq: ["]),
+        cit: (fmt: pkg-pars.fmt.cit, )) = {
+  rq(body, lan: qlang, ..quo)
+  lc(abrv, lang, pssg, version: version, cite: cite, lan: clang, ..cit)
   blindex(abrv, lang, pssg)
 }
 
 // "block" Quoting of Biblical Literature
-#let bQuot(body, abrv, lang, pssg, version: none, cite: none, qlang: "en", clang: "en",
-           quo: (fmt: PARS.fmt.quo, bkg: none, quo: PARS.quo, opq: [], clq: []),
-           cit: (fmt: PARS.fmt.cit, ),
-           blk: (wid: 90%, ins: 4pt, bkg: PARS.bkg.quo, cit: PARS.bkg.cit)) = {
+#let bq(body, abrv, lang, pssg, version: none, cite: none, qlang: "en", clang: "en",
+        quo: (fmt: pkg-pars.fmt.quo, bkg: none, quo: pkg-pars.quo, opq: [], clq: []),
+        cit: (fmt: pkg-pars.fmt.cit, ),
+        blk: (wid: 90%, ins: 4pt, bkg: pkg-pars.bkg.quo, cit: pkg-pars.bkg.cit)) = {
   align(center,
     stack(dir: ttb,
       block(width: blk.wid, fill: blk.bkg, inset: blk.ins,
-            align(left)[#rQuot(body, ..quo)]),
+            align(left)[#rq(body, ..quo)]),
       block(width: blk.wid, fill: blk.cit, inset: blk.ins,
-            align(right)[#lCite(abrv, lang, pssg, version: version, cite: cite, ..cit, sep: [])]),
+            align(right)[#lc(abrv, lang, pssg, version: version, cite: cite, ..cit, sep: [])]),
       blindex(abrv, lang, pssg)
     )
   )

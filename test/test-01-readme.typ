@@ -1,27 +1,42 @@
-#import "lib.typ": *
+#import "blindex.typ": *
+
+// Color composition to add transparency without changing RGB components
+#let compos(col, lvl) = {
+  let cmp = rgb(col).components(alpha: false)
+  cmp.push(100% - lvl)
+  rgb(..cmp)
+}
 
 // Custom configuration
 #let CFG = (
-  quo: (
+  iqq: (
     fmt: (font: "Crimson Pro", style: "normal", weight: "regular"),
-    fil: rgb("c0c0c0FF"),
-    quo: PARS.quo,
+    bkg: compos(gray, 75%), // transparent gray
+    quo: pkg-pars.quo,
     opq: ['],
     clq: ['],
   ),
   cit: (
     fmt: (font: "Crimson Pro", style: "normal", weight: "regular"),
-    fil: none,
   ),
-  CIT: (
+  bqq: (
     fmt: (font: "Crimson Pro", style: "normal", weight: "regular"),
-    fil: rgb("c0c0c0FF"),
+    bkg: none,
+    quo: pkg-pars.quo,
+    opq: [],
+    clq: [],
+  ),
+  blk: (
+    wid: 90%,
+    ins: 4pt,
+    bkg: compos(gray, 75%), // transparent gray
+    cit: compos(gray, 75%), // transparent gray
   ),
 )
 
 // Custom package functions
-#let iQ = iQuot.with(quo: CFG.quo, cit: CFG.cit)
-#let bQ = bQuot.with(quo: CFG.quo, cit: CFG.CIT)
+#let iQ = iq.with(quo: CFG.iqq, cit: CFG.cit)
+#let bQ = bq.with(quo: CFG.bqq, cit: CFG.cit, blk: CFG.blk)
 
 // Bibliography data
 #let bib = ```
@@ -60,7 +75,7 @@ KJV:
 ```
 
 // Document settings
-#set page(paper: "us-letter", fill: none, footer: context [
+#set page(paper: "us-letter", fill: color.mix((silver, 90%), (yellow, 10%)), footer: context [
     #set align(center)
     #set text(9pt)
     #counter(page).display("— 1 —")
@@ -79,19 +94,25 @@ KJV:
 
 `blindex` --- Index-making of Biblical literature citations in Typst.
 
+#bQ([#ver(1)I exhort therefore, that, first of all, supplications, prayers, intercessions, and
+giving of thanks, be made for all men; #ver(2)For kings, and for all that are in authority; that
+we may lead a quiet and peaceable life in all godliness and honesty.  #ver(3)For this is good
+and acceptable in the sight of God our Saviour; #ver(4)Who will have all men to be saved, and to
+come unto the knowledge of the truth.], "1Ti", "en-3", [2:1--4])
+
 = Quick Intro
 
-== Inline citations with `#iQuot`
+== Inline citations with `#iq`
 
 Inline biblical literature citations are made by calling the
 
-```typst #iQuot(body, abrv, lang, pssg[, options])```
+```typst #iq(body, abrv, lang, pssg[, options])```
 
-function, which, without passing any option, results in: #iQuot([For God so loved the world,
+function, which, without passing any option, results in: #iq([For God so loved the world,
 that He gave His only begotten Son, that whoever believes in Him shall not perish, but have
 eternal life.], "Jhn", "en-3", [3:16]).
 
-```typst #iQuot()``` options include:
+```typst #iq()``` options include:
 - `version` -- specifies the biblical translation/version;
 - `cite` -- specifies the chapter and verse;
 - `qlang` and `clang` -- specify the quote and citation languages;
@@ -103,10 +124,10 @@ eternal life.], "Jhn", "en-3", [3:16]).
 Controls for text and background colors are available:
 
 ```typst
-#iQuot([…], "Jhn", "en-3", [3:18], quo: (fmt: (fill: red), bkg: none))
+#iq([…], "Jhn", "en-3", [3:18], quo: (fmt: (fill: red), bkg: none))
 ```
 
-which renders as: #iQuot([He who believes in Him is not judged; he who does not believe has
+which renders as: #iq([He who believes in Him is not judged; he who does not believe has
 been judged already, because he has not believed in the name of the only begotten Son of
 God.], "Jhn", "en-3",
 [3:18], quo: (fmt: (fill: red), bkg: none)).
@@ -117,34 +138,34 @@ Controls for version rendering and citation are available through the `version` 
 options:
 
 ```typst
-#iQuot([…], "Jhn", "en-3", [3:19], version: "NASB95", cite: [@NASB95])
+#iq([…], "Jhn", "en-3", [3:19], version: "NASB95", cite: [@NASB95])
 ```
 
-which renders as: #iQuot([This is the judgment, that the Light has come into the world, and
+which renders as: #iq([This is the judgment, that the Light has come into the world, and
 men loved the darkness rather than the Light, for their deeds were evil.], "Jhn", "en-3",
 [3:19], version: "NASB95", cite: [@NASB95]).
 
 === Multilingual Examples
 
-Take, for instance the following all-English citation with default options: #iQuot([Seek the
+Take, for instance the following all-English citation with default options: #iq([Seek the
 #smallcaps[Lord] while He may be found; Call upon Him while He is near.], "Isa", "en-3",
 [55:6]). Multilingual support is flexibly achieved with the `qlang` and/or `clang` options
 --- for quote and citation languages, respectively --- as
 
 ```typst
-#iQuot([…], "Isa", "en-3", [55:6], version: "LSG", cite: [@LSG1910], qlang: "fr")
+#iq([…], "Isa", "en-3", [55:6], version: "LSG", cite: [@LSG1910], qlang: "fr")
 ```
 
-produces: #iQuot([Cherchez l’Éternel pendant qu’il se trouve; Invoquez-le, tandis qu’il est
+produces: #iq([Cherchez l’Éternel pendant qu’il se trouve; Invoquez-le, tandis qu’il est
 près.], "Isa", "en-3", [55:6], version: "LSG", cite: [@LSG1910], qlang: "fr") --- note the
 proper French-style quotation marks and the English-formatted citation.  On the other hand,
 for an all-French citation, the following
 
 ```typst
-#iQuot([…], "Es", "fr-TOB", [55:6], qlang: "fr", clang: "fr")
+#iq([…], "Es", "fr-TOB", [55:6], qlang: "fr", clang: "fr")
 ```
 
-renders as #iQuot([Cherchez l’Éternel pendant qu’il se trouve; Invoquez-le, tandis qu’il est
+renders as #iq([Cherchez l’Éternel pendant qu’il se trouve; Invoquez-le, tandis qu’il est
 près.], "Es", "fr-TOB", [55:6], qlang: "fr", clang: "fr").
 
 === Fine-Tuning Quotes
@@ -152,10 +173,10 @@ près.], "Es", "fr-TOB", [55:6], qlang: "fr", clang: "fr").
 Manual specification of opening and closing quotes can be tweaked as:
 
 ```typst
-#iQuot([…], "Jhn", "en-3", [3:20], quo: (opq: [], clq: []))
+#iq([…], "Jhn", "en-3", [3:20], quo: (opq: [], clq: []))
 ```
 
-which renders as: #iQuot([For everyone who does evil hates the Light, and does not come to
+which renders as: #iq([For everyone who does evil hates the Light, and does not come to
 the Light for fear that his deeds will be exposed.], "Jhn", "en-3", [3:20], quo: (opq: [],
 clq: [])) --- note the absence of opening and closing quotes due to the `quo.opq` and
 `quo.clq` parameters specified as empty `typst` `contents`.
@@ -165,13 +186,13 @@ clq: [])) --- note the absence of opening and closing quotes due to the `quo.opq
 Block quotations, for "displayed" blocks of biblical citations are available through the
 
 ```typst
-#bQuot(body, abrv, lang, pssg[, options])
+#bq(body, abrv, lang, pssg[, options])
 ```
 
 function, which has a similar syntax as it's inline couterpart, and some block-related
 additional option arguments. A plain example is:
 
-#bQuot([For there is one God, and one mediator between God and men, the man Christ Jesus;
+#bq([For there is one God, and one mediator between God and men, the man Christ Jesus;
 Who gave himself a ransom for all, to be testified in due time.], "1Ti", "en-3", [2:5,6],
 version: "KJV", cite: [@KJV])
 
@@ -179,7 +200,7 @@ As blocks of text are usually meant for larger portions, such as paragraphs or p
 convenience function ```typst #ver()``` is also provided for conveninent verse-number
 formatting:
 
-#bQuot([#ver(18)For the wrath of God is revealed from heaven against all ungodliness and
+#bq([#ver(18)For the wrath of God is revealed from heaven against all ungodliness and
 unrighteousness of men, who hold the truth in unrighteousness; #ver(20)For the invisible
 things of him from the creation of the world are clearly seen, being understood by the
 things that are made, even his eternal power and Godhead; so that they are without excuse:
@@ -191,7 +212,7 @@ version: "KJV")
 = Usage Example
 
 In the context of telling God's prophecies appart from those of false prophets, the
-Septuagint uses the phrase #iQuot([ὁμοίως λαλήσαντι], "Deut", "en-logos", [18:22], version:
+Septuagint uses the phrase #iq([ὁμοίως λαλήσαντι], "Deut", "en-logos", [18:22], version:
 "LXX", cite: [@LXX-SBB-2012], quo: (fmt: (font: "Alegreya", style: "italic"), opq: [], clq:
 [])) (_homoios lalesanti_), which can be translated as "speaking in the same manner" or
 "speaking thus." This phrase emphasizes that legitimate prophecies from God should be
@@ -200,11 +221,11 @@ understood and interpreted based on the exact way it was spoken.
 Here's the text with the relevant phrase highlighted (formatted without verse numbers and
 with default options):
 
-#bQuot([ἐὰν δὲ μὴ γένηται, ἐν τῷ λαλῆσαι αὐτὸν ἐν τῷ ὀνόματι κυρίου, οὐκ ἐκείνου λαλήσαντος,
-ἐν τῷ *ὁμοίως λαλήσαντι*, ἀπαρχὴ ἐν τῷ λαλεῖν αὐτὸν, ἀπαρχὴ ἐν τῷ μὴ ἀληθεῦσαι τὸν λόγον
-αὐτοῦ, ἐν τῷ λαλῆσαι αὐτὸν ἐν τῷ ὀνόματι κυρίου.], "Deut", "en-logos", [18:22], version:
-"LXX", quo: (fmt: (font: "Alegreya", style: "italic"), opq: [], clq: []), blk: (wid: 90%,
-ins: 4pt, bkg: silver, cit: silver))
+#bq([ἐὰν δὲ μὴ γένηται, ἐν τῷ λαλῆσαι αὐτὸν ἐν τῷ ὀνόματι κυρίου, οὐκ ἐκείνου λαλήσαντος, ἐν τῷ
+*ὁμοίως λαλήσαντι*, ἀπαρχὴ ἐν τῷ λαλεῖν αὐτὸν, ἀπαρχὴ ἐν τῷ μὴ ἀληθεῦσαι τὸν λόγον αὐτοῦ, ἐν τῷ
+λαλῆσαι αὐτὸν ἐν τῷ ὀνόματι κυρίου.], "Deut", "en-logos", [18:22], version: "LXX", quo: (fmt:
+(font: "Alegreya", style: "italic"), bkg: none, opq: [], clq: []), blk: (wid: 90%, ins: 4pt,
+bkg: silver, cit: silver))
 
 This further supports the logical conclusion that God's prophecies should be interpreted "as
 stated," without introducing arbitrary flexibility or vagueness.
@@ -214,36 +235,36 @@ stated," without introducing arbitrary flexibility or vagueness.
 = Biblical Citations
 
 The main point of the package is to enable the _automatic generation of a biblical
-literature citation index_, once all the citations have been made with the `#iQuot` and
-`#bQuot` functions, irrespective of whether or not `#ver()` has been used. This is simply
+literature citation index_, once all the citations have been made with the `#iq` and
+`#bq` functions, irrespective of whether or not `#ver()` has been used. This is simply
 accomplished by calling the following function:
 
 ```typst
-#mkIndex()
+#mk-index()
 ```
 
 which renders as
 
-#mkIndex()
+#mk-index()
 
 Language and book sorting traditions selections are possible through the `lang` and
 `sorting-tradition` options. Therefore, the following function call
 
 ```typst
-#mkIndex(lang: "fr-TOB", sorting-tradition: "Oecumenic-Bible")
+#mk-index(lang: "fr-TOB", sorting-tradition: "Oecumenic-Bible")
 ```
 
 automatically generates a citation index with book names in French --- the `lang: "fr-TOB"`
 option, and with books sorted according to the `"Oecumenic-Bible"` tradition, which renders
 as
 
-#mkIndex(lang: "fr-TOB", sorting-tradition: "Oecumenic-Bible")
+#mk-index(lang: "fr-TOB", sorting-tradition: "Oecumenic-Bible")
 
 The default one-column mode is controlled by the `cols` option, therefore, the following
 function call
 
 ```typst
-#mkIndex(lang: "br-pro", cols: 2, sorting-tradition: "Protestant-Bible")
+#mk-index(lang: "br-pro", cols: 2, sorting-tradition: "Protestant-Bible")
 ```
 
 generates a two-column citation index (recalling that `typst` doesn't yet offer an
@@ -252,5 +273,5 @@ protestant tradition), due to the `lang: "br-pro"` option, and with books sorted
 to the `"Protestant-Bible"` tradition, which, for instance, exclude any cited passage of the
 apocripha books. This renders as
 
-#mkIndex(lang: "br-pro", cols: 2, sorting-tradition: "Protestant-Bible")
+#mk-index(lang: "br-pro", cols: 2, sorting-tradition: "Protestant-Bible")
 

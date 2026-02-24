@@ -1,8 +1,8 @@
 # Blindex: index-making of Biblical literature citations in Typst
 
-Blindex (`blindex:0.2.0`) is a Typst package specifically designed for the generation of
-indices of Biblical literature citations in documents. Target audience includes theologians and
-authors of documents that frequently cite biblical literature.
+Blindex (`blindex:0.3.0`) is a Typst package specifically designed for the generation of indices
+of Biblical literature citations in documents. Target audience includes theologians and authors
+of documents that frequently cite biblical literature.
 
 ## Index Sorting Options
 
@@ -70,10 +70,10 @@ Optional arguments control style and sorting convention parameters, as exemplifi
 ## Higher-Level Quoting-Indexing Commands
 
 The library also offers higher-level functions to assemble the entire (i) quote typesetting,
-(ii) index entry, (iii) citation typesetting, and (iv) bibliography entrying of the passage. The
-`0.2.0` release brings quite an improvement on available styling options that allow for
-document-wide standardization through `function` redefinitions through `with`, according to
-`typst` documentation.
+(ii) index entry, (iii) citation typesetting, and (iv) bibliography entrying of the passage.
+Styling options are relatively abundant, giving the user a working level of control over the
+output formatting, as well as allows for document-wide standardization through `function`
+redefinitions through `with`, according to `typst` documentation.
 
 Higher-level quoting-indexing functions are `#iq(...)`, `#bq(...)`, respectively for **inline**
 and **block** quoting of Biblical literature, with automatic indexing and bibliography citation.
@@ -107,8 +107,15 @@ Common optional (named) arguments include:
 
 ## Examples
 
-The `test` directory in the [development repository](https://github.com/cnaak/blindex.typ/tree/main/test) contains a couple of
+The `test` directory in the [development
+repository](https://github.com/cnaak/blindex.typ/tree/main/test) contains a couple of
 tests/examples that showcase in greater detail the package's possiblities.
+
+## Brief Release Summary
+
+- `0.1.0` - initial release
+- `0.2.0` - improved usability and configurability
+- `0.3.0` - breaking re-casing (to camel-case) of user-facing definitions
 
 ## Citing
 
@@ -122,7 +129,7 @@ blindex-package:
     value: "Blindex: Index-making of Biblical literature citations in Typst"
     short: "Blindex: Index-making in Typst"
   url: https://github.com/cnaak/blindex.typ
-  version: 0.2.0
+  version: 0.3.0
   date: 2026-02
 ```
 

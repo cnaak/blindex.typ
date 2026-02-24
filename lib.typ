@@ -60,7 +60,7 @@
 // Index making. {BSS} is the Book Sorting Scheme, a key of the {bSort} dict, defined at
 // "./books.typ" and written to <metadata>.<bl_index>.<instance>.at(i).at(bUID).DATA.SORT
 #let mkIndex(lang: "en-3",
-  cols: 2, gutter: 8pt, wgt: (bk: "bold", tx: "regular", pg: "extrabold"), pattern: [.],
+  cols: 1, gutter: 8pt, wgt: (bk: "bold", tx: "regular", pg: "extrabold"), pattern: [.],
   merged-book-headings-full: true, mbhf-join: (" / ",),
   sorting-tradition: "Oecumenic-Bible", exclude-missing: false,
 ) = context {
@@ -203,7 +203,7 @@
 
 // "block" Quoting of Biblical Literature
 #let bQuot(body, abrv, lang, pssg, version: none, cite: none, qlang: "en", clang: "en",
-           quo: (fmt: PARS.fmt.quo, bkg: PARS.bkg.quo, quo: PARS.quo, opq: [], clq: []),
+           quo: (fmt: PARS.fmt.quo, bkg: none, quo: PARS.quo, opq: [], clq: []),
            cit: (fmt: PARS.fmt.cit, ),
            blk: (wid: 90%, ins: 4pt, bkg: PARS.bkg.quo, cit: PARS.bkg.cit)) = {
   align(center,

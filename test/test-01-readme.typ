@@ -1,27 +1,42 @@
 #import "blindex.typ": *
 
+// Color composition to add transparency without changing RGB components
+#let compos(col, lvl) = {
+  let cmp = rgb(col).components(alpha: false)
+  cmp.push(100% - lvl)
+  rgb(..cmp)
+}
+
 // Custom configuration
 #let CFG = (
-  quo: (
+  iqq: (
     fmt: (font: "Crimson Pro", style: "normal", weight: "regular"),
-    fil: rgb("c0c0c0FF"),
+    bkg: compos(gray, 75%), // transparent gray
     quo: pkg-pars.quo,
     opq: ['],
     clq: ['],
   ),
   cit: (
     fmt: (font: "Crimson Pro", style: "normal", weight: "regular"),
-    fil: none,
   ),
-  CIT: (
+  bqq: (
     fmt: (font: "Crimson Pro", style: "normal", weight: "regular"),
-    fil: rgb("c0c0c0FF"),
+    bkg: none,
+    quo: pkg-pars.quo,
+    opq: [],
+    clq: [],
+  ),
+  blk: (
+    wid: 90%,
+    ins: 4pt,
+    bkg: compos(gray, 75%), // transparent gray
+    cit: compos(gray, 75%), // transparent gray
   ),
 )
 
 // Custom package functions
-#let iQ = iq.with(quo: CFG.quo, cit: CFG.cit)
-#let bQ = bq.with(quo: CFG.quo, cit: CFG.CIT)
+#let iQ = iq.with(quo: CFG.iqq, cit: CFG.cit)
+#let bQ = bq.with(quo: CFG.bqq, cit: CFG.cit, blk: CFG.blk)
 
 // Bibliography data
 #let bib = ```
@@ -60,7 +75,7 @@ KJV:
 ```
 
 // Document settings
-#set page(paper: "us-letter", fill: none, footer: context [
+#set page(paper: "us-letter", fill: color.mix((silver, 90%), (yellow, 10%)), footer: context [
     #set align(center)
     #set text(9pt)
     #counter(page).display("— 1 —")
@@ -78,6 +93,12 @@ KJV:
 = Description
 
 `blindex` --- Index-making of Biblical literature citations in Typst.
+
+#bQ([#ver(1)I exhort therefore, that, first of all, supplications, prayers, intercessions, and
+giving of thanks, be made for all men; #ver(2)For kings, and for all that are in authority; that
+we may lead a quiet and peaceable life in all godliness and honesty.  #ver(3)For this is good
+and acceptable in the sight of God our Saviour; #ver(4)Who will have all men to be saved, and to
+come unto the knowledge of the truth.], "1Ti", "en-3", [2:1--4])
 
 = Quick Intro
 

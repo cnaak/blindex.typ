@@ -188,39 +188,69 @@ thankful; but became vain in their imaginations, and their foolish heart was dar
 #ver(22)Professing themselves to be wise, they became fools,], "Rom", "en-3", [1:18,20--22],
 version: "KJV")
 
-/*
-A citation for package testing, with verse numbers, no quotes, and no fill:
+= Usage Example
 
-#bQuot(
-  [#ver(14)καὶ εἶπε Κύριος ὁ Θεὸς τῷ ὄφει· ὅτι ἐποίησας τοῦτο, ἐπικατάρατος σὺ ἀπὸ πάντων τῶν κτηνῶν καὶ ἀπὸ πάντων τῶν θηρίων τῶν ἐπὶ
-  τῆς γῆς· ἐπὶ τῷ στήθει σου καὶ τῇ κοιλίᾳ πορεύσῃ καὶ γῆν φαγῇ πάσας τὰς ἡμέρας τῆς ζωῆς σου. #ver(15)καὶ ἔχθραν θήσω ἀνὰ μέσον σοῦ
-  καὶ ἀνὰ μέσον τῆς γυναικὸς καὶ ἀνὰ μέσον τοῦ σπέρματός σου καὶ ἀνὰ μέσον τοῦ σπέρματος αὐτῆς· αὐτός σου τηρήσει κεφαλήν, καὶ σὺ
-  τηρήσεις αὐτοῦ πτέρναν.], "Gen", "en-logos", [3:14--15], "LXX", quotes: (quotes: (double: ("", ""))), fill: false, fill-below: false)
+In the context of telling God's prophecies appart from those of false prophets, the
+Septuagint uses the phrase #iQuot([ὁμοίως λαλήσαντι], "Deut", "en-logos", [18:22], version:
+"LXX", cite: [@LXX-SBB-2012], quo: (fmt: (font: "Alegreya", style: "italic"), opq: [], clq:
+[])) (_homoios lalesanti_), which can be translated as "speaking in the same manner" or
+"speaking thus." This phrase emphasizes that legitimate prophecies from God should be
+understood and interpreted based on the exact way it was spoken.
 
-In the context of telling God's prophecies appart from those of false prophets, the Septuagint @LXX-SBB-2012 uses the phrase
-#iQuot([ὁμοίως λαλήσαντι], "Deut", "en-logos", [18:22], "LXX") (_homoios lalesanti_), which can be translated as "speaking in the same
-manner" or "speaking thus." This phrase emphasizes that legitimate prophecies from God should be understood and interpreted based on the
-exact way it was spoken.
+Here's the text with the relevant phrase highlighted (formatted without verse numbers and
+with default options):
 
-Here's the LXX text with the relevant phrase highlighted (formatted without verse numbers and with default options):
+#bQuot([ἐὰν δὲ μὴ γένηται, ἐν τῷ λαλῆσαι αὐτὸν ἐν τῷ ὀνόματι κυρίου, οὐκ ἐκείνου λαλήσαντος,
+ἐν τῷ *ὁμοίως λαλήσαντι*, ἀπαρχὴ ἐν τῷ λαλεῖν αὐτὸν, ἀπαρχὴ ἐν τῷ μὴ ἀληθεῦσαι τὸν λόγον
+αὐτοῦ, ἐν τῷ λαλῆσαι αὐτὸν ἐν τῷ ὀνόματι κυρίου.], "Deut", "en-logos", [18:22], version:
+"LXX", quo: (fmt: (font: "Alegreya", style: "italic"), opq: [], clq: []), blk: (wid: 90%,
+ins: 4pt, bkg: silver, cit: silver))
 
-#bQuot(
-  [ἐὰν δὲ μὴ γένηται, ἐν τῷ λαλῆσαι αὐτὸν ἐν τῷ ὀνόματι κυρίου, οὐκ ἐκείνου λαλήσαντος, ἐν τῷ *ὁμοίως λαλήσαντι*, ἀπαρχὴ ἐν τῷ λαλεῖν
-  αὐτὸν, ἀπαρχὴ ἐν τῷ μὴ ἀληθεῦσαι τὸν λόγον αὐτοῦ, ἐν τῷ λαλῆσαι αὐτὸν ἐν τῷ ὀνόματι κυρίου.], "Deut", "en-logos", [18:22], "LXX",
-  quotes: (quotes: (double: ("\u{300E}", "\u{300F}"))), fill: true, fill-below: true)
-
-This further supports the logical conclusion that God's prophecies should be interpreted "as stated," without introducing arbitrary
-flexibility or vagueness.
-
-*/
+This further supports the logical conclusion that God's prophecies should be interpreted "as
+stated," without introducing arbitrary flexibility or vagueness.
 
 #bibliography(bytes(bib.text), title: "References", style: "turabian-fullnote-8")
 
 = Biblical Citations
 
-Here's a two-column, automatically-generated list of biblical citations, sorted by the LXX ordering:
+The main point of the package is to enable the _automatic generation of a biblical
+literature citation index_, once all the citations have been made with the `#iQuot` and
+`#bQuot` functions, irrespective of whether or not `#ver()` has been used. This is simply
+accomplished by calling the following function:
 
-#mkIndex(lang: "fr-TOB", cols: 2, sorting-tradition: "Oecumenic-Bible", exclude-missing: false)
+```typst
+#mkIndex()
+```
 
-// #lDict.at("1001").at("fr-TOB").at(1)
+which renders as
+
+#mkIndex()
+
+Language and book sorting traditions selections are possible through the `lang` and
+`sorting-tradition` options. Therefore, the following function call
+
+```typst
+#mkIndex(lang: "fr-TOB", sorting-tradition: "Oecumenic-Bible")
+```
+
+automatically generates a citation index with book names in French --- the `lang: "fr-TOB"`
+option, and with books sorted according to the `"Oecumenic-Bible"` tradition, which renders
+as
+
+#mkIndex(lang: "fr-TOB", sorting-tradition: "Oecumenic-Bible")
+
+The default one-column mode is controlled by the `cols` option, therefore, the following
+function call
+
+```typst
+#mkIndex(lang: "br-pro", cols: 2, sorting-tradition: "Protestant-Bible")
+```
+
+generates a two-column citation index (recalling that `typst` doesn't yet offer an
+out-of-the-box way of balancing columns) with book names in Portuguese (according to the
+protestant tradition), due to the `lang: "br-pro"` option, and with books sorted according
+to the `"Protestant-Bible"` tradition, which, for instance, exclude any cited passage of the
+apocripha books. This renders as
+
+#mkIndex(lang: "br-pro", cols: 2, sorting-tradition: "Protestant-Bible")
 

@@ -127,7 +127,7 @@
 // NT cannon is the same in all of these traditions.
 
 // Book partial orderings
-#let pOrd = (
+#let p-ord = (
   // The ordering of the Law (Torah/Pentateuc) books is the same in all 5 canons
   "Law":
     (1001, 1002, 1003, 1004, 1005,),
@@ -176,20 +176,20 @@
 )
 
 // HEBREW OT CANON
-#pOrd.insert("Neviim",
+#p-ord.insert("Neviim",
   (1101, 1102, 1104, 1105, 1106, 1107, 1301, 1302, 1304) +
-  pOrd.at("OT-Protestant-Minor-Prophets"))
+  p-ord.at("OT-Protestant-Minor-Prophets"))
 
-#pOrd.insert("Ketuvim",
+#p-ord.insert("Ketuvim",
   (1202, 1201, 1203, 1103, 1205, 1204, 1303, 1112, 1305, 1110, 1111, 1108, 1109,))
 
 // NEW TESTAMENT
-#pOrd.insert("New-Testament",
-  pOrd.at("Gospels") +
-  pOrd.at("Acts") +
-  pOrd.at("Paul-Letters") +
-  pOrd.at("Universal-Letters") +
-  pOrd.at("Revelation"))
+#p-ord.insert("New-Testament",
+  p-ord.at("Gospels") +
+  p-ord.at("Acts") +
+  p-ord.at("Paul-Letters") +
+  p-ord.at("Universal-Letters") +
+  p-ord.at("Revelation"))
 
 
 //--------------------------------------------------------------------------------------------//
@@ -227,7 +227,7 @@
 // "Greek-Bible"
 #bSort.insert("Greek-Bible", (
   bSort.at("LXX") +
-  pOrd.at("New-Testament")
+  p-ord.at("New-Testament")
 ).flatten())
 
 
@@ -237,15 +237,15 @@
 
 // "Hebrew-Tanakh"
 #bSort.insert("Hebrew-Tanakh", (
-  pOrd.at("Law") +
-  pOrd.at("Neviim") +
-  pOrd.at("Ketuvim")
+  p-ord.at("Law") +
+  p-ord.at("Neviim") +
+  p-ord.at("Ketuvim")
 ).flatten())
 
 // "Hebrew-Bible"
 #bSort.insert("Hebrew-Bible", (
   bSort.at("Hebrew-Tanakh") +
-  pOrd.at("New-Testament")
+  p-ord.at("New-Testament")
 ).flatten())
 
 
@@ -255,12 +255,12 @@
 
 // "Protestant-Bible"
 #bSort.insert("Protestant-Bible", (
-  pOrd.at("Law") +
-  pOrd.at("OT-Protestant-Historical") +
-  pOrd.at("OT-Protestant-Sapiential") +
-  pOrd.at("OT-Protestant-Major-Prophets") +
-  pOrd.at("OT-Protestant-Minor-Prophets") +
-  pOrd.at("New-Testament")
+  p-ord.at("Law") +
+  p-ord.at("OT-Protestant-Historical") +
+  p-ord.at("OT-Protestant-Sapiential") +
+  p-ord.at("OT-Protestant-Major-Prophets") +
+  p-ord.at("OT-Protestant-Minor-Prophets") +
+  p-ord.at("New-Testament")
 ).flatten())
 
 
@@ -270,12 +270,12 @@
 
 // "Catholic-Bible"
 #bSort.insert("Catholic-Bible", (
-  pOrd.at("Law") +
-  pOrd.at("OT-Catholic-Historical") +
-  pOrd.at("OT-Catholic-Poetic") +
-  pOrd.at("OT-Catholic-Major-Prophets") +
-  pOrd.at("OT-Protestant-Minor-Prophets") +
-  pOrd.at("New-Testament")
+  p-ord.at("Law") +
+  p-ord.at("OT-Catholic-Historical") +
+  p-ord.at("OT-Catholic-Poetic") +
+  p-ord.at("OT-Catholic-Major-Prophets") +
+  p-ord.at("OT-Protestant-Minor-Prophets") +
+  p-ord.at("New-Testament")
 ).flatten())
 
 
@@ -285,12 +285,12 @@
 
 // "Orthodox-Bible"
 #bSort.insert("Orthodox-Bible", (
-  pOrd.at("Law") +
-  pOrd.at("OT-Orthodox-Historical") +
-  pOrd.at("OT-Orthodox-Poetic") +
-  pOrd.at("OT-Orthodox-Major-Prophets") +
-  pOrd.at("OT-Orthodox-Minor-Prophets") +
-  pOrd.at("New-Testament")
+  p-ord.at("Law") +
+  p-ord.at("OT-Orthodox-Historical") +
+  p-ord.at("OT-Orthodox-Poetic") +
+  p-ord.at("OT-Orthodox-Major-Prophets") +
+  p-ord.at("OT-Orthodox-Minor-Prophets") +
+  p-ord.at("New-Testament")
 ).flatten())
 
 
@@ -301,8 +301,8 @@
 // "Oecumenic-Bible"
 #bSort.insert("Oecumenic-Bible", (
   bSort.at("Hebrew-Tanakh") +
-  pOrd.at("OT-TOB-Deuterocanonical") +
-  pOrd.at("New-Testament")
+  p-ord.at("OT-TOB-Deuterocanonical") +
+  p-ord.at("New-Testament")
 ).flatten())
 
 

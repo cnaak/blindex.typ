@@ -123,7 +123,7 @@
 //                                       Quote Settings                                       //
 //--------------------------------------------------------------------------------------------//
 
-#let PARS = (
+#let pkg-pars = (
   fmt: (
     ver: (
       font: ("Noto Sans", ),
@@ -161,16 +161,16 @@
 //                                      Quote Functions                                       //
 //--------------------------------------------------------------------------------------------//
 
-#let ver(body, fmt: PARS.fmt.ver, spc: [#h(0.2em)]) = {
+#let ver(body, fmt: pkg-pars.fmt.ver, spc: [#h(0.2em)]) = {
   box(baseline: fmt.size - 0.85em)[#text(..fmt)[#body#spc]]
 }
 
 // "raw" Quoting of Biblical Literature
 #let rQuot(body,
            lan: "en",
-           fmt: PARS.fmt.quo,
-           bkg: PARS.bkg.quo,
-           quo: PARS.quo,
+           fmt: pkg-pars.fmt.quo,
+           bkg: pkg-pars.bkg.quo,
+           quo: pkg-pars.quo,
            opq: ["],
            clq: ["]) = {
   set text(lang: lan)
@@ -181,7 +181,7 @@
 // "line" Citation of Biblical Literature
 #let lCite(abrv, lang, pssg, version: none, cite: none,
            lan: "en",
-           fmt: PARS.fmt.cit,
+           fmt: pkg-pars.fmt.cit,
            sep: [ ---]) = {
   set text(lang: lan)
   if version == none {
@@ -194,8 +194,8 @@
 
 // "inline" Quoting of Biblical Literature
 #let iQuot(body, abrv, lang, pssg, version: none, cite: none, qlang: "en", clang: "en",
-           quo: (fmt: PARS.fmt.quo, bkg: PARS.bkg.quo, quo: PARS.quo, opq: ["], clq: ["]),
-           cit: (fmt: PARS.fmt.cit, )) = {
+           quo: (fmt: pkg-pars.fmt.quo, bkg: pkg-pars.bkg.quo, quo: pkg-pars.quo, opq: ["], clq: ["]),
+           cit: (fmt: pkg-pars.fmt.cit, )) = {
   rQuot(body, lan: qlang, ..quo)
   lCite(abrv, lang, pssg, version: version, cite: cite, lan: clang, ..cit)
   blindex(abrv, lang, pssg)
@@ -203,9 +203,9 @@
 
 // "block" Quoting of Biblical Literature
 #let bQuot(body, abrv, lang, pssg, version: none, cite: none, qlang: "en", clang: "en",
-           quo: (fmt: PARS.fmt.quo, bkg: none, quo: PARS.quo, opq: [], clq: []),
-           cit: (fmt: PARS.fmt.cit, ),
-           blk: (wid: 90%, ins: 4pt, bkg: PARS.bkg.quo, cit: PARS.bkg.cit)) = {
+           quo: (fmt: pkg-pars.fmt.quo, bkg: none, quo: pkg-pars.quo, opq: [], clq: []),
+           cit: (fmt: pkg-pars.fmt.cit, ),
+           blk: (wid: 90%, ins: 4pt, bkg: pkg-pars.bkg.quo, cit: pkg-pars.bkg.cit)) = {
   align(center,
     stack(dir: ttb,
       block(width: blk.wid, fill: blk.bkg, inset: blk.ins,

@@ -5,7 +5,7 @@
   quo: (
     fmt: (font: "Crimson Pro", style: "normal", weight: "regular"),
     fil: rgb("c0c0c0FF"),
-    quo: PARS.quo,
+    quo: pkg-pars.quo,
     opq: ['],
     clq: ['],
   ),

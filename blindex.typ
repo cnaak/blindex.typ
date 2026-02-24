@@ -179,10 +179,10 @@
 }
 
 // "line" Citation of Biblical Literature
-#let lCite(abrv, lang, pssg, version: none, cite: none,
-           lan: "en",
-           fmt: pkg-pars.fmt.cit,
-           sep: [ ---]) = {
+#let lc(abrv, lang, pssg, version: none, cite: none,
+        lan: "en",
+        fmt: pkg-pars.fmt.cit,
+        sep: [ ---]) = {
   set text(lang: lan)
   if version == none {
     text(..fmt)[#sep~#a2d(abrv, lang).at(0).full~#pssg#{if cite != none [ #cite]}]
@@ -197,7 +197,7 @@
            quo: (fmt: pkg-pars.fmt.quo, bkg: pkg-pars.bkg.quo, quo: pkg-pars.quo, opq: ["], clq: ["]),
            cit: (fmt: pkg-pars.fmt.cit, )) = {
   rq(body, lan: qlang, ..quo)
-  lCite(abrv, lang, pssg, version: version, cite: cite, lan: clang, ..cit)
+  lc(abrv, lang, pssg, version: version, cite: cite, lan: clang, ..cit)
   blindex(abrv, lang, pssg)
 }
 
@@ -211,7 +211,7 @@
       block(width: blk.wid, fill: blk.bkg, inset: blk.ins,
             align(left)[#rq(body, ..quo)]),
       block(width: blk.wid, fill: blk.cit, inset: blk.ins,
-            align(right)[#lCite(abrv, lang, pssg, version: version, cite: cite, ..cit, sep: [])]),
+            align(right)[#lc(abrv, lang, pssg, version: version, cite: cite, ..cit, sep: [])]),
       blindex(abrv, lang, pssg)
     )
   )

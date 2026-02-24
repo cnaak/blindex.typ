@@ -8,4 +8,4 @@ description = "Index-making of Biblical literature citations in Typst"
 keywords = ["index", "biblical", "literature", "canonical", "deuterocanonical", "apocripha"]
 categories = ["model", "scripting"]
 disciplines = ["theology", ]
-compiler = "0.11.1"
+compiler = "0.14.1"

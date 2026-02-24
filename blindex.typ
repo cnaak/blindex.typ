@@ -166,13 +166,13 @@
 }
 
 // "raw" Quoting of Biblical Literature
-#let rQuot(body,
-           lan: "en",
-           fmt: pkg-pars.fmt.quo,
-           bkg: pkg-pars.bkg.quo,
-           quo: pkg-pars.quo,
-           opq: ["],
-           clq: ["]) = {
+#let rq(body,
+        lan: "en",
+        fmt: pkg-pars.fmt.quo,
+        bkg: pkg-pars.bkg.quo,
+        quo: pkg-pars.quo,
+        opq: ["],
+        clq: ["]) = {
   set text(lang: lan)
   set smartquote(..quo)
   [#opq#highlight(fill: bkg, text(..fmt)[#body])#clq]
@@ -196,7 +196,7 @@
 #let iQuot(body, abrv, lang, pssg, version: none, cite: none, qlang: "en", clang: "en",
            quo: (fmt: pkg-pars.fmt.quo, bkg: pkg-pars.bkg.quo, quo: pkg-pars.quo, opq: ["], clq: ["]),
            cit: (fmt: pkg-pars.fmt.cit, )) = {
-  rQuot(body, lan: qlang, ..quo)
+  rq(body, lan: qlang, ..quo)
   lCite(abrv, lang, pssg, version: version, cite: cite, lan: clang, ..cit)
   blindex(abrv, lang, pssg)
 }
@@ -209,7 +209,7 @@
   align(center,
     stack(dir: ttb,
       block(width: blk.wid, fill: blk.bkg, inset: blk.ins,
-            align(left)[#rQuot(body, ..quo)]),
+            align(left)[#rq(body, ..quo)]),
       block(width: blk.wid, fill: blk.cit, inset: blk.ins,
             align(right)[#lCite(abrv, lang, pssg, version: version, cite: cite, ..cit, sep: [])]),
       blindex(abrv, lang, pssg)

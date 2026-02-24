@@ -59,10 +59,10 @@ Following the usual index making strategy in Typst, this use of the `#blindex` c
 the index-marking `#metadata` in the document, without producing any visible typeset output.
 
 Biblical literature index listings can be generated (typeset) in arbitrary amounts and locations
-throughout the document, just by calling the user `#mkIndex` command:
+throughout the document, just by calling the user `#mk-index` command:
 
 ```typst
-#mkIndex()
+#mk-index()
 ```
 
 Optional arguments control style and sorting convention parameters, as exemplified below.

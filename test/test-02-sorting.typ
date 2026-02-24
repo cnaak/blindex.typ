@@ -9,7 +9,7 @@
 
 #set text(size: 9pt)
 
-#import "lib.typ": *
+#import "blindex.typ": *
 
 #let bib = ```
 NASB95:
@@ -65,7 +65,7 @@ version: "NASB95")
   for ordering in bSort.keys() {
     //pagebreak()
     [== "#ordering" book ordering]
-    mkIndex(cols: 1, sorting-tradition: ordering, exclude-missing: true)
+    mk-index(cols: 1, sorting-tradition: ordering, exclude-missing: true)
     v(2em)
   }
 }

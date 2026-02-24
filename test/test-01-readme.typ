@@ -1,4 +1,4 @@
-#import "lib.typ": *
+#import "blindex.typ": *
 
 // Custom configuration
 #let CFG = (
@@ -219,31 +219,31 @@ literature citation index_, once all the citations have been made with the `#iQu
 accomplished by calling the following function:
 
 ```typst
-#mkIndex()
+#mk-index()
 ```
 
 which renders as
 
-#mkIndex()
+#mk-index()
 
 Language and book sorting traditions selections are possible through the `lang` and
 `sorting-tradition` options. Therefore, the following function call
 
 ```typst
-#mkIndex(lang: "fr-TOB", sorting-tradition: "Oecumenic-Bible")
+#mk-index(lang: "fr-TOB", sorting-tradition: "Oecumenic-Bible")
 ```
 
 automatically generates a citation index with book names in French --- the `lang: "fr-TOB"`
 option, and with books sorted according to the `"Oecumenic-Bible"` tradition, which renders
 as
 
-#mkIndex(lang: "fr-TOB", sorting-tradition: "Oecumenic-Bible")
+#mk-index(lang: "fr-TOB", sorting-tradition: "Oecumenic-Bible")
 
 The default one-column mode is controlled by the `cols` option, therefore, the following
 function call
 
 ```typst
-#mkIndex(lang: "br-pro", cols: 2, sorting-tradition: "Protestant-Bible")
+#mk-index(lang: "br-pro", cols: 2, sorting-tradition: "Protestant-Bible")
 ```
 
 generates a two-column citation index (recalling that `typst` doesn't yet offer an
@@ -252,5 +252,5 @@ protestant tradition), due to the `lang: "br-pro"` option, and with books sorted
 to the `"Protestant-Bible"` tradition, which, for instance, exclude any cited passage of the
 apocripha books. This renders as
 
-#mkIndex(lang: "br-pro", cols: 2, sorting-tradition: "Protestant-Bible")
+#mk-index(lang: "br-pro", cols: 2, sorting-tradition: "Protestant-Bible")
 

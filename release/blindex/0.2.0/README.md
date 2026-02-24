@@ -107,8 +107,8 @@ Common optional (named) arguments include:
 
 ## Examples
 
-The `test` directory in the [development repository](https://github.com/cnaak/blindex.typ/tree/main/test) contains a couple of
-tests/examples that showcase in greater detail the package's possiblities.
+The `test` directory contains a couple of tests/examples that showcase in greater detail the
+package's possiblities.
 
 ## Citing
 

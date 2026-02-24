@@ -2,7 +2,7 @@
 //                                          Includes                                          //
 //============================================================================================//
 
-#import "./books.typ": iBoo, bSort
+#import "./books.typ": iboo, bSort
 #import "./lang.typ": lDict
 
 //============================================================================================//
@@ -33,7 +33,7 @@
           "lang": lang,           // Query's used {lang}
           "abrv": VAL.abbr,       // Query's used {abrv}
           "full": VAL.full,       // Book's full name
-          "STDN": iBoo.at(KEY),   // Book's Standard Name (English)
+          "STDN": iboo.at(KEY),   // Book's Standard Name (English)
           "SORT": SRT,            // Book's index in existing sorting schemes
         )
       )

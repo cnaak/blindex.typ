@@ -112,9 +112,9 @@
 )
 
 // Create the reverse dictionary
-#let iBoo = (:)
+#let iboo = (:)
 #for KV in buid.pairs() {
-  iBoo.insert(str(KV.at(1)), KV.at(0))
+  iboo.insert(str(KV.at(1)), KV.at(0))
 }
 
 

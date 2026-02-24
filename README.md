@@ -107,7 +107,8 @@ Common optional (named) arguments include:
 
 ## Examples
 
-The `thumbnail.typ` briefly showcases likely common package workflows. It renders as
+The [thumbnail.typ](https://github.com/cnaak/blindex.typ/blob/release-0.3.0/thumbnail.typ)
+briefly showcases likely common package workflows. It renders as
 
 ![thumbnail](https://raw.githubusercontent.com/cnaak/blindex.typ/b81e91e58e63f1b77a2540b7f21693b1cb7a9bf1/thumbnail.png)
 

@@ -197,7 +197,7 @@
 //--------------------------------------------------------------------------------------------//
 
 // Book sorting schemes
-#let bSort = (:)
+#let bsort = (:)
 
 
 //····························································································//
@@ -205,7 +205,7 @@
 //····························································································//
 
 // "code" scheme
-#bSort.insert("code", buid.values().sorted())
+#bsort.insert("code", buid.values().sorted())
 
 
 //····························································································//
@@ -214,10 +214,10 @@
 
 // "LXX" scheme
 #let tmpLXX = ()
-#for val in bSort.at("code") {
+#for val in bsort.at("code") {
   if (val < 1400) or ((val > 3000) and (val < 5000)) { tmpLXX.push(val) }
 }
-#bSort.insert("LXX", tmpLXX)
+#bsort.insert("LXX", tmpLXX)
 
 
 //····························································································//
@@ -225,8 +225,8 @@
 //····························································································//
 
 // "Greek-Bible"
-#bSort.insert("Greek-Bible", (
-  bSort.at("LXX") +
+#bsort.insert("Greek-Bible", (
+  bsort.at("LXX") +
   p-ord.at("New-Testament")
 ).flatten())
 
@@ -236,15 +236,15 @@
 //····························································································//
 
 // "Hebrew-Tanakh"
-#bSort.insert("Hebrew-Tanakh", (
+#bsort.insert("Hebrew-Tanakh", (
   p-ord.at("Law") +
   p-ord.at("Neviim") +
   p-ord.at("Ketuvim")
 ).flatten())
 
 // "Hebrew-Bible"
-#bSort.insert("Hebrew-Bible", (
-  bSort.at("Hebrew-Tanakh") +
+#bsort.insert("Hebrew-Bible", (
+  bsort.at("Hebrew-Tanakh") +
   p-ord.at("New-Testament")
 ).flatten())
 
@@ -254,7 +254,7 @@
 //····························································································//
 
 // "Protestant-Bible"
-#bSort.insert("Protestant-Bible", (
+#bsort.insert("Protestant-Bible", (
   p-ord.at("Law") +
   p-ord.at("OT-Protestant-Historical") +
   p-ord.at("OT-Protestant-Sapiential") +
@@ -269,7 +269,7 @@
 //····························································································//
 
 // "Catholic-Bible"
-#bSort.insert("Catholic-Bible", (
+#bsort.insert("Catholic-Bible", (
   p-ord.at("Law") +
   p-ord.at("OT-Catholic-Historical") +
   p-ord.at("OT-Catholic-Poetic") +
@@ -284,7 +284,7 @@
 //····························································································//
 
 // "Orthodox-Bible"
-#bSort.insert("Orthodox-Bible", (
+#bsort.insert("Orthodox-Bible", (
   p-ord.at("Law") +
   p-ord.at("OT-Orthodox-Historical") +
   p-ord.at("OT-Orthodox-Poetic") +
@@ -299,8 +299,8 @@
 //····························································································//
 
 // "Oecumenic-Bible"
-#bSort.insert("Oecumenic-Bible", (
-  bSort.at("Hebrew-Tanakh") +
+#bsort.insert("Oecumenic-Bible", (
+  bsort.at("Hebrew-Tanakh") +
   p-ord.at("OT-TOB-Deuterocanonical") +
   p-ord.at("New-Testament")
 ).flatten())

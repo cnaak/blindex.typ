@@ -2,7 +2,7 @@
 //                                          Includes                                          //
 //============================================================================================//
 
-#import "./books.typ": iboo, bSort
+#import "./books.typ": iboo, bsort
 #import "./lang.typ": lDict
 
 //============================================================================================//
@@ -17,8 +17,8 @@
     if abrv == VAL.abbr {
       let SRT = (:)
       let BID = int(KEY)
-      for SS in bSort.keys() {
-        let DB = bSort.at(SS)
+      for SS in bsort.keys() {
+        let DB = bsort.at(SS)
         let IDX = none
         for idx in range(DB.len()) {
           if DB.at(idx) == BID {
@@ -57,7 +57,7 @@
       WHRE: here().position(),
     ))<bl_index>]
 
-// Index making. {BSS} is the Book Sorting Scheme, a key of the {bSort} dict, defined at
+// Index making. {BSS} is the Book Sorting Scheme, a key of the {bsort} dict, defined at
 // "./books.typ" and written to <metadata>.<bl_index>.<instance>.at(i).at(buid).DATA.SORT
 #let mkIndex(lang: "en-3",
   cols: 1, gutter: 8pt, wgt: (bk: "bold", tx: "regular", pg: "extrabold"), pattern: [.],

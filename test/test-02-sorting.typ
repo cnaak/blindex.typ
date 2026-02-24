@@ -57,12 +57,12 @@ version: "NASB95")
 #bibliography(bytes(bib.text), style: "turabian-fullnote-8")
 
 #{
-  //import "./books.typ": bSort
+  //import "./books.typ": bsort
   [= Biblical Indices
   The indices are by available orderings, which by default exclude eventually missing books in
   that ordering (tradition).
   ]
-  for ordering in bSort.keys() {
+  for ordering in bsort.keys() {
     //pagebreak()
     [== "#ordering" book ordering]
     mk-index(cols: 1, sorting-tradition: ordering, exclude-missing: true)

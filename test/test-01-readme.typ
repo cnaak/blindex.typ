@@ -200,11 +200,11 @@ understood and interpreted based on the exact way it was spoken.
 Here's the text with the relevant phrase highlighted (formatted without verse numbers and
 with default options):
 
-#bq([ἐὰν δὲ μὴ γένηται, ἐν τῷ λαλῆσαι αὐτὸν ἐν τῷ ὀνόματι κυρίου, οὐκ ἐκείνου λαλήσαντος,
-ἐν τῷ *ὁμοίως λαλήσαντι*, ἀπαρχὴ ἐν τῷ λαλεῖν αὐτὸν, ἀπαρχὴ ἐν τῷ μὴ ἀληθεῦσαι τὸν λόγον
-αὐτοῦ, ἐν τῷ λαλῆσαι αὐτὸν ἐν τῷ ὀνόματι κυρίου.], "Deut", "en-logos", [18:22], version:
-"LXX", quo: (fmt: (font: "Alegreya", style: "italic"), opq: [], clq: []), blk: (wid: 90%,
-ins: 4pt, bkg: silver, cit: silver))
+#bq([ἐὰν δὲ μὴ γένηται, ἐν τῷ λαλῆσαι αὐτὸν ἐν τῷ ὀνόματι κυρίου, οὐκ ἐκείνου λαλήσαντος, ἐν τῷ
+*ὁμοίως λαλήσαντι*, ἀπαρχὴ ἐν τῷ λαλεῖν αὐτὸν, ἀπαρχὴ ἐν τῷ μὴ ἀληθεῦσαι τὸν λόγον αὐτοῦ, ἐν τῷ
+λαλῆσαι αὐτὸν ἐν τῷ ὀνόματι κυρίου.], "Deut", "en-logos", [18:22], version: "LXX", quo: (fmt:
+(font: "Alegreya", style: "italic"), bkg: none, opq: [], clq: []), blk: (wid: 90%, ins: 4pt,
+bkg: silver, cit: silver))
 
 This further supports the logical conclusion that God's prophecies should be interpreted "as
 stated," without introducing arbitrary flexibility or vagueness.

@@ -107,7 +107,11 @@ Common optional (named) arguments include:
 
 ## Examples
 
-The `test` directory in the [development
+The `thumbnail.typ` briefly showcases likely common package workflows. It renders as
+
+![thumbnail](https://raw.githubusercontent.com/cnaak/blindex.typ/b81e91e58e63f1b77a2540b7f21693b1cb7a9bf1/thumbnail.png)
+
+Moreover, the `test` directory in the [development
 repository](https://github.com/cnaak/blindex.typ/tree/main/test) contains a couple of
 tests/examples that showcase in greater detail the package's possiblities.
 

@@ -48,15 +48,15 @@ by pull requests to the `dev` branch of the (UNFORKED!) development repository
 
 ## Low-Level Indexing Command
 
-The `blindex` library has a low-level, index entry marking function `#blindex(abrv, lang,
+The `blindex` library has a low-level index entry marking function `#blindex(abrv, lang,
 entry)`, whose arguments are (abbreviation, language, entry), as in:
 
 ```typst
-"the citation..." #blindex("1Thess", "en", [1.1--3]) citation's typesetting...
+"the citation..." #blindex("1Thess", "en", [1.1--3])
 ```
 
-Following the usual index making strategy in Typst, this user `#blindex` command only adds the
-index-marking `#metadata` in the document, without producing any visible typeset output.
+Following the usual index making strategy in Typst, this use of the `#blindex` command only adds
+the index-marking `#metadata` in the document, without producing any visible typeset output.
 
 Biblical literature index listings can be generated (typeset) in arbitrary amounts and locations
 throughout the document, just by calling the user `#mkIndex` command:
@@ -69,20 +69,26 @@ Optional arguments control style and sorting convention parameters, as exemplifi
 
 ## Higher-Level Quoting-Indexing Commands
 
-The library also offers higher-level functions to assemble the entire (i) citation typesetting,
-(ii) index entry, (iii) citation typesetting, and (iv) bibliography entrying (with some
-typesetting (styling) options), of the passage.  Such commands are `#iQuot(...)` and
-`#bQuot(...)`, respectively for **inline** and **block** quoting of Biblical literature, with
-automatic indexing and bibliography citation. Mandatory arguments are identical for either
-command:
+The library also offers higher-level functions to assemble the entire (i) quote typesetting,
+(ii) index entry, (iii) citation typesetting, and (iv) bibliography entrying of the passage. The
+`0.2.0` release brings quite an improvement on available styling options that allow for
+document-wide standardization through `function` redefinitions through `with`, according to
+`typst` documentation.
+
+Higher-level quoting-indexing functions are `#iQuot(...)`, `#bQuot(...)`, respectively for
+**inline** and **block** quoting of Biblical literature, with automatic indexing and
+bibliography citation. There's also a helper `#ver(...)` for convenient verse number formatting,
+mostly aimed at being used within block quotes.
+
+Mandatory arguments are identical for either command:
 
 ```typst
 paragraph text...
-#iQuot(body, abrv, lang, pssg, version, cited)
+#iQuot(body, abrv, lang, pssg)
 more text...
 
 // Displayed block quote of Biblical literature:
-#bQuot(body, abrv, lang, pssg, version, cited)
+#bQuot(body, abrv, lang, pssg)
 ```
 
 In which:
@@ -92,64 +98,17 @@ In which:
 - `lang` (`string`) language-variant (see above);
 - `pssg` (`content`) is the quoted text passage --- usually chapter and verses --- as they will
   appear in the text and in the biblical literature index;
-- `version` (`string`) is a translation identifier, such as `"LXX"`, or `"KJV"`; and
-- `cited` (`label`) is the corresponding bibliography entry label, which can be constructed
-  through:
 
-`label("bib-key")`, where `bib-key` is the bibliographic entry key, in the bibliography database
---- whether `bibTeX` or `Hayagriva`.
+Common optional (named) arguments include:
 
-## Higher-Level Example
+- `version` (`string` or `content`) is a translation identifier, such as `"LXX"`, or `[KJV]`; and
+- `cited` (`content`) is the corresponding bibliography entry label, which can be constructed
+  through: `[@KJV]`.
 
-```typst
-#set page(paper: "a7", fill: rgb("#eec"))
-#import "@preview/blindex:0.1.0": *
+## Examples
 
-The Septuagint (LXX) starts with #iQuot([ΕΝ ἀρχῇ ἐποίησεν ὁ Θεὸς τὸν οὐρανὸν καὶ τὴν γῆν.],
-"Gen", "en", [1.1], "LXX", label("2012-LXX-SBB")).
-
-#pagebreak()
-
-Moreover, the book of Odes begins with: #iQuot([ᾠδὴ Μωυσέως ἐν τῇ ἐξόδῳ], "Ode", "en", [1.0],
-"LXX", label("2012-LXX-SBB")).
-
-#pagebreak()
-
-= Biblical Citations
-Books are sorted following the LXX ordering.
-
-#mkIndex(cols: 1, sorting-tradition: "LXX")
-
-#pagebreak()
-
-#bibliography("test-01-readme.yml", title: "References", style: "ieee")
-```
-
-The listing of the bibliography file, `test-01-readme.yml`, as shown in the example, is:
-
-```yml
-2012-LXX-SBB:
-  type: book
-  title:
-    value: "Septuaginta: Edição Acadêmica Capa dura – Edição de luxo"
-    sentence-case: "Septuaginta: edição acadêmica capa dura – edição de luxo"
-    short: Septuaginta
-  publisher: Sociedade Bíblica do Brasil, SBB
-  editor: Rahlfs, Alfred
-  affiliated:
-    - role: collaborator
-      names: [ "Hanhart, Robert", ]
-  pages: 2240
-  date: 2012-01-11
-  edition: 1
-  ISBN: 978-3438052278
-  language: el
-```
-
-This example results in a 4-page document like this one:
-
-![Compiled Higher-Level
-Example](https://github.com/cnaak/blindex.typ/blob/55d275e4fdab1f47c13e1fe01cbb2b397de5e0fb/thumbnail.png)
+The `test` directory contains a couple of tests/examples that showcase in greater detail the
+package's possiblities.
 
 ## Citing
 
@@ -163,7 +122,7 @@ blindex-package:
     value: "Blindex: Index-making of Biblical literature citations in Typst"
     short: "Blindex: Index-making in Typst"
   url: https://github.com/cnaak/blindex.typ
-  version: 0.1.0
-  date: 2024-08
+  version: 0.2.0
+  date: 2026-02
 ```
 

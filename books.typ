@@ -9,7 +9,7 @@
 
 // Book's unique ID dictionary:
 // "full-english-name": unique integer ID
-#let bUID = (
+#let buid = (
   // 10.00 - Pentateuch
   "Genesis":                    1001,
   "Exodus":                     1002,
@@ -113,7 +113,7 @@
 
 // Create the reverse dictionary
 #let iBoo = (:)
-#for KV in bUID.pairs() {
+#for KV in buid.pairs() {
   iBoo.insert(str(KV.at(1)), KV.at(0))
 }
 
@@ -205,7 +205,7 @@
 //····························································································//
 
 // "code" scheme
-#bSort.insert("code", bUID.values().sorted())
+#bSort.insert("code", buid.values().sorted())
 
 
 //····························································································//

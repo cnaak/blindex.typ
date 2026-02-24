@@ -58,7 +58,7 @@
     ))<bl_index>]
 
 // Index making. {BSS} is the Book Sorting Scheme, a key of the {bSort} dict, defined at
-// "./books.typ" and written to <metadata>.<bl_index>.<instance>.at(i).at(bUID).DATA.SORT
+// "./books.typ" and written to <metadata>.<bl_index>.<instance>.at(i).at(buid).DATA.SORT
 #let mkIndex(lang: "en-3",
   cols: 1, gutter: 8pt, wgt: (bk: "bold", tx: "regular", pg: "extrabold"), pattern: [.],
   merged-book-headings-full: true, mbhf-join: (" / ",),

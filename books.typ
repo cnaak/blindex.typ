@@ -213,11 +213,11 @@
 //····························································································//
 
 // "LXX" scheme
-#let tmpLXX = ()
+#let tmp-lxx = ()
 #for val in bsort.at("code") {
-  if (val < 1400) or ((val > 3000) and (val < 5000)) { tmpLXX.push(val) }
+  if (val < 1400) or ((val > 3000) and (val < 5000)) { tmp-lxx.push(val) }
 }
-#bsort.insert("LXX", tmpLXX)
+#bsort.insert("LXX", tmp-lxx)
 
 
 //····························································································//

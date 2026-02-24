@@ -202,10 +202,10 @@
 }
 
 // "block" Quoting of Biblical Literature
-#let bQuot(body, abrv, lang, pssg, version: none, cite: none, qlang: "en", clang: "en",
-           quo: (fmt: pkg-pars.fmt.quo, bkg: none, quo: pkg-pars.quo, opq: [], clq: []),
-           cit: (fmt: pkg-pars.fmt.cit, ),
-           blk: (wid: 90%, ins: 4pt, bkg: pkg-pars.bkg.quo, cit: pkg-pars.bkg.cit)) = {
+#let bq(body, abrv, lang, pssg, version: none, cite: none, qlang: "en", clang: "en",
+        quo: (fmt: pkg-pars.fmt.quo, bkg: none, quo: pkg-pars.quo, opq: [], clq: []),
+        cit: (fmt: pkg-pars.fmt.cit, ),
+        blk: (wid: 90%, ins: 4pt, bkg: pkg-pars.bkg.quo, cit: pkg-pars.bkg.cit)) = {
   align(center,
     stack(dir: ttb,
       block(width: blk.wid, fill: blk.bkg, inset: blk.ins,

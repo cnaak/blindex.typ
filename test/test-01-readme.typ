@@ -21,7 +21,7 @@
 
 // Custom package functions
 #let iQ = iq.with(quo: CFG.quo, cit: CFG.cit)
-#let bQ = bQuot.with(quo: CFG.quo, cit: CFG.CIT)
+#let bQ = bq.with(quo: CFG.quo, cit: CFG.CIT)
 
 // Bibliography data
 #let bib = ```
@@ -165,13 +165,13 @@ clq: [])) --- note the absence of opening and closing quotes due to the `quo.opq
 Block quotations, for "displayed" blocks of biblical citations are available through the
 
 ```typst
-#bQuot(body, abrv, lang, pssg[, options])
+#bq(body, abrv, lang, pssg[, options])
 ```
 
 function, which has a similar syntax as it's inline couterpart, and some block-related
 additional option arguments. A plain example is:
 
-#bQuot([For there is one God, and one mediator between God and men, the man Christ Jesus;
+#bq([For there is one God, and one mediator between God and men, the man Christ Jesus;
 Who gave himself a ransom for all, to be testified in due time.], "1Ti", "en-3", [2:5,6],
 version: "KJV", cite: [@KJV])
 
@@ -179,7 +179,7 @@ As blocks of text are usually meant for larger portions, such as paragraphs or p
 convenience function ```typst #ver()``` is also provided for conveninent verse-number
 formatting:
 
-#bQuot([#ver(18)For the wrath of God is revealed from heaven against all ungodliness and
+#bq([#ver(18)For the wrath of God is revealed from heaven against all ungodliness and
 unrighteousness of men, who hold the truth in unrighteousness; #ver(20)For the invisible
 things of him from the creation of the world are clearly seen, being understood by the
 things that are made, even his eternal power and Godhead; so that they are without excuse:
@@ -200,7 +200,7 @@ understood and interpreted based on the exact way it was spoken.
 Here's the text with the relevant phrase highlighted (formatted without verse numbers and
 with default options):
 
-#bQuot([ἐὰν δὲ μὴ γένηται, ἐν τῷ λαλῆσαι αὐτὸν ἐν τῷ ὀνόματι κυρίου, οὐκ ἐκείνου λαλήσαντος,
+#bq([ἐὰν δὲ μὴ γένηται, ἐν τῷ λαλῆσαι αὐτὸν ἐν τῷ ὀνόματι κυρίου, οὐκ ἐκείνου λαλήσαντος,
 ἐν τῷ *ὁμοίως λαλήσαντι*, ἀπαρχὴ ἐν τῷ λαλεῖν αὐτὸν, ἀπαρχὴ ἐν τῷ μὴ ἀληθεῦσαι τὸν λόγον
 αὐτοῦ, ἐν τῷ λαλῆσαι αὐτὸν ἐν τῷ ὀνόματι κυρίου.], "Deut", "en-logos", [18:22], version:
 "LXX", quo: (fmt: (font: "Alegreya", style: "italic"), opq: [], clq: []), blk: (wid: 90%,
@@ -215,7 +215,7 @@ stated," without introducing arbitrary flexibility or vagueness.
 
 The main point of the package is to enable the _automatic generation of a biblical
 literature citation index_, once all the citations have been made with the `#iq` and
-`#bQuot` functions, irrespective of whether or not `#ver()` has been used. This is simply
+`#bq` functions, irrespective of whether or not `#ver()` has been used. This is simply
 accomplished by calling the following function:
 
 ```typst

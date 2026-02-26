@@ -106,8 +106,8 @@
   "3210": ("S3Y", "Song of 3 Young Men"),
 
   // 51.00 - Other OT Apocripha (not in the LXX)
-  "5101": ("3Es", "3 Esdras"),
-  "5102": ("4Es", "4 Esdras"),
+  "5101": ("3ES", "3 Esdras"),
+  "5102": ("4ES", "4 Esdras"),
   "5103": ("MAN", "Prayer of Manasseh"),
 
   // 71.00 - Deuterocanon (extended, from Unified Scripture XML)

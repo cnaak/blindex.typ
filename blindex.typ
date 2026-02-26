@@ -59,19 +59,18 @@
 
 // Index making. {BSS} is the Book Sorting Scheme, a key of the {bsort} dict, defined at
 // "./books.typ" and written to <metadata>.<bl_index>.<instance>.at(i).at(buid).DATA.SORT
-#let mk-index(lang: "en-3",
-  cols: 1, gutter: 8pt, wgt: (bk: "bold", tx: "regular", pg: "extrabold"), pattern: [.],
+#let mk-index(lang: "en-USX", sorting-tradition: "en-USX",
+  cols: 2, gutter: 8pt, wgt: (bk: "bold", tx: "regular", pg: "extrabold"), pattern: [.],
   merged-book-headings-full: true, mbhf-join: (" / ",),
-  sorting-tradition: "Oecumenic-Bible", exclude-missing: false,
 ) = context {
-  let BIG  =  100000
-  let HUGE = 1000000
+  let BIG  =  10000   // just above highest buid number, which is 9999
+  let HUGE = 100000   // an order of magnitude (base 10) above BIG
   let idxDict = (:)
   let rawList = query(<bl_index>) // An array of metadata
   for __e in rawList { // __e is a metadata entry
     let __r = __e.value // __r is the record placed by blindex(...)
     let booSort = __r.DATA.at(0).SORT.at(sorting-tradition)
-    if (not exclude-missing) or (booSort != none) {
+    if booSort != none {
       let booHArr = () // Most generic book heading (as some are mergings)
       if (__r.DATA.len() > 1) and (merged-book-headings-full) { // Merged book display
         for __d in __r.DATA {
@@ -179,7 +178,7 @@
 }
 
 // "line" Citation of Biblical Literature
-#let lc(abrv, lang, pssg, version: none, cite: none,
+#let lc(abrv, pssg, lang: "en-USX", version: none, cite: none,
         lan: "en",
         fmt: pkg-pars.fmt.cit,
         sep: [ ---]) = {
@@ -193,7 +192,7 @@
 }
 
 // "inline" Quoting of Biblical Literature
-#let iq(body, abrv, lang, pssg, version: none, cite: none, qlang: "en", clang: "en",
+#let iq(body, abrv, pssg, lang: "en-USX", version: none, cite: none, qlang: "en", clang: "en",
         quo: (fmt: pkg-pars.fmt.quo, bkg: pkg-pars.bkg.quo, quo: pkg-pars.quo, opq: ["], clq: ["]),
         cit: (fmt: pkg-pars.fmt.cit, )) = {
   rq(body, lan: qlang, ..quo)
@@ -202,7 +201,7 @@
 }
 
 // "block" Quoting of Biblical Literature
-#let bq(body, abrv, lang, pssg, version: none, cite: none, qlang: "en", clang: "en",
+#let bq(body, abrv, pssg, lang: "en-USX", version: none, cite: none, qlang: "en", clang: "en",
         quo: (fmt: pkg-pars.fmt.quo, bkg: none, quo: pkg-pars.quo, opq: [], clq: []),
         cit: (fmt: pkg-pars.fmt.cit, ),
         blk: (wid: 90%, ins: 4pt, bkg: pkg-pars.bkg.quo, cit: pkg-pars.bkg.cit)) = {

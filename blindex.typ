@@ -59,7 +59,7 @@
 
 // Index making. {BSS} is the Book Sorting Scheme, a key of the {bsort} dict, defined at
 // "./books.typ" and written to <metadata>.<bl_index>.<instance>.at(i).at(buid).DATA.SORT
-#let mk-index(lang: "en-USX", sorting-tradition: "en-USX",
+#let mk-index(lang: "en-USX"
   cols: 2, gutter: 8pt, wgt: (bk: "bold", tx: "regular", pg: "extrabold"), pattern: [.],
   merged-book-headings-full: true, mbhf-join: (" / ",),
 ) = context {
@@ -69,7 +69,7 @@
   let rawList = query(<bl_index>) // An array of metadata
   for __e in rawList { // __e is a metadata entry
     let __r = __e.value // __r is the record placed by blindex(...)
-    let booSort = __r.DATA.at(0).SORT.at(sorting-tradition)
+    let booSort = __r.DATA.at(0).SORT.at(lang)
     if booSort != none {
       let booHArr = () // Most generic book heading (as some are mergings)
       if (__r.DATA.len() > 1) and (merged-book-headings-full) { // Merged book display

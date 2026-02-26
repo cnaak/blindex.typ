@@ -114,7 +114,7 @@
   "Apocalypse of Ezra":         7102,
   "5 Ezra":                     7103,
   "6 Ezra":                     7104,
-  "Daniel Greek":               7105,
+  "Daniel (Greek)":             7105,
   "Psalms 152–155":             7106,
   "2 Baruch (Apocalypse)":      7107,
   "Letter of Baruch":           7108,

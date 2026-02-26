@@ -9,8 +9,24 @@
 //                                    Book Info Retrieving                                    //
 //============================================================================================//
 
+// valid abbreviation of a given language-tradition
+#let abrv-of(lang) = {
+  for KV in ldict.pairs() { (KV.at(1).at(lang).at(0),) }
+}
+
 // abrv to dict -> dict
 #let a2d(abrv, lang) = {
+  // abrv in lang assertion
+  let valid-abrv = abrv-of(lang)
+  let error-msg = (
+    "book abbreviation not found",
+    "abbreviation...: '" + abrv + "'",
+    "language.......: '" + lang + "'",
+    "valid '" + lang + "' abbreviations are:",
+    "\"" + valid-abrv.join("\", \"") + "\"",
+  ).join("\n")
+  assert(valid-abrv.contains(abrv), message: error-msg)
+  // normal processing
   let ret = ()
   for (KEY, VALUE) in ldict {
     let VAL = (abbr: VALUE.at(lang).at(0), full: VALUE.at(lang).at(1))
@@ -196,7 +212,7 @@
         quo: (fmt: pkg-pars.fmt.quo, bkg: pkg-pars.bkg.quo, quo: pkg-pars.quo, opq: ["], clq: ["]),
         cit: (fmt: pkg-pars.fmt.cit, )) = {
   rq(body, lan: qlang, ..quo)
-  lc(abrv, lang, pssg, version: version, cite: cite, lan: clang, ..cit)
+  lc(abrv, pssg, lang: lang, version: version, cite: cite, lan: clang, ..cit)
   blindex(abrv, lang, pssg)
 }
 
@@ -210,7 +226,7 @@
       block(width: blk.wid, fill: blk.bkg, inset: blk.ins,
             align(left)[#rq(body, ..quo)]),
       block(width: blk.wid, fill: blk.cit, inset: blk.ins,
-            align(right)[#lc(abrv, lang, pssg, version: version, cite: cite, ..cit, sep: [])]),
+            align(right)[#lc(abrv, pssg, lang: lang, version: version, cite: cite, ..cit, sep: [])]),
       blindex(abrv, lang, pssg)
     )
   )

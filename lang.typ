@@ -16,7 +16,8 @@
 #for K in iboo.keys() { ldict.insert(K, (:)) }
 
 #let lang-paths = (
-  "lang/en/en-3.typ",         // Default, 3-char English, "en-3", language
+  "lang/en/en-USX.typ",       // English, Unified Scripture XML (USX), "en-USX", language
+  "lang/en/en-3.typ",         // English, 3-char English, "en-3", language
   "lang/en/en-logos.typ",     // English, Logos bible, "en-logos", language
   "lang/pt/pt-ARC-1911.typ",  // Portuguese, Almeida Revista e Corrigida, 1911
   "lang/pt/br-pro.typ",       // Brazilian Portuguese, Protestant, "br-pro", language

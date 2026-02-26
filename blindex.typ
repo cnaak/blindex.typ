@@ -112,6 +112,8 @@
       }
     }
   }
+  [#rawList]
+  [#idxDict]
   let sorKeys = idxDict.keys().sorted()
   columns(cols, gutter: gutter)[
     #for SK in sorKeys {

@@ -128,7 +128,7 @@ quoting functions, simply call the `mk-index` function, as in:
 where the `block` is added as Typst doesn't yet provide automatic multicolumn balancing, which
 renders as
 
-#block(width: 100%, height: 8cm)[
-  #mk-index(lang: "en-3", cols: 2, sorting-tradition: "USX")
-]
+//#block(width: 100%, height: 8cm)[
+  #mk-index(lang: "en-3", cols: 2, sorting-tradition: "Oecumenic-Bible")
+//]
 

@@ -37,18 +37,33 @@ biblical literature quotations are facilitated through _inline_ and _block_ quot
 which have the same mandatory (positional) arguments:
 
 ```typst
-#iq(body, abrv, lang, pssg) // for indexed inline quotes
-#bq(body, abrv, lang, pssg) // for indexed block (displayed) quotes
+#iq(body, abrv, pssg) // for indexed inline quotes
+#bq(body, abrv, pssg) // for indexed block (displayed) quotes
 ```
 
 The
-```typst #iq([…], "Psa", "en-3", [23:1])```
-function call renders as #iq([The LORD is my shepherd; I shall not want.], "Psa",
-"en-3", [23:1]) (book chapter:verse included), while the
-```typst #iq([…], "1Ma", "en-3", [1:10])```
+```typst #iq([The #smallcaps[Lord] is my...], "PSA", [23:1])```
+function call renders as #iq([The #smallcaps[Lord] is my shepherd; I shall not want.], "PSA",
+[23:1]) (book chapter:verse included), while the
+```typst #iq([And there...], "1MA", [1:10])```
 output renders as #bq([And there came out of them a wicked root Antiochus surnamed Epiphanes,
 son of Antiochus the king, who had been an hostage at Rome, and he reigned in the hundred and
-thirty and seventh year of the kingdom of the Greeks.], "1Ma", "en-3", [1:10])
+thirty and seventh year of the kingdom of the Greeks.], "1MA", [1:10])
+
+== Biblical Literature Abbreviations
+
+The `abrv` argument is an abbreviation used to uniquely define the biblical literature source.
+In the first example, `"PSA"` resolved to the book of Psalms. Abbreviations vary with language
+and tradition, specified by the optional `lang` parameter, whose default value is `"en-USX"`,
+which stands for the English-USX#footnote[USX is the Unified Scripture XML] language-tradition
+pair. The function `abrv-of(lang)` returns an array of valid `lang` abbreviations. For
+`"en-USX"`, one has:
+
+#{
+  set par(justify: false)
+  set text(font: "Atkinson Hyperlegible Mono", size: 6pt)
+  abrv-of("en-USX").join(", ")
+}
 
 = Common Options
 
@@ -56,16 +71,16 @@ In order to include the source version along with the quote, simply pass the opt
 named argument to the quoting functions, while proper bibliography citation is facilitated by
 the optional `cite` argument, as in #iq([For thus saith the #smallcaps[Lord] of hosts; Yet once,
 it is a little while, and I will shake the heavens, and the earth, and the sea, and the dry
-_land_;], "Hag", "en-3", [2:6], version: [KJV], cite: [@KJV]).
+_land_;], "HAG", [2:6], version: [KJV], cite: [@KJV]).
 
 Source quote language is facilitated by the optional `qlang` argument, as in #iq([Au
-acommencement, Dieu créa les cieux et la terre.], "Gen", "en-3", [1:1], cite: [@LSG], qlang:
-"fr"). By default, `blindex` uses Typst `smartquotes`, which causes the quotes to adapt to the
-passed `qlang: "fr"` argument.
+commencement, Dieu créa les cieux et la terre.], "GEN", [1:1], cite: [@LSG], qlang: "fr"). By
+default, `blindex` uses Typst `smartquotes`, which causes the quotes to adapt to the passed
+`qlang: "fr"` argument.
 
 Moreover, rendering of verse numbers in block quotes is facilitated by the `#ver()` function, as
 in #bq([#ver(1)Adam, Sheth, Enosh, #ver(2)Kenan, Mahalaleel, Jered, #ver(3)Henoch, Methuselah,
-Lamech, #ver(4)Noah, Shem, Ham, and Japheth.], "1Ch", "en-3", [1:1--4])
+Lamech, #ver(4)Noah, Shem, Ham, and Japheth.], "1CH", [1:1--4])
 
 = Customizing
 
@@ -83,8 +98,7 @@ overwritten if given the same original names) as:
         fmt: (font: "Noto Sans", size: 0.8em, style: "italic", fill: olive)))
 
 Then, the customized `IQ` function produces #IQ([And saying, Repent ye: for the kingdom of
-heaven is at hand.], "Mat", "en-3", [3:2], version: [KJV]).  Moreover, with the following
-definition:
+heaven is at hand.], "MAT", [3:2], version: [KJV]).  Moreover, with the following definition:
 
 ```typst
 #let BQ = bq.with(
@@ -96,7 +110,7 @@ definition:
 the customized `BQ` function renders as
 
 #BQ([Behold, I come quickly: blessed is he that keepeth the sayings of the prophecy of this
-book.], "Rev", "en-3", [22:7])
+book.], "REV", [22:7])
 
 #bibliography(bytes(bib.text), title: "References", style: "turabian-fullnote-8")
 
@@ -107,14 +121,14 @@ quoting functions, simply call the `mk-index` function, as in:
 
 ```typst
 #block(width: 100%, height: 4cm)[
-  #mk-index(lang: "en-3", cols: 2, sorting-tradition: "Oecumenic-Bible")
+  #mk-index(cols: 2, sorting-tradition: "USX")
 ]
 ```
 
 where the `block` is added as Typst doesn't yet provide automatic multicolumn balancing, which
 renders as
 
-#block(width: 100%, height: 4cm)[
-  #mk-index(lang: "en-3", cols: 2, sorting-tradition: "Oecumenic-Bible")
+#block(width: 100%, height: 8cm)[
+  #mk-index(lang: "en-3", cols: 2, sorting-tradition: "USX")
 ]
 

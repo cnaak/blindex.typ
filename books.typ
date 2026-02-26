@@ -105,12 +105,12 @@
   "Susanna":                    3208,
   "Bel and the Dragon":         3209,
   "Song of Three Youths":       3210,
-  // 51.00 - Other OT Apocripha (in some Orthodox, but not in the LXX)
+  // 51.00 - Other OT Apocripha (in some Œcumenic)
   "3 Esdras":                   5101,
   "4 Esdras":                   5102,
   "Prayer of Manasseh":         5103,
-  // 71.00 - Deuterocanon (extended, from USX, Unified Scripture XML)
-  "2 Esdras":                   7101,
+  // 71.00 - Deuterocanon (extended, from Unified Scripture XML)
+  "2 Esdras (Latin)":           7101,
   "Apocalypse of Ezra":         7102,
   "5 Ezra":                     7103,
   "6 Ezra":                     7104,
@@ -126,7 +126,7 @@
   "Reproof":                    7114,
   "4 Baruch":                   7115,
   "Laodiceans":                 7116,
-  // 99.00 - Non scripture (USX, Unified Scripture XML)
+  // 99.00 - Non scripture (Unified Scripture XML)
   "Extra A":                    9901,
   "Extra B":                    9902,
   "Extra C":                    9903,
@@ -195,7 +195,7 @@
   "OT-TOB-Deuterocanonical":
     (3210, 3208, 3209, 3108, 3102, 3103, 3104, 3105, 3203, 3204, 3206, 3207, 5101, 5102, 3106,
     3107, 5103, 3201,),
-  // THE NEW TESTAMENT - same for all 5 considered traditions
+  // THE NEW TESTAMENT - same for all considered traditions
   "Gospels":
     (1401, 1402, 1403, 1404,),
   "Acts":
@@ -206,6 +206,18 @@
     (1701, 1702, 1703, 1704, 1705, 1706, 1707,),
   "Revelation":
     (1801,),
+  // DEUTEROCANON USX
+  "USX-Deuterocanon":
+    (3103, 3102, 3108, 3203, 3204, 3206, 3207, 3210, 3208, 3209, 3104, 3105, 3106, 3107, 3101,
+    7101, 5103, 3201, 3202, 3205, 7102, 7103, 7104, 7105, 7106, 7107, 7108, 7109, 7110, 7111,
+    7112, 7113, 7114, 7115, 7116),
+  // EXTENDED DEUTEROCANON USX
+  "USX-Extended":
+    (7101, 7102, 7103, 7104, 7105, 7106, 7107, 7108, 7109, 7110, 7111, 7112, 7113, 7114, 7115,
+    7116,),
+  // NON-SCRIPTURE USX
+  "USX-Non-Scripture":
+    (9901, 9902, 9903, 9904, 9905, 9906, 9907, 9908, 9909, 9910, 9911, 9912, 9913, 9914, 9915,),
 )
 
 // HEBREW OT CANON
@@ -248,7 +260,7 @@
 // "LXX" scheme
 #let tmp-lxx = ()
 #for val in bsort.at("code") {
-  if (val < 1400) or ((val > 3000) and (val < 5000)) { tmp-lxx.push(val) }
+  if (val < 1400) or ((val > 3000) and (val <= 3299)) { tmp-lxx.push(val) }
 }
 #bsort.insert("LXX", tmp-lxx)
 
@@ -338,4 +350,16 @@
   p-ord.at("New-Testament")
 ).flatten())
 
+//····························································································//
+//                                            USX                                             //
+//····························································································//
+
+// "USX" scheme
+#let tmp-usx = ()
+#bsort.insert("USX", (
+  bsort.at("Protestant-Bible") +
+  p-ord.at("USX-Deuterocanon") +
+  p-ord.at("USX-Non-Scripture")
+).flatten())
+#bsort.insert("USX", tmp-usx)
 

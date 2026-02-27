@@ -14,8 +14,7 @@
   for KV in ldict.pairs() { (KV.at(1).at(lang).at(0),) }
 }
 
-// abrv to dict -> dict
-#let a2d(abrv, lang) = {
+#let a2d(abrv, lang: "en-USX") = {
   // abrv in lang assertion
   let valid-abrv = abrv-of(lang)
   let error-msg = (
@@ -27,35 +26,21 @@
   ).join("\n")
   assert(valid-abrv.contains(abrv), message: error-msg)
   // normal processing
-  let ret = ()
-  for (KEY, VALUE) in ldict {
-    let VAL = (abbr: VALUE.at(lang).at(0), full: VALUE.at(lang).at(1))
-    if abrv == VAL.abbr {
-      let SRT = (:)
-      let BID = int(KEY)
-      for SS in bsort.keys() {
-        let DB = bsort.at(SS)
-        let IDX = none
-        for idx in range(DB.len()) {
-          if DB.at(idx) == BID {
-            IDX = idx
-            break
-          }
-        }
-        SRT.insert(SS, IDX)
-      }
-      ret.push((
-          "BUID": KEY,            // Book's unique ID
-          "lang": lang,           // Query's used {lang}
-          "abrv": VAL.abbr,       // Query's used {abrv}
-          "full": VAL.full,       // Book's full name
-          "STDN": iboo.at(KEY),   // Book's Standard Name (English)
-          "SORT": SRT,            // Book's index in existing sorting schemes
-        )
-      )
+  let aarr = for (K, V) in ldict.pairs() {((..V.values().at(0), K),)}
+  let match = (..aarr.filter(x => x.at(0) == abrv),)
+  return for M in match {
+    let SORT = for P in bsort.pairs() {
+      (P.at(0): P.at(1).position(x => x == int(M.at(2))))
     }
+    ((
+      "abrv": M.at(0),
+      "full": M.at(1),
+      "BUID": M.at(2),
+      "lang": lang,
+      "STDN": iboo.at(M.at(2)),
+      "SORT": SORT,
+    ),)
   }
-  return ret
 }
 
 
@@ -65,10 +50,10 @@
 
 // Biblical Literature Indexing
 // The declaration spacing is to avoid spurious spacings in the document
-#let blindex(abrv, lang, entry) = context [#metadata((
+#let blindex(abrv, entry, lang: "en-USX") = context [#metadata((
       ABRV: abrv,
       LANG: lang,
-      DATA: a2d(abrv, lang),
+      DATA: a2d(abrv, lang: lang),
       ENTR: entry,
       WHRE: here().position(),
     ))<bl_index>]
@@ -112,8 +97,6 @@
       }
     }
   }
-  [#rawList]
-  [#idxDict]
   let sorKeys = idxDict.keys().sorted()
   columns(cols, gutter: gutter)[
     #for SK in sorKeys {
@@ -202,10 +185,10 @@
         sep: [ ---]) = {
   set text(lang: lan)
   if version == none {
-    text(..fmt)[#sep~#a2d(abrv, lang).at(0).full~#pssg#{if cite != none [ #cite]}]
+    text(..fmt)[#sep~#a2d(abrv, lang: lang).at(0).full~#pssg#{if cite != none [ #cite]}]
   }
   else {
-    text(..fmt)[#sep~#a2d(abrv, lang).at(0).full~#pssg (#version#{if cite != none [ #cite]})]
+    text(..fmt)[#sep~#a2d(abrv, lang: lang).at(0).full~#pssg (#version#{if cite != none [ #cite]})]
   }
 }
 
@@ -215,7 +198,7 @@
         cit: (fmt: pkg-pars.fmt.cit, )) = {
   rq(body, lan: qlang, ..quo)
   lc(abrv, pssg, lang: lang, version: version, cite: cite, lan: clang, ..cit)
-  blindex(abrv, lang, pssg)
+  blindex(abrv, pssg, lang: lang)
 }
 
 // "block" Quoting of Biblical Literature
@@ -229,7 +212,7 @@
             align(left)[#rq(body, ..quo)]),
       block(width: blk.wid, fill: blk.cit, inset: blk.ins,
             align(right)[#lc(abrv, pssg, lang: lang, version: version, cite: cite, ..cit, sep: [])]),
-      blindex(abrv, lang, pssg)
+      blindex(abrv, pssg, lang: lang)
     )
   )
 }

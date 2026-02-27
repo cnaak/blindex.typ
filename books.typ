@@ -355,11 +355,9 @@
 //····························································································//
 
 // "USX" scheme
-#let tmp-usx = ()
 #bsort.insert("USX", (
   bsort.at("Protestant-Bible") +
   p-ord.at("USX-Deuterocanon") +
   p-ord.at("USX-Non-Scripture")
 ).flatten())
-#bsort.insert("USX", tmp-usx)
 

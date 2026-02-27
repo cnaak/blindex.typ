@@ -120,15 +120,16 @@ Once all the biblical literature indexing have been made, either manually or aid
 quoting functions, simply call the `mk-index` function, as in:
 
 ```typst
-#block(width: 100%, height: 4cm)[
-  #mk-index(cols: 2, sorting-tradition: "USX")
+#block(width: 100%, height: 3cm)[
+  #mk-index(lang: "en-USX", sorting-tradition: "Oecumenic-Bible", cols: 3)
 ]
 ```
 
 where the `block` is added as Typst doesn't yet provide automatic multicolumn balancing, which
 renders as
 
-//#block(width: 100%, height: 8cm)[
-  #mk-index(lang: "en-3", cols: 2, sorting-tradition: "Oecumenic-Bible")
-//]
+#block(width: 100%, height: 3cm)[
+  #mk-index(lang: "en-USX", sorting-tradition: "Oecumenic-Bible", cols: 3)
+]
+
 

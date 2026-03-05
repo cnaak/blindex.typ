@@ -1,6 +1,6 @@
 #import "@preview/tidy:0.4.3": *
 
-#set page(paper: "a4", margin: 20mm)
+#set page(width: 190mm, height: 300mm, margin: 20mm)
 #set par(justify: true)
 #set text(font: "Libertinus Serif", size: 10pt)
 

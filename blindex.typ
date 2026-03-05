@@ -160,7 +160,7 @@
   /// such tradition, one can be referring to either book in another tradition. Therefore, if
   /// this argument is `true`, all possible book names will appear joined in a single entry, as
   /// in: "Baruch / Letter of Jeremiah"; otherwise, only the first one: "Baruch". -> bool
-  merged-book-headings-full: true,
+  merged-book-headings-full: false,
   /// The book merging arguments for `join`. The entry `at(0)` is the positional argument for
   /// `join`, while optional entry `at(1)` is the named `last` argument for `join` -> array
   mbhf-join: (" / ",),
@@ -176,7 +176,7 @@
       let booHArr = () // Most generic book heading (as some are mergings)
       if (__r.DATA.len() > 1) and (merged-book-headings-full) { // Merged book display
         for __d in __r.DATA {
-          booHArr.push(__d.full)
+          booHArr.push(ldict.at(__r.DATA.at(0).BUID).at(lang).at(1))
         }
       } else { // Single book display
         booHArr.push(ldict.at(__r.DATA.at(0).BUID).at(lang).at(1))
@@ -198,7 +198,6 @@
       }
     }
   }
-  [#idxDict]
   let sorKeys = idxDict.keys().sorted()
   columns(cols, gutter: gutter)[
     #for SK in sorKeys {

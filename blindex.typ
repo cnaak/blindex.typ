@@ -73,7 +73,7 @@
   ).join("\n")
   assert(valid-abrv.contains(abrv), message: error-msg)
   // normal processing
-  let aarr = for (K, V) in ldict.pairs() {((..V.values().at(0), K),)}
+  let aarr = for (K, V) in ldict.pairs() {((..V.at(lang), K),)}
   let match = (..aarr.filter(x => x.at(0) == abrv),)
   return for M in match {
     let SORT = for P in bsort.pairs() {

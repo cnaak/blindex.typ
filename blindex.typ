@@ -149,7 +149,7 @@
   cols: 2,
   /// The `gutter` argument for the `#columns` function call -> length
   gutter: 8pt,
-  /// Book-Text-Page for font weights customizations -> dict
+  /// Book-Text-Page for font weights customizations -> dictionary
   wgt: (bk: "bold", tx: "regular", pg: "extrabold"),
   /// Index leaders' pattern -> content
   pattern: [.],
@@ -266,7 +266,11 @@
 ///
 /// === Examples
 /// ```example
-/// #text(font: "Libertinus Serif")[#ver(1)In the beginning...]
+/// #block(width: 80mm)[
+///   #text(font: "Libertinus Serif")[
+///     #ver(1)In the beginning God created the heavens and the earth.
+///   ]
+/// ]
 /// ```
 ///
 /// -> content
@@ -274,7 +278,7 @@
   /// The verse mark to render -> int | string | content
   body,
   /// The list of formatting named args that can be passed to a ```typst #set text(..fmt)``` or a
-  /// ```typst #text(..fmt)``` function call -> dict
+  /// ```typst #text(..fmt)``` function call -> dictionary
   fmt: pkg-pars.fmt.ver,
   /// The contents added meant for spacing between the rendered verse mark and the following
   /// contents in the calling context.
@@ -285,7 +289,59 @@
   box(baseline: fmt.size - 0.85em)[#text(..fmt)[#body#spc]]
 }
 
-// "raw" Quoting of Biblical Literature
+/// Bare but consistent rendering of provided biblical literature excerpts. This is meant to be
+/// used directly only when repeating parts of an recently quoted passage (so as to forfeit
+/// immediate book-chapter-verse[-citations] etc... re-renderings); however, internally and
+/// indirectly, this function is called from every other passage-quoting functions.
+///
+/// === Examples
+///
+/// With default arguments:
+///
+/// ```example
+/// #block(width: 80mm)[
+///   #text(font: "Libertinus Serif")[
+///     we've seen that
+///     #q-bare([all kindreds of the earth
+///       shall wail because of him]),
+///     (speaking of Jesus), therefore...
+///   ]
+/// ]
+/// ```
+///
+/// With styling arguments:
+///
+/// ```example
+/// #block(width: 80mm)[
+///   #text(font: "Libertinus Serif")[
+///     when scripture affirms
+///     #q-bare(
+///       [all kindreds],
+///       fmt: (style: "italic"),
+///       bkg: none),
+///     none is excluded...
+///   ]
+/// ]
+/// ```
+///
+/// -> content
+#let q-bare(
+  /// The excerpt or passage to be consistently rendered -> content
+  body,
+  /// The excerpt's language, to be passed as argument to the internal `#text` function
+  /// -> string
+  lan: "en",
+  /// Text formatting directives, used as ```typst #text(..fmt)```
+  /// -> dictionary
+  fmt: pkg-pars.fmt.quo,
+  /// Highlight (background) formatting directives that feed the internal call to the
+  /// `#highlight`'s `fill` function
+  /// -> dictionary
+  bkg: pkg-pars.bkg.quo,
+) = {
+  [#highlight(fill: bkg, text(..fmt)[#body])]
+}
+
 #let rq(body,
         lan: "en",
         fmt: pkg-pars.fmt.quo,

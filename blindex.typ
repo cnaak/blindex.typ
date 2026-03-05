@@ -9,7 +9,7 @@
 //                                    Book Info Retrieving                                    //
 //============================================================================================//
 
-/// Returns valid language-traditions for the `lang` parameter of user-facing functions
+/// Returns valid language-traditions for the `lang` named parameters of user-facing functions
 ///
 /// === Examples
 /// ```example
@@ -26,7 +26,7 @@
 }
 
 /// Returns valid biblical literature book sorting traditions, for the `sorting-tradition`
-/// argument of the @mk-index function.
+/// named arguments of user-facing functions like @mk-index.
 ///
 /// === Examples
 /// ```example
@@ -42,7 +42,7 @@
   return bsort.keys()
 }
 
-/// Returns valid book abbreviations for a language-tradition
+/// Returns valid book abbreviations for the `abrv` parameters of user-facing functions
 ///
 /// === Examples
 /// ```example
@@ -55,7 +55,7 @@
 ///
 /// -> array
 #let get-books(
-  /// The language-tradition (see @get-langs) -> string
+  /// The language-tradition for which to retrieve book abbreviations (see @get-langs) -> string
   lang
 ) = {
   for KV in ldict.pairs() { (KV.at(1).at(lang).at(0),) }
@@ -262,7 +262,26 @@
 //                                      Quote Functions                                       //
 //--------------------------------------------------------------------------------------------//
 
-#let ver(body, fmt: pkg-pars.fmt.ver, spc: [#h(0.2em)]) = {
+/// Verse number formatting function
+///
+/// === Examples
+/// ```example
+/// #text(font: "Libertinus Serif")[#ver(1)In the beginning...]
+/// ```
+///
+/// -> content
+#let ver(
+  /// The verse mark to render -> int | string | content
+  body,
+  /// The list of formatting named args that can be passed to a ```typst #set text(..fmt)``` or a
+  /// ```typst #text(..fmt)``` function call -> dict
+  fmt: pkg-pars.fmt.ver,
+  /// The contents added meant for spacing between the rendered verse mark and the following
+  /// contents in the calling context.
+  /// Note that in the provided example no space was left between the function call closing
+  /// parenthesis and the following contents, so that the exact spacing `content` is produced
+  /// -> content
+  spc: [#h(0.2em)]) = {
   box(baseline: fmt.size - 0.85em)[#text(..fmt)[#body#spc]]
 }
 

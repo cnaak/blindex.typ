@@ -47,7 +47,7 @@
 /// === Examples
 /// ```example
 /// #block(width: 80mm)[
-///   #for item in get-books("en-USX") [
+///   #for item in get-books("fr-TOB") [
 ///     #box[#raw("\"" + item + "\""),]
 ///   ]
 /// ]
@@ -114,7 +114,6 @@
 ) = context [#metadata((
     ABRV: abrv,
     LANG: lang,
-    /// The index metadata
     DATA: a2d(abrv, lang: lang),
     ENTR: entry,
     WHRE: here().position(),
@@ -135,9 +134,15 @@
 /// controlable through the function arguments.
 ///
 #let mk-index(
-  /// The language-tradition for the book names (see @get-langs) -> string
+  /// The language-tradition code for printing full index book names (see @get-langs). This can
+  /// be freely specified regardless of the tradition-language used to marking index entries
+  /// along the document, since during index-marking, language-tradition book abbreviations are
+  /// converted into generic internal representation keys that are language-tradition
+  /// independent, while during index making, the generic internal representations are converted
+  /// back to whatever specified language-tradition -> string
   lang: "en-USX",
-  /// The book sorting tradition (see @get-sorting-traditions) -> string
+  /// The book sorting tradition (see @get-sorting-traditions). This parameter controls the
+  /// _sorting order_ of book entries. Now,  -> string
   sorting-tradition: "USX",
   /// The number of columns for the index (note that `typst` doesn't yet automatically balance
   /// columns inside a `#columns` body -> int
@@ -148,11 +153,13 @@
   wgt: (bk: "bold", tx: "regular", pg: "extrabold"),
   /// Index leaders' pattern -> content
   pattern: [.],
-  /// Flags whether to fully merge book headings, for splitted books in some traditions.
-  /// For instance: in some Catholic traditions, the greek book of Daniel is split into multiple
-  /// books, i.e.: the (i) Hebrew Daniel, (ii) Susanna, (iii) Bel Kai Drako, and (iv) The prayer
-  /// of the three youngs. If `true` will cause all index entries to be gathered under a single
-  /// index book entry -> bool
+  /// Flags whether to fully merge index book headings. In some traditions, a single book entry
+  /// may contain multiple books of other traditions. For instance, in some Catholic traditions,
+  /// the 6th chapter of the book of "Baruch" is a separate book---the "Letter of Jeremiah"---in
+  /// other traditions. Thus, quoting/indexing a passage by the Baruch's abbreviation in one
+  /// such tradition, one can be referring to either book in another tradition. Therefore, if
+  /// this argument is `true`, all possible book names will appear joined in a single entry, as
+  /// in: "Baruch / Letter of Jeremiah"; otherwise, only the first one: "Baruch". -> bool
   merged-book-headings-full: true,
   /// The book merging arguments for `join`. The entry `at(0)` is the positional argument for
   /// `join`, while optional entry `at(1)` is the named `last` argument for `join` -> array
@@ -191,6 +198,7 @@
       }
     }
   }
+  [#idxDict]
   let sorKeys = idxDict.keys().sorted()
   columns(cols, gutter: gutter)[
     #for SK in sorKeys {

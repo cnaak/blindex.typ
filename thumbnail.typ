@@ -57,13 +57,13 @@ The `abrv` argument is an abbreviation used to uniquely define the biblical lite
 In the first example, `"PSA"` resolved to the book of Psalms. Abbreviations vary with language
 and tradition, specified by the optional `lang` parameter, whose default value is `"en-USX"`,
 which stands for the English-USX#footnote[USX is the Unified Scripture XML] language-tradition
-pair. The function `abrv-of(lang)` returns an array of valid `lang` abbreviations. For
+pair. The function `get-books(lang)` returns an array of valid `lang` abbreviations. For
 `"en-USX"`, one has:
 
 #{
   set par(justify: false)
   set text(font: "Atkinson Hyperlegible Mono", size: 6pt)
-  abrv-of("en-USX").join(", ")
+  get-books("en-USX").join(", ")
 }
 
 = Common Options
@@ -122,15 +122,15 @@ quoting functions, simply call the `mk-index` function, as in:
 
 ```typst
 #block(width: 100%, height: 3cm)[
-  #mk-index(lang: "en-USX", sorting-tradition: "Oecumenic-Bible", cols: 3)
+  #mk-index(lang: "fr-TOB", sorting-tradition: "Oecumenic-Bible", cols: 3)
 ]
 ```
 
-where the `block` is added as Typst doesn't yet provide automatic multicolumn balancing, which
-renders as
+to generate an index with book names according to the French #text(lang: "fr")[_Traduccion
+Œcuménique de la Bible_] language-tradition, which renders as
 
 #block(width: 100%, height: 3cm)[
-  #mk-index(lang: "en-USX", sorting-tradition: "Oecumenic-Bible", cols: 3)
+  #mk-index(lang: "fr-TOB", sorting-tradition: "Oecumenic-Bible", cols: 3)
 ]
 
 

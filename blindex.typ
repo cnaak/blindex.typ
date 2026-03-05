@@ -9,14 +9,44 @@
 //                                    Book Info Retrieving                                    //
 //============================================================================================//
 
-// valid abbreviation of a given language-tradition
-#let abrv-of(lang) = {
+/// Returns valid language-traditions for the `lang` parameter of user-facing functions
+///
+/// === Examples
+/// ```example
+/// #block(width: 90mm)[
+///   #for item in get-langs() [
+///     #box[#raw("\"" + item + "\""),]
+///   ]
+/// ]
+/// ```
+///
+/// -> array
+#let get-langs() = {
+  return ldict.at("1001").keys()
+}
+
+/// Returns valid book abbreviations for a language-tradition
+///
+/// === Examples
+/// ```example
+/// #block(width: 90mm)[
+///   #for item in book-abrv-of("en-USX") [
+///     #box[#raw("\"" + item + "\""),]
+///   ]
+/// ]
+/// ```
+///
+/// -> array
+#let book-abrv-of(
+  /// The language-tradition (see @get-langs) -> string
+  lang
+) = {
   for KV in ldict.pairs() { (KV.at(1).at(lang).at(0),) }
 }
 
 #let a2d(abrv, lang: "en-USX") = {
   // abrv in lang assertion
-  let valid-abrv = abrv-of(lang)
+  let valid-abrv = book-abrv-of(lang)
   let error-msg = (
     "book abbreviation not found",
     "abbreviation...: '" + abrv + "'",

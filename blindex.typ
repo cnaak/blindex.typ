@@ -13,7 +13,7 @@
 ///
 /// === Examples
 /// ```example
-/// #block(width: 90mm)[
+/// #block(width: 80mm)[
 ///   #for item in get-langs() [
 ///     #box[#raw("\"" + item + "\""),]
 ///   ]
@@ -25,19 +25,36 @@
   return ldict.at("1001").keys()
 }
 
-/// Returns valid book abbreviations for a language-tradition
+/// Returns valid biblical literature book sorting traditions, for the `sorting-tradition`
+/// argument of the @mk-index function.
 ///
 /// === Examples
 /// ```example
-/// #block(width: 90mm)[
-///   #for item in book-abrv-of("en-USX") [
+/// #block(width: 80mm)[
+///   #for item in get-sorting-traditions() [
 ///     #box[#raw("\"" + item + "\""),]
 ///   ]
 /// ]
 /// ```
 ///
 /// -> array
-#let book-abrv-of(
+#let get-sorting-traditions() = {
+  return bsort.keys()
+}
+
+/// Returns valid book abbreviations for a language-tradition
+///
+/// === Examples
+/// ```example
+/// #block(width: 80mm)[
+///   #for item in get-books("en-USX") [
+///     #box[#raw("\"" + item + "\""),]
+///   ]
+/// ]
+/// ```
+///
+/// -> array
+#let get-books(
   /// The language-tradition (see @get-langs) -> string
   lang
 ) = {
@@ -46,7 +63,7 @@
 
 #let a2d(abrv, lang: "en-USX") = {
   // abrv in lang assertion
-  let valid-abrv = book-abrv-of(lang)
+  let valid-abrv = get-books(lang)
   let error-msg = (
     "book abbreviation not found",
     "abbreviation...: '" + abrv + "'",
@@ -78,21 +95,68 @@
 //                                Biblical Literature Indexing                                //
 //============================================================================================//
 
-// Biblical Literature Indexing
-// The declaration spacing is to avoid spurious spacings in the document
-#let blindex(abrv, entry, lang: "en-USX") = context [#metadata((
-      ABRV: abrv,
-      LANG: lang,
-      DATA: a2d(abrv, lang: lang),
-      ENTR: entry,
-      WHRE: here().position(),
-    ))<bl_index>]
+/// Biblical literature indexing marking.
+///
+/// This function produces no visible output, but only adds to the document the appropriate
+/// indexing #raw("#metadata()", lang: "typst").
+///
+/// This function is perhaps best used indirectly, through the various quoting functions (see
+/// @iq and @bq, for instance).
+///
+/// -> none
+#let blindex(
+  /// The book abbreviation (see @get-books) -> string
+  abrv,
+  /// The `[chapter:verse(s)]` entry -> content
+  entry,
+  /// The book abbreviation language-tradition (see @get-langs) -> string
+  lang: "en-USX"
+) = context [#metadata((
+    ABRV: abrv,
+    LANG: lang,
+    /// The index metadata
+    DATA: a2d(abrv, lang: lang),
+    ENTR: entry,
+    WHRE: here().position(),
+  ))<bl_index>]
 
-// Index making. {BSS} is the Book Sorting Scheme, a key of the {bsort} dict, defined at
-// "./books.typ" and written to <metadata>.<bl_index>.<instance>.at(i).at(buid).DATA.SORT
-#let mk-index(lang: "en-USX", sorting-tradition: "USX",
-  cols: 2, gutter: 8pt, wgt: (bk: "bold", tx: "regular", pg: "extrabold"), pattern: [.],
-  merged-book-headings-full: true, mbhf-join: (" / ",),
+/// Index-making function.
+///
+/// This function produces a biblical literature index, at the point of call in the document,
+/// based on the document's #raw("#metadata()", lang: "typst") entries placed directly through
+/// @blindex calls, or indirectly through one of the quoting functions (see @iq and @bq, for
+/// instance).
+///
+/// Since indices are placed at the point of call, the user has full control on the location of
+/// the index location within the document. Moreover, there's no restriction on the number of
+/// times this function can be called, thus allowing multiple indices to be produced.
+///
+/// The index language, ordering of books (according to various traditions), and apprearance is
+/// controlable through the function arguments.
+///
+#let mk-index(
+  /// The language-tradition for the book names (see @get-langs) -> string
+  lang: "en-USX",
+  /// The book sorting tradition (see @get-sorting-traditions) -> string
+  sorting-tradition: "USX",
+  /// The number of columns for the index (note that `typst` doesn't yet automatically balance
+  /// columns inside a `#columns` body -> int
+  cols: 2,
+  /// The `gutter` argument for the `#columns` function call -> length
+  gutter: 8pt,
+  /// Book-Text-Page for font weights customizations -> dict
+  wgt: (bk: "bold", tx: "regular", pg: "extrabold"),
+  /// Index leaders' pattern -> content
+  pattern: [.],
+  /// Flags whether to fully merge book headings, for splitted books in some traditions.
+  /// For instance: in some Catholic traditions, the greek book of Daniel is split into multiple
+  /// books, i.e.: the (i) Hebrew Daniel, (ii) Susanna, (iii) Bel Kai Drako, and (iv) The prayer
+  /// of the three youngs. If `true` will cause all index entries to be gathered under a single
+  /// index book entry -> bool
+  merged-book-headings-full: true,
+  /// The book merging arguments for `join`. The entry `at(0)` is the positional argument for
+  /// `join`, while optional entry `at(1)` is the named `last` argument for `join` -> array
+  mbhf-join: (" / ",),
 ) = context {
   let BIG  =  10000   // just above highest buid number, which is 9999
   let HUGE = 100000   // an order of magnitude (base 10) above BIG
@@ -222,7 +286,7 @@
   }
 }
 
-// "inline" Quoting of Biblical Literature
+/// Inline quoting of biblical literature
 #let iq(body, abrv, pssg, lang: "en-USX", version: none, cite: none, qlang: "en", clang: "en",
         quo: (fmt: pkg-pars.fmt.quo, bkg: pkg-pars.bkg.quo, quo: pkg-pars.quo, opq: ["], clq: ["]),
         cit: (fmt: pkg-pars.fmt.cit, )) = {
@@ -231,7 +295,7 @@
   blindex(abrv, pssg, lang: lang)
 }
 
-// "block" Quoting of Biblical Literature
+/// Block quoting of biblical literature
 #let bq(body, abrv, pssg, lang: "en-USX", version: none, cite: none, qlang: "en", clang: "en",
         quo: (fmt: pkg-pars.fmt.quo, bkg: none, quo: pkg-pars.quo, opq: [], clq: []),
         cit: (fmt: pkg-pars.fmt.cit, ),

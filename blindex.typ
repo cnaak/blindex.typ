@@ -9,25 +9,23 @@
 //                                    Book Info Retrieving                                    //
 //============================================================================================//
 
-/// Returns valid `lang-trad`, i.e., language-tradition, values, to be passed as named arguments
-/// in user-facing functions.
+/// Returns valid `language-tradition` values, to be passed as the corresponding named argument in user-facing functions.
 ///
 /// === Examples
 /// ```example
 /// #block(width: 80mm)[
-///   #for item in get-lang-trads() [
+///   #for item in get-language-traditions() [
 ///     #box[#raw("\"" + item + "\""),]
 ///   ]
 /// ]
 /// ```
 ///
 /// -> array
-#let get-lang-trads() = {
+#let get-language-traditions() = {
   return ldict.at("1001").keys()
 }
 
-/// Returns valid biblical literature book sorting traditions, for the `sorting-tradition`
-/// named arguments of user-facing functions like @mk-index.
+/// Returns valid biblical literature book `sorting-tradition` values, to be passed as the corresponding named argument in user-facing functions like @mk-index.
 ///
 /// === Examples
 /// ```example
@@ -43,28 +41,28 @@
   return bsort.keys()
 }
 
-/// Returns valid book abbreviations for the `book-abbrev` parameters of user-facing functions
+/// Returns valid `book-abbrev` values, to be passed as the corresponding named argument in user-facing functions.
 ///
 /// === Examples
 /// ```example
 /// #block(width: 80mm)[
-///   #for item in get-books("fr-TOB") [
+///   #for item in get-book-abbrevs("fr-TOB") [
 ///     #box[#raw("\"" + item + "\""),]
 ///   ]
 /// ]
 /// ```
 ///
 /// -> array
-#let get-books(
-  /// The language-tradition for which to retrieve book abbreviations (see @get-lang-trads) -> string
-  lang
+#let get-book-abbrevs(
+  /// The language-tradition for which to retrieve book abbreviations (see @get-language-traditions) -> string
+  language-tradition
 ) = {
-  for KV in ldict.pairs() { (KV.at(1).at(lang).at(0),) }
+  for KV in ldict.pairs() { (KV.at(1).at(language-tradition).at(0),) }
 }
 
 #let a2d(book-abbrev, lang: "en-USX") = {
   // book-abbrev in lang assertion
-  let valid-book-abbrev = get-books(lang)
+  let valid-book-abbrev = get-book-abbrevs(lang)
   let error-msg = (
     "book abbreviation not found",
     "abbreviation...: '" + book-abbrev + "'",
@@ -106,11 +104,11 @@
 ///
 /// -> none
 #let blindex(
-  /// The book abbreviation (see @get-books) -> string
+  /// The book abbreviation (see @get-book-abbrevs) -> string
   book-abbrev,
   /// The `[chapter:verse(s)]` entry -> content
   entry,
-  /// The book abbreviation language-tradition (see @get-lang-trads) -> string
+  /// The book abbreviation language-tradition (see @get-language-traditions) -> string
   lang: "en-USX"
 ) = context [#metadata((
     ABRV: book-abbrev,
@@ -135,7 +133,7 @@
 /// controlable through the function arguments.
 ///
 #let mk-index(
-  /// The language-tradition code for printing full index book names (see @get-lang-trads). This can
+  /// The language-tradition code for printing full index book names (see @get-language-traditions). This can
   /// be freely specified regardless of the tradition-language used to marking index entries
   /// along the document, since during index-marking, language-tradition book abbreviations are
   /// converted into generic internal representation keys that are language-tradition

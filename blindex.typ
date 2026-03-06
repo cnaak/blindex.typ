@@ -9,19 +9,20 @@
 //                                    Book Info Retrieving                                    //
 //============================================================================================//
 
-/// Returns valid language-traditions for the `lang` named parameters of user-facing functions
+/// Returns valid `lang-trad`, i.e., language-tradition, values, to be passed as named arguments
+/// in user-facing functions.
 ///
 /// === Examples
 /// ```example
 /// #block(width: 80mm)[
-///   #for item in get-langs() [
+///   #for item in get-lang-trads() [
 ///     #box[#raw("\"" + item + "\""),]
 ///   ]
 /// ]
 /// ```
 ///
 /// -> array
-#let get-langs() = {
+#let get-lang-trads() = {
   return ldict.at("1001").keys()
 }
 
@@ -55,7 +56,7 @@
 ///
 /// -> array
 #let get-books(
-  /// The language-tradition for which to retrieve book abbreviations (see @get-langs) -> string
+  /// The language-tradition for which to retrieve book abbreviations (see @get-lang-trads) -> string
   lang
 ) = {
   for KV in ldict.pairs() { (KV.at(1).at(lang).at(0),) }
@@ -109,7 +110,7 @@
   abrv,
   /// The `[chapter:verse(s)]` entry -> content
   entry,
-  /// The book abbreviation language-tradition (see @get-langs) -> string
+  /// The book abbreviation language-tradition (see @get-lang-trads) -> string
   lang: "en-USX"
 ) = context [#metadata((
     ABRV: abrv,
@@ -134,7 +135,7 @@
 /// controlable through the function arguments.
 ///
 #let mk-index(
-  /// The language-tradition code for printing full index book names (see @get-langs). This can
+  /// The language-tradition code for printing full index book names (see @get-lang-trads). This can
   /// be freely specified regardless of the tradition-language used to marking index entries
   /// along the document, since during index-marking, language-tradition book abbreviations are
   /// converted into generic internal representation keys that are language-tradition

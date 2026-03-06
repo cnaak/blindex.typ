@@ -43,7 +43,7 @@
   return bsort.keys()
 }
 
-/// Returns valid book abbreviations for the `abrv` parameters of user-facing functions
+/// Returns valid book abbreviations for the `book-abbrev` parameters of user-facing functions
 ///
 /// === Examples
 /// ```example
@@ -62,26 +62,26 @@
   for KV in ldict.pairs() { (KV.at(1).at(lang).at(0),) }
 }
 
-#let a2d(abrv, lang: "en-USX") = {
-  // abrv in lang assertion
-  let valid-abrv = get-books(lang)
+#let a2d(book-abbrev, lang: "en-USX") = {
+  // book-abbrev in lang assertion
+  let valid-book-abbrev = get-books(lang)
   let error-msg = (
     "book abbreviation not found",
-    "abbreviation...: '" + abrv + "'",
+    "abbreviation...: '" + book-abbrev + "'",
     "language.......: '" + lang + "'",
     "valid '" + lang + "' abbreviations are:",
-    "\"" + valid-abrv.join("\", \"") + "\"",
+    "\"" + valid-book-abbrev.join("\", \"") + "\"",
   ).join("\n")
-  assert(valid-abrv.contains(abrv), message: error-msg)
+  assert(valid-book-abbrev.contains(book-abbrev), message: error-msg)
   // normal processing
   let aarr = for (K, V) in ldict.pairs() {((..V.at(lang), K),)}
-  let match = (..aarr.filter(x => x.at(0) == abrv),)
+  let match = (..aarr.filter(x => x.at(0) == book-abbrev),)
   return for M in match {
     let SORT = for P in bsort.pairs() {
       (P.at(0): P.at(1).position(x => x == int(M.at(2))))
     }
     ((
-      "abrv": M.at(0),
+      "book-abbrev": M.at(0),
       "full": M.at(1),
       "BUID": M.at(2),
       "lang": lang,
@@ -107,15 +107,15 @@
 /// -> none
 #let blindex(
   /// The book abbreviation (see @get-books) -> string
-  abrv,
+  book-abbrev,
   /// The `[chapter:verse(s)]` entry -> content
   entry,
   /// The book abbreviation language-tradition (see @get-lang-trads) -> string
   lang: "en-USX"
 ) = context [#metadata((
-    ABRV: abrv,
+    ABRV: book-abbrev,
     LANG: lang,
-    DATA: a2d(abrv, lang: lang),
+    DATA: a2d(book-abbrev, lang: lang),
     ENTR: entry,
     WHRE: here().position(),
   ))<bl_index>]
@@ -356,30 +356,30 @@
 }
 
 // "line" Citation of Biblical Literature
-#let lc(abrv, pssg, lang: "en-USX", version: none, cite: none,
+#let lc(book-abbrev, pssg, lang: "en-USX", version: none, cite: none,
         lan: "en",
         fmt: pkg-pars.fmt.cit,
         sep: [ ---]) = {
   set text(lang: lan)
   if version == none {
-    text(..fmt)[#sep~#a2d(abrv, lang: lang).at(0).full~#pssg#{if cite != none [ #cite]}]
+    text(..fmt)[#sep~#a2d(book-abbrev, lang: lang).at(0).full~#pssg#{if cite != none [ #cite]}]
   }
   else {
-    text(..fmt)[#sep~#a2d(abrv, lang: lang).at(0).full~#pssg (#version#{if cite != none [ #cite]})]
+    text(..fmt)[#sep~#a2d(book-abbrev, lang: lang).at(0).full~#pssg (#version#{if cite != none [ #cite]})]
   }
 }
 
 /// Inline quoting of biblical literature
-#let iq(body, abrv, pssg, lang: "en-USX", version: none, cite: none, qlang: "en", clang: "en",
+#let iq(body, book-abbrev, pssg, lang: "en-USX", version: none, cite: none, qlang: "en", clang: "en",
         quo: (fmt: pkg-pars.fmt.quo, bkg: pkg-pars.bkg.quo, quo: pkg-pars.quo, opq: ["], clq: ["]),
         cit: (fmt: pkg-pars.fmt.cit, )) = {
   rq(body, lan: qlang, ..quo)
-  lc(abrv, pssg, lang: lang, version: version, cite: cite, lan: clang, ..cit)
-  blindex(abrv, pssg, lang: lang)
+  lc(book-abbrev, pssg, lang: lang, version: version, cite: cite, lan: clang, ..cit)
+  blindex(book-abbrev, pssg, lang: lang)
 }
 
 /// Block quoting of biblical literature
-#let bq(body, abrv, pssg, lang: "en-USX", version: none, cite: none, qlang: "en", clang: "en",
+#let bq(body, book-abbrev, pssg, lang: "en-USX", version: none, cite: none, qlang: "en", clang: "en",
         quo: (fmt: pkg-pars.fmt.quo, bkg: none, quo: pkg-pars.quo, opq: [], clq: []),
         cit: (fmt: pkg-pars.fmt.cit, ),
         blk: (wid: 90%, ins: 4pt, bkg: pkg-pars.bkg.quo, cit: pkg-pars.bkg.cit)) = {
@@ -388,8 +388,8 @@
       block(width: blk.wid, fill: blk.bkg, inset: blk.ins,
             align(left)[#rq(body, ..quo)]),
       block(width: blk.wid, fill: blk.cit, inset: blk.ins,
-            align(right)[#lc(abrv, pssg, lang: lang, version: version, cite: cite, ..cit, sep: [])]),
-      blindex(abrv, pssg, lang: lang)
+            align(right)[#lc(book-abbrev, pssg, lang: lang, version: version, cite: cite, ..cit, sep: [])]),
+      blindex(book-abbrev, pssg, lang: lang)
     )
   )
 }

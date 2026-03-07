@@ -55,7 +55,7 @@ The `book-abbrev` argument is an abbreviation used to uniquely define the biblic
 
 In order to include the source version along with the quote, simply pass the optional `version:` named argument to the quoting functions, while proper bibliography citation is facilitated by the optional `cite` argument, as in #iq([For thus saith the #smallcaps[Lord] of hosts; Yet once, it is a little while, and I will shake the heavens, and the earth, and the sea, and the dry _land_;], "HAG", [2:6], version: [KJV], cite: [@KJV]).
 
-Source quote language is facilitated by the optional `qlang` argument, as in #iq([Au commencement, Dieu créa les cieux et la terre.], "GEN", [1:1], cite: [@LSG], qlang: "fr"). By default, `blindex` uses Typst `smartquotes`, which causes the quotes to adapt to the passed `qlang: "fr"` argument.
+Source quote language is facilitated by the optional `qlang` argument, as in #iq([Au commencement, Dieu créa les cieux et la terre.], "GEN", [1:1], cite: [@LSG], qlanguage-tradition: "fr"). By default, `blindex` uses Typst `smartquotes`, which causes the quotes to adapt to the passed `qlanguage-tradition: "fr"` argument.
 
 Moreover, rendering of verse numbers in block quotes is facilitated by the `#ver()` function, as in #bq([#ver(1)Adam, Sheth, Enosh, #ver(2)Kenan, Mahalaleel, Jered, #ver(3)Henoch, Methuselah, Lamech, #ver(4)Noah, Shem, Ham, and Japheth.], "1CH", [1:1--4])
 
@@ -93,13 +93,13 @@ Once all the biblical literature indexing have been made, either manually or aid
 
 ```typst
 #block(width: 100%, height: 3cm)[
-  #mk-index(lang: "fr-TOB", sorting-tradition: "Oecumenic-Bible", cols: 3)
+  #mk-index(language-tradition: "fr-TOB", sorting-tradition: "Oecumenic-Bible", cols: 3)
 ]
 ```
 
 to generate an index with book names according to the French #text(lang: "fr")[_Traduccion Œcuménique de la Bible_] language-tradition, which renders as
 
 #block(width: 100%, height: 3cm)[
-  #mk-index(lang: "fr-TOB", sorting-tradition: "Oecumenic-Bible", cols: 3)
+  #mk-index(language-tradition: "fr-TOB", sorting-tradition: "Oecumenic-Bible", cols: 3)
 ]
 

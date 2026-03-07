@@ -80,8 +80,8 @@
   ).join("\n")
   assert(valid-book-abbrev.contains(book-abbrev), message: error-msg)
   // normal processing
-  let aarr = for (K, V) in ldict.pairs() {((..V.at(language-tradition), K),)}
-  let match = (..aarr.filter(x => x.at(0) == book-abbrev),)
+  let abbrev-array = for (K, V) in ldict.pairs() {((..V.at(language-tradition), K),)}
+  let match = (..abbrev-array.filter(x => x.at(0) == book-abbrev),)
   return for M in match {
     let SORT = for P in bsort.pairs() {
       (P.at(0): P.at(1).position(x => x == int(M.at(2))))
@@ -102,71 +102,53 @@
 //                                Biblical Literature Indexing                                //
 //============================================================================================//
 
-/// Biblical literature indexing marking.
+/// Biblical literature indexing marking function.
 ///
-/// This function produces no visible output, but only adds to the document the appropriate
-/// indexing #raw("#metadata()", language-tradition: "typst").
+/// This function produces no visible output, but only adds to the document the appropriate indexing #raw("#metadata()", lang: "typst").
 ///
-/// This function is perhaps best used indirectly, through the various quoting functions (see
-/// @iq and @bq, for instance).
+/// This function is perhaps best used indirectly, through the various quoting functions (see @iq and @bq, for instance).
 ///
 /// -> none
 #let blindex(
   /// The book abbreviation (see @get-book-abbrevs) -> string
   book-abbrev,
   /// The `[chapter:verse(s)]` entry -> content
-  entry,
+  chapter-verse,
   /// The book abbreviation language-tradition (see @get-language-traditions) -> string
   language-tradition: "en-USX"
 ) = context [#metadata((
     ABRV: book-abbrev,
     LANG: language-tradition,
     DATA: abbrev-to-dict(book-abbrev, language-tradition: language-tradition),
-    ENTR: entry,
+    ENTR: chapter-verse,
     WHRE: here().position(),
   ))<bl_index>]
 
-/// Index-making function.
+/// Index-making (producing, typesetting) function.
 ///
-/// This function produces a biblical literature index, at the point of call in the document,
-/// based on the document's #raw("#metadata()", language-tradition: "typst") entries placed directly through
-/// @blindex calls, or indirectly through one of the quoting functions (see @iq and @bq, for
-/// instance).
+/// This function produces a biblical literature index, at the point of call in the document, based on the document's #raw("#metadata()", lang: "typst") entries placed directly through @blindex calls, or indirectly through one of the quoting functions (see @iq and @bq, for instance).
 ///
-/// Since indices are placed at the point of call, the user has full control on the location of
-/// the index location within the document. Moreover, there's no restriction on the number of
-/// times this function can be called, thus allowing multiple indices to be produced.
+/// Since indices are produced and placed at the point of call of this function, the user has full control on the index location within the document. Moreover, there's no restriction on the number of times this function can be called, thus allowing multiple indices to be produced. This may be useful in polyglot documents, since it enables the production of indices of multiple languages.
 ///
-/// The index language, ordering of books (according to various traditions), and apprearance is
-/// controlable through the function arguments.
+/// The index language, ordering of books (according to various traditions), and apprearance is controlable through the function arguments.
 ///
 #let mk-index(
-  /// The language-tradition code for printing full index book names (see @get-language-traditions). This can
-  /// be freely specified regardless of the tradition-language used to marking index entries
-  /// along the document, since during index-marking, language-tradition book abbreviations are
-  /// converted into generic internal representation keys that are language-tradition
-  /// independent, while during index making, the generic internal representations are converted
-  /// back to whatever specified language-tradition -> string
+  /// The language-tradition code for printing full index book names (see @get-language-traditions). This can be freely specified regardless of the tradition-language used to marking index entries along the document, since during index-marking, language-tradition book abbreviations are converted into generic internal representation keys that are language-tradition independent, while during index making, the generic internal representations are converted back to whatever specified language-tradition -> string
   language-tradition: "en-USX",
-  /// The book sorting tradition (see @get-sorting-traditions). This parameter controls the
-  /// _sorting order_ of book entries. Now,  -> string
+  /// The book sorting tradition (see @get-sorting-traditions). This parameter controls the _sorting order_ of biblical literature book entries. It is worth noting that most sorting traditions do not define book placements for all biblical literature books (owing to the inclusion of deuterocanonical and apocripha books only in certain sorting traditions). Therefore, apocripha or deutorocanonical books may _not be listed at all_ in some book sorting traditions, since their placement is not defined. The library includes the `code` and `USX` sorting traditions, which are all-inclusive, meaning indices made with these sorting traditions are guaranteed to include every indexed biblical literature citation in the document. -> string
   sorting-tradition: "USX",
-  /// The number of columns for the index (note that `typst` doesn't yet automatically balance
-  /// columns inside a `#columns` body -> int
+  /// The number of columns for the index rendering. It is worth noting that while `typst` does not implement automatic column balancing, some situations may call for manual column balancing, which can be accomplished externally to this function call -> int
   cols: 2,
   /// The `gutter` argument for the `#columns` function call -> length
   gutter: 8pt,
-  /// Book-Text-Page for font weights customizations -> dictionary
-  wgt: (bk: "bold", tx: "regular", pg: "extrabold"),
-  /// Index leaders' pattern -> content
+  /// Font weight customizations for the book, text, and page elements of the index. -> dictionary
+  book-text-page-weights: (bk: "bold", tx: "regular", pg: "extrabold"),
+  /// The pattern for the index leaders -> content
   pattern: [.],
-  /// Flags whether to fully merge index book headings. In some traditions, a single book entry
+  /// Flags whether to fully merge index book headings for books merged on given language-traditions. In some traditions, a single book entry
   /// may contain multiple books of other traditions. For instance, in some Catholic traditions,
-  /// the 6th chapter of the book of "Baruch" is a separate book---the "Letter of Jeremiah"---in
-  /// other traditions. Thus, quoting/indexing a passage by the Baruch's abbreviation in one
-  /// such tradition, one can be referring to either book in another tradition. Therefore, if
-  /// this argument is `true`, all possible book names will appear joined in a single entry, as
-  /// in: "Baruch / Letter of Jeremiah"; otherwise, only the first one: "Baruch". -> bool
+  /// the 6th chapter of the book of "Baruch" is listes as a separate book---the "Letter of Jeremiah"---in
+  /// other traditions. Since index metadata entries are made through the book abbreviation `book-abbrev` (see @get-book-abbrevs), there might be a 1:many associations between abbreviation and actual book(s). Whenever this happens, the stored #raw("#metadata()", lang: "typst") actually contains an _array_ of books, and this option controls whether or not all books get merged or just the first one (usually the most-encompassing) is displayed, i.e., using the example above, whether only "Baruch" or "Baruch / Letter of Jeremiah" is listed as a book heading in the index. -> bool
   merged-book-headings-full: false,
   /// The book merging arguments for `join`. The entry `at(0)` is the positional argument for
   /// `join`, while optional entry `at(1)` is the named `last` argument for `join` -> array
@@ -208,14 +190,14 @@
   let sorKeys = idxDict.keys().sorted()
   columns(cols, gutter: gutter)[
     #for SK in sorKeys {
-      text(weight: wgt.bk, idxDict.at(SK).at(0))
+      text(weight: book-text-page-weights.bk, idxDict.at(SK).at(0))
       linebreak()
       for VL in idxDict.at(SK).at(1) {
         box(width: 1.2em)
-        text(weight: wgt.tx, VL.at(0)) // ENTRY
+        text(weight: book-text-page-weights.tx, VL.at(0)) // ENTRY
         box(width: 0.3em)
         box(width: 1fr, repeat(align(center, box(width: 0.5em, pattern))))
-        box(width: 1.8em, align(center, text(weight: wgt.pg, [#VL.at(1)]))) // PAGE
+        box(width: 1.8em, align(center, text(weight: book-text-page-weights.pg, [#VL.at(1)]))) // PAGE
         linebreak()
       }
     }

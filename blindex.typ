@@ -60,7 +60,7 @@
   for KV in ldict.pairs() { (KV.at(1).at(language-tradition).at(0),) }
 }
 
-#let a2d(book-abbrev, lang: "en-USX") = {
+#let abbrev-to-dict(book-abbrev, lang: "en-USX") = {
   // book-abbrev in lang assertion
   let valid-book-abbrev = get-book-abbrevs(lang)
   let error-msg = (
@@ -113,7 +113,7 @@
 ) = context [#metadata((
     ABRV: book-abbrev,
     LANG: lang,
-    DATA: a2d(book-abbrev, lang: lang),
+    DATA: abbrev-to-dict(book-abbrev, lang: lang),
     ENTR: entry,
     WHRE: here().position(),
   ))<bl_index>]
@@ -360,10 +360,10 @@
         sep: [ ---]) = {
   set text(lang: lan)
   if version == none {
-    text(..fmt)[#sep~#a2d(book-abbrev, lang: lang).at(0).full~#pssg#{if cite != none [ #cite]}]
+    text(..fmt)[#sep~#abbrev-to-dict(book-abbrev, lang: lang).at(0).full~#pssg#{if cite != none [ #cite]}]
   }
   else {
-    text(..fmt)[#sep~#a2d(book-abbrev, lang: lang).at(0).full~#pssg (#version#{if cite != none [ #cite]})]
+    text(..fmt)[#sep~#abbrev-to-dict(book-abbrev, lang: lang).at(0).full~#pssg (#version#{if cite != none [ #cite]})]
   }
 }
 

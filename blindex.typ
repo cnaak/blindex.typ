@@ -60,19 +60,27 @@
   for KV in ldict.pairs() { (KV.at(1).at(language-tradition).at(0),) }
 }
 
-#let abbrev-to-dict(book-abbrev, lang: "en-USX") = {
-  // book-abbrev in lang assertion
+/// Helper function (not user-facing) that converts a biblical literature book abbreviation (according to a given language-tradition) into an indexing dictionary.
+///
+/// -> dictionary
+#let abbrev-to-dict(
+  /// The biblical literature book abbreviation (according to a given language-tradition) -> string
+  book-abbrev,
+  /// The language-tradition in which the `book-abbrev` points to the intended book -> string
+  language-tradition: "en-USX"
+) = {
+  // book-abbrev in language-tradition assertion
   let valid-book-abbrev = get-book-abbrevs(lang)
   let error-msg = (
     "book abbreviation not found",
     "abbreviation...: '" + book-abbrev + "'",
-    "language.......: '" + lang + "'",
-    "valid '" + lang + "' abbreviations are:",
+    "language.......: '" + language-tradition + "'",
+    "valid '" + language-tradition + "' abbreviations are:",
     "\"" + valid-book-abbrev.join("\", \"") + "\"",
   ).join("\n")
   assert(valid-book-abbrev.contains(book-abbrev), message: error-msg)
   // normal processing
-  let aarr = for (K, V) in ldict.pairs() {((..V.at(lang), K),)}
+  let aarr = for (K, V) in ldict.pairs() {((..V.at(language-tradition), K),)}
   let match = (..aarr.filter(x => x.at(0) == book-abbrev),)
   return for M in match {
     let SORT = for P in bsort.pairs() {
@@ -82,7 +90,7 @@
       "book-abbrev": M.at(0),
       "full": M.at(1),
       "BUID": M.at(2),
-      "lang": lang,
+      "lang": language-tradition,
       "STDN": iboo.at(M.at(2)),
       "SORT": SORT,
     ),)

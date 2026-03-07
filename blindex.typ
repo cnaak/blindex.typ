@@ -142,7 +142,7 @@
   /// The `gutter` argument for the `#columns` function call -> length
   gutter: 8pt,
   /// Font weight customizations for the book, text, and page elements of the index. -> dictionary
-  book-text-page-weights: (bk: "bold", tx: "regular", pg: "extrabold"),
+  book-text-page-weights: (book: "bold", text: "regular", page: "extrabold"),
   /// The pattern for the index leaders -> content
   pattern: [.],
   /// Flags whether to fully merge index book headings for books merged on given language-traditions. In some traditions, a single book entry
@@ -150,54 +150,53 @@
   /// the 6th chapter of the book of "Baruch" is listes as a separate book---the "Letter of Jeremiah"---in
   /// other traditions. Since index metadata entries are made through the book abbreviation `book-abbrev` (see @get-book-abbrevs), there might be a 1:many associations between abbreviation and actual book(s). Whenever this happens, the stored #raw("#metadata()", lang: "typst") actually contains an _array_ of books, and this option controls whether or not all books get merged or just the first one (usually the most-encompassing) is displayed, i.e., using the example above, whether only "Baruch" or "Baruch / Letter of Jeremiah" is listed as a book heading in the index. -> bool
   merged-book-headings-full: false,
-  /// The book merging arguments for `join`. The entry `at(0)` is the positional argument for
-  /// `join`, while optional entry `at(1)` is the named `last` argument for `join` -> array
-  mbhf-join: (" / ",),
+  /// The book merging arguments for `join`. The entry `at(0)` is the positional argument for `join`, while optional entry `at(1)` is the named `last` argument for `join` -> array
+  merged-book-headings-join: (" / ",),
 ) = context {
   let BIG  =  10000   // just above highest buid number, which is 9999
   let HUGE = 100000   // an order of magnitude (base 10) above BIG
-  let idxDict = (:)
-  let rawList = query(<bl_index>) // An array of metadata
-  for __e in rawList { // __e is a metadata entry
-    let __r = __e.value // __r is the record placed by blindex(...)
-    let booSort = __r.DATA.at(0).SORT.at(sorting-tradition)
-    if booSort != none {
-      let booHArr = () // Most generic book heading (as some are mergings)
-      if (__r.DATA.len() > 1) and (merged-book-headings-full) { // Merged book display
-        for __d in __r.DATA {
-          booHArr.push(ldict.at(__r.DATA.at(0).BUID).at(language-tradition).at(1))
+  let index-dict = (:)
+  let raw-blindex-metadata = query(<bl_index>) // An array of metadata
+  for raw-entry in raw-blindex-metadata { // raw-entry is a metadata entry
+    let raw-entry-value = raw-entry.value // raw-entry-value is the record placed by blindex(...)
+    let book-entry-sorting-rank = raw-entry-value.DATA.at(0).SORT.at(sorting-tradition)
+    if book-entry-sorting-rank != none {
+      let book-headings = () // Most generic book headings (as some are mergings)
+      if (raw-entry-value.DATA.len() > 1) and (merged-book-headings-full) { // Merged book display
+        for dummy in raw-entry-value.DATA {
+          book-headings.push(ldict.at(raw-entry-value.DATA.at(0).BUID).at(language-tradition).at(1))
         }
       } else { // Single book display
-        booHArr.push(ldict.at(__r.DATA.at(0).BUID).at(language-tradition).at(1))
+        book-headings.push(ldict.at(raw-entry-value.DATA.at(0).BUID).at(language-tradition).at(1))
       }
-      let booHead = if mbhf-join.len() > 1 {
-        booHArr.join(mbhf-join.at(0), last: mbhf-join.at(1))
+      let book-heading = if merged-book-headings-join.len() > 1 {
+        book-headings.join(merged-book-headings-join.at(0), last: merged-book-headings-join.at(1))
       } else {
-        booHArr.join(mbhf-join.at(0))
+        book-headings.join(merged-book-headings-join.at(0))
       }
-      let the_Key = if booSort != none { str(booSort + HUGE) } else { str(BIG + HUGE) }
-      let the_Val = (__r.ENTR, __r.WHRE.page)
-      // Populates idxDict
-      if the_Key in idxDict {
-        if the_Val not in idxDict.at(the_Key).at(1) {
-          idxDict.at(the_Key).at(1).push(the_Val)
+      let index-dict-key = if book-entry-sorting-rank != none { str(book-entry-sorting-rank + HUGE) } else { str(BIG + HUGE) }
+      let index-dict-value = (raw-entry-value.ENTR, raw-entry-value.WHRE.page)
+      // Populates index-dict
+      if index-dict-key in index-dict {
+        if index-dict-value not in index-dict.at(index-dict-key).at(1) {
+          index-dict.at(index-dict-key).at(1).push(index-dict-value)
         }
       } else {
-        idxDict.insert(the_Key, (booHead, (the_Val,)))
+        index-dict.insert(index-dict-key, (book-heading, (index-dict-value,)))
       }
     }
   }
-  let sorKeys = idxDict.keys().sorted()
+  let sorted-index-keys = index-dict.keys().sorted()
   columns(cols, gutter: gutter)[
-    #for SK in sorKeys {
-      text(weight: book-text-page-weights.bk, idxDict.at(SK).at(0))
+    #for sorted-key in sorted-index-keys {
+      text(weight: book-text-page-weights.book, index-dict.at(sorted-key).at(0))
       linebreak()
-      for VL in idxDict.at(SK).at(1) {
+      for index-entry-values in index-dict.at(sorted-key).at(1) {
         box(width: 1.2em)
-        text(weight: book-text-page-weights.tx, VL.at(0)) // ENTRY
+        text(weight: book-text-page-weights.text, index-entry-values.at(0)) // ENTRY
         box(width: 0.3em)
         box(width: 1fr, repeat(align(center, box(width: 0.5em, pattern))))
-        box(width: 1.8em, align(center, text(weight: book-text-page-weights.pg, [#VL.at(1)]))) // PAGE
+        box(width: 1.8em, align(center, text(weight: book-text-page-weights.page, [#index-entry-values.at(1)]))) // PAGE
         linebreak()
       }
     }

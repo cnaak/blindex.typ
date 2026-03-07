@@ -70,7 +70,7 @@
   language-tradition: "en-USX"
 ) = {
   // book-abbrev in language-tradition assertion
-  let valid-book-abbrev = get-book-abbrevs(lang)
+  let valid-book-abbrev = get-book-abbrevs(language-tradition)
   let error-msg = (
     "book abbreviation not found",
     "abbreviation...: '" + book-abbrev + "'",
@@ -105,7 +105,7 @@
 /// Biblical literature indexing marking.
 ///
 /// This function produces no visible output, but only adds to the document the appropriate
-/// indexing #raw("#metadata()", lang: "typst").
+/// indexing #raw("#metadata()", language-tradition: "typst").
 ///
 /// This function is perhaps best used indirectly, through the various quoting functions (see
 /// @iq and @bq, for instance).
@@ -117,11 +117,11 @@
   /// The `[chapter:verse(s)]` entry -> content
   entry,
   /// The book abbreviation language-tradition (see @get-language-traditions) -> string
-  lang: "en-USX"
+  language-tradition: "en-USX"
 ) = context [#metadata((
     ABRV: book-abbrev,
-    LANG: lang,
-    DATA: abbrev-to-dict(book-abbrev, lang: lang),
+    LANG: language-tradition,
+    DATA: abbrev-to-dict(book-abbrev, language-tradition: language-tradition),
     ENTR: entry,
     WHRE: here().position(),
   ))<bl_index>]
@@ -129,7 +129,7 @@
 /// Index-making function.
 ///
 /// This function produces a biblical literature index, at the point of call in the document,
-/// based on the document's #raw("#metadata()", lang: "typst") entries placed directly through
+/// based on the document's #raw("#metadata()", language-tradition: "typst") entries placed directly through
 /// @blindex calls, or indirectly through one of the quoting functions (see @iq and @bq, for
 /// instance).
 ///
@@ -147,7 +147,7 @@
   /// converted into generic internal representation keys that are language-tradition
   /// independent, while during index making, the generic internal representations are converted
   /// back to whatever specified language-tradition -> string
-  lang: "en-USX",
+  language-tradition: "en-USX",
   /// The book sorting tradition (see @get-sorting-traditions). This parameter controls the
   /// _sorting order_ of book entries. Now,  -> string
   sorting-tradition: "USX",
@@ -183,10 +183,10 @@
       let booHArr = () // Most generic book heading (as some are mergings)
       if (__r.DATA.len() > 1) and (merged-book-headings-full) { // Merged book display
         for __d in __r.DATA {
-          booHArr.push(ldict.at(__r.DATA.at(0).BUID).at(lang).at(1))
+          booHArr.push(ldict.at(__r.DATA.at(0).BUID).at(language-tradition).at(1))
         }
       } else { // Single book display
-        booHArr.push(ldict.at(__r.DATA.at(0).BUID).at(lang).at(1))
+        booHArr.push(ldict.at(__r.DATA.at(0).BUID).at(language-tradition).at(1))
       }
       let booHead = if mbhf-join.len() > 1 {
         booHArr.join(mbhf-join.at(0), last: mbhf-join.at(1))
@@ -362,30 +362,30 @@
 }
 
 // "line" Citation of Biblical Literature
-#let lc(book-abbrev, pssg, lang: "en-USX", version: none, cite: none,
+#let lc(book-abbrev, pssg, language-tradition: "en-USX", version: none, cite: none,
         lan: "en",
         fmt: pkg-pars.fmt.cit,
         sep: [ ---]) = {
   set text(lang: lan)
   if version == none {
-    text(..fmt)[#sep~#abbrev-to-dict(book-abbrev, lang: lang).at(0).full~#pssg#{if cite != none [ #cite]}]
+    text(..fmt)[#sep~#abbrev-to-dict(book-abbrev, language-tradition: language-tradition).at(0).full~#pssg#{if cite != none [ #cite]}]
   }
   else {
-    text(..fmt)[#sep~#abbrev-to-dict(book-abbrev, lang: lang).at(0).full~#pssg (#version#{if cite != none [ #cite]})]
+    text(..fmt)[#sep~#abbrev-to-dict(book-abbrev, language-tradition: language-tradition).at(0).full~#pssg (#version#{if cite != none [ #cite]})]
   }
 }
 
 /// Inline quoting of biblical literature
-#let iq(body, book-abbrev, pssg, lang: "en-USX", version: none, cite: none, qlang: "en", clang: "en",
+#let iq(body, book-abbrev, pssg, language-tradition: "en-USX", version: none, cite: none, qlanguage-tradition: "en", clanguage-tradition: "en",
         quo: (fmt: pkg-pars.fmt.quo, bkg: pkg-pars.bkg.quo, quo: pkg-pars.quo, opq: ["], clq: ["]),
         cit: (fmt: pkg-pars.fmt.cit, )) = {
-  rq(body, lan: qlang, ..quo)
-  lc(book-abbrev, pssg, lang: lang, version: version, cite: cite, lan: clang, ..cit)
-  blindex(book-abbrev, pssg, lang: lang)
+  rq(body, lan: qlanguage-tradition, ..quo)
+  lc(book-abbrev, pssg, language-tradition: language-tradition, version: version, cite: cite, lan: clanguage-tradition, ..cit)
+  blindex(book-abbrev, pssg, language-tradition: language-tradition)
 }
 
 /// Block quoting of biblical literature
-#let bq(body, book-abbrev, pssg, lang: "en-USX", version: none, cite: none, qlang: "en", clang: "en",
+#let bq(body, book-abbrev, pssg, language-tradition: "en-USX", version: none, cite: none, qlanguage-tradition: "en", clanguage-tradition: "en",
         quo: (fmt: pkg-pars.fmt.quo, bkg: none, quo: pkg-pars.quo, opq: [], clq: []),
         cit: (fmt: pkg-pars.fmt.cit, ),
         blk: (wid: 90%, ins: 4pt, bkg: pkg-pars.bkg.quo, cit: pkg-pars.bkg.cit)) = {
@@ -394,8 +394,8 @@
       block(width: blk.wid, fill: blk.bkg, inset: blk.ins,
             align(left)[#rq(body, ..quo)]),
       block(width: blk.wid, fill: blk.cit, inset: blk.ins,
-            align(right)[#lc(book-abbrev, pssg, lang: lang, version: version, cite: cite, ..cit, sep: [])]),
-      blindex(book-abbrev, pssg, lang: lang)
+            align(right)[#lc(book-abbrev, pssg, language-tradition: language-tradition, version: version, cite: cite, ..cit, sep: [])]),
+      blindex(book-abbrev, pssg, language-tradition: language-tradition)
     )
   )
 }

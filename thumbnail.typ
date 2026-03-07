@@ -43,12 +43,12 @@ The ```typst #iq([The #smallcaps[Lord] is my...], "PSA", [23:1])``` function cal
 
 == Biblical Literature Abbreviations
 
-The `book-abbrev` argument is an abbreviation used to uniquely define the biblical literature source.  In the first example, `"PSA"` resolved to the book of Psalms. Abbreviations vary with language and tradition, specified by the optional `lang` parameter, whose default value is `"en-USX"`, which stands for the English-USX#footnote[USX is the Unified Scripture XML] language-tradition pair. The function `get-books(lang)` returns an array of valid `lang` abbreviations. For `"en-USX"`, one has:
+The `book-abbrev` argument is an abbreviation used to uniquely define the biblical literature source.  In the first example, `"PSA"` resolved to the book of Psalms. Abbreviations vary with language and tradition, specified by the optional `lang` parameter, whose default value is `"en-USX"`, which stands for the English-USX#footnote[USX is the Unified Scripture XML] language-tradition pair. The function `get-book-abbrevs(lang)` returns an array of valid `lang` abbreviations. For `"en-USX"`, one has:
 
 #{
   set par(justify: false)
   set text(font: "Atkinson Hyperlegible Mono", size: 6pt)
-  get-books("en-USX").join(", ")
+  get-book-abbrevs("en-USX").join(", ")
 }
 
 = Common Options

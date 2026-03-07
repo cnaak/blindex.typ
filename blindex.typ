@@ -41,7 +41,7 @@
   return bsort.keys()
 }
 
-/// Returns valid `book-abbrev` values, to be passed as the corresponding named argument in user-facing functions.
+/// Returns valid `book-abbrev` values, to be passed as the corresponding argument in user-facing functions.
 ///
 /// === Examples
 /// ```example
@@ -54,7 +54,7 @@
 ///
 /// -> array
 #let get-book-abbrevs(
-  /// The language-tradition for which to retrieve book abbreviations (see @get-language-traditions) -> string
+  /// The language-tradition for which to retrieve book abbreviations from (see @get-language-traditions) -> string
   language-tradition
 ) = {
   for KV in ldict.pairs() { (KV.at(1).at(language-tradition).at(0),) }

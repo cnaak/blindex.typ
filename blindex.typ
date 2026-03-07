@@ -97,7 +97,6 @@
   }
 }
 
-
 //============================================================================================//
 //                                Biblical Literature Indexing                                //
 //============================================================================================//
@@ -203,7 +202,6 @@
   ]
 }
 
-
 //============================================================================================//
 //                                Biblical Literature Quoting                                 //
 //============================================================================================//
@@ -265,22 +263,14 @@
 #let ver(
   /// The verse mark to render -> int | string | content
   body,
-  /// The list of formatting named args that can be passed to a ```typst #set text(..fmt)``` or a
-  /// ```typst #text(..fmt)``` function call -> dictionary
+  /// The list of formatting named args that can be passed to a ```typst #set text(..fmt)``` or a ```typst #text(..fmt)``` function call -> dictionary
   fmt: pkg-pars.fmt.ver,
-  /// The contents added meant for spacing between the rendered verse mark and the following
-  /// contents in the calling context.
-  /// Note that in the provided example no space was left between the function call closing
-  /// parenthesis and the following contents, so that the exact spacing `content` is produced
-  /// -> content
+  /// The contents added meant for spacing between the rendered verse mark and the following contents in the calling context.  Note that in the provided example no space was left between the function call closing parenthesis and the following contents, so that the exact spacing `content` is produced -> content
   spc: [#h(0.2em)]) = {
   box(baseline: fmt.size - 0.85em)[#text(..fmt)[#body#spc]]
 }
 
-/// Bare but consistent rendering of provided biblical literature excerpts. This is meant to be
-/// used directly only when repeating parts of an recently quoted passage (so as to forfeit
-/// immediate book-chapter-verse[-citations] etc... re-renderings); however, internally and
-/// indirectly, this function is called from every other passage-quoting functions.
+/// Renders biblical excerpts in a consistent, citation-free format. Use directly only for repeating recent quotes to prevent redundant citation rendering. Internally, it's heavily utilized for uniform formatting.
 ///
 /// === Examples
 ///
@@ -314,17 +304,13 @@
 ///
 /// -> content
 #let q-bare(
-  /// The excerpt or passage to be consistently rendered -> content
+  /// The excerpt or passage to be rendered -> content
   body,
-  /// The excerpt's language, to be passed as argument to the internal `#text` function
-  /// -> string
+  /// The excerpt's language, to be passed as argument to the internal `#text` function -> string
   lan: "en",
-  /// Text formatting directives, used as ```typst #text(..fmt)```
-  /// -> dictionary
+  /// Text formatting directives, used as ```typst #text(..fmt)``` -> dictionary
   fmt: pkg-pars.fmt.quo,
-  /// Highlight (background) formatting directives that feed the internal call to the
-  /// `#highlight`'s `fill` function
-  /// -> dictionary
+  /// Highlight (background) formatting directives that feed the internal call to the `#highlight`'s `fill` function -> dictionary
   bkg: pkg-pars.bkg.quo,
 ) = {
   [#highlight(fill: bkg, text(..fmt)[#body])]

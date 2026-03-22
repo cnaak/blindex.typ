@@ -292,9 +292,9 @@
 ///
 /// -> content
 #let ver(
-  /// The list of formatting named args that can be passed to a ```typst #text(..text-pars)``` function call -> dictionary
+  /// Formatting named args that can be passed to a ```typst #text(..text-pars)``` function call -> dictionary
   text-pars: pkg-pars.fmt.text.ver,
-  /// The list of formatting named args that can be passed to a ```typst #box(..box-pars)``` function call -> dictionary
+  /// Formatting named args that can be passed to a ```typst #box(..box-pars)``` function call -> dictionary
   box-pars: pkg-pars.fmt.box.ver,
   /// The contents added meant for spacing between the rendered verse mark and the following contents in  the  calling  context.
   /// Note that in the provided example no space was left between the  function  call  closing  parenthesis  and  the  following
@@ -303,7 +303,7 @@
   /// The verse mark to render -> int | string | content
   body,
 ) = {
-  box(..box-pars)[#text(..text-pars)[#body#spc]]
+  box(..box-pars, text(..text-pars, body + spc))
 }
 
 /// Renders biblical excerpts in a consistent, citation-free format. Use directly only for repeating recent  quotes  to  prevent
@@ -314,44 +314,39 @@
 /// With default arguments:
 ///
 /// ```example
+/// #set text(font: "Libertinus Serif")
 /// #block(width: 80mm)[
-///   #text(font: "Libertinus Serif")[
-///     we've seen that
-///     #q-bare([all kindreds of the earth
-///       shall wail because of him]),
-///     (speaking of Jesus), therefore...
-///   ]
+///   we've seen that
+///   #q-bare([all kindreds of the earth
+///     shall wail because of him]),
+///   (speaking of Jesus), therefore...
 /// ]
 /// ```
 ///
 /// With styling arguments:
 ///
 /// ```example
+/// #set text(font: "Libertinus Serif")
 /// #block(width: 80mm)[
-///   #text(font: "Libertinus Serif")[
-///     when scripture affirms
-///     #q-bare(
-///       [all kindreds],
-///       fmt: (style: "italic"),
-///       bkg: none),
-///     none is excluded...
-///   ]
+///   when scripture affirms
+///   #q-bare(
+///     fmt: (style: "italic"),
+///     bkg: none
+///   )[all kindreds],
+///   none is excluded...
 /// ]
 /// ```
 ///
 /// -> content
 #let q-bare(
+  /// Formatting named args that can be passed to a ```typst #text(..text-pars)``` function call -> dictionary
+  text-pars: pkg-pars.fmt.text.ver,
+  /// Formatting named args that can be passed to a ```typst #highlight(..highlight-pars)``` function call -> dictionary
+  highlight-pars: pkg-pars.fmt.highlight.ver,
   /// The excerpt or passage to be rendered -> content
   body,
-  /// The excerpt's language, to be passed as argument to the internal `#text` function -> string
-  lan: "en",
-  /// Text formatting directives, used as ```typst #text(..fmt)``` -> dictionary
-  fmt: pkg-pars.fmt.quo,
-  /// Highlight (background) formatting directives that feed  the  internal  call  to  the  `#highlight`'s  `fill`  function  ->
-  /// dictionary
-  bkg: pkg-pars.bkg.quo,
 ) = {
-  [#highlight(fill: bkg, text(..fmt)[#body])]
+  [#highlight(..highlight-pars, text(..text-pars, body))]
 }
 
 #let rq(body,

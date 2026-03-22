@@ -258,7 +258,9 @@
 #pkg-pars.fmt.text.insert("quo",
   (font: ("EB Garamond", "Libertinus Serif"), style: "normal", weight: "regular"))
 #pkg-pars.fmt.highlight.insert("quo",
-  (fill: silver))
+  (fill: rgb("A0A0A040")))
+#pkg-pars.fmt.highlight.insert("blk",
+  (fill: none))
 // Default citation mark: ensure style, weight
 #pkg-pars.fmt.text.insert("ref",
   (style: "normal", weight: "regular"))
@@ -266,7 +268,7 @@
   (fill: none))
 // Default block options:
 #pkg-pars.fmt.block.insert("quo",
-  (width: 90%, inset: 4pt, fill: silver))
+  (width: 90%, inset: 4pt, fill: rgb("A0A0A040")))
 #pkg-pars.fmt.block.insert("ref",
   (width: 90%, inset: 4pt, fill: none))
 
@@ -377,8 +379,9 @@
   /// The closing quote -> content
   cquot: ["],
 ) = {
+  set text(..quo-text-pars)
   set smartquote(..quote-pars)
-  [#oquot#quo-high(quo-text-pars: quo-text-pars, quo-highlight-pars: quo-highlight-pars, body)#cquot]
+  [#oquot#highlight(..quo-highlight-pars, body)#cquot]
 }
 
 /// Helper function for biblical  literature  passage  referencing,  according  to  various  language-traditions,  and  optional
@@ -526,11 +529,11 @@
   /// Formatting named args that can be passed to a ```typst #text(..ref-text-pars)``` function call -> dictionary
   ref-text-pars: pkg-pars.fmt.text.ref,
   /// Separator (from previous content) -> content
-  ref-sep: [---],
+  ref-sep: [#h(1fr)---],
   /// Formatting named args that can be passed to a ```typst #text(..quo-text-pars)``` function call -> dictionary
   quo-text-pars: pkg-pars.fmt.text.quo,
   /// Formatting named args that can be passed to a ```typst #highlight(..quo-highlight-pars)``` function call -> dictionary
-  quo-highlight-pars: pkg-pars.fmt.highlight.quo,
+  quo-highlight-pars: pkg-pars.fmt.highlight.blk,
   /// Smartquote parameters that can be passed to a ```typst #set smartquote(..quote-pars)``` function call -> dictionary
   quote-pars: pkg-pars.quo.at("def"),
   /// The opening quote -> content

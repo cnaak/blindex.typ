@@ -284,25 +284,26 @@
 ///
 /// === Examples
 /// ```example
+/// #set text(font: "Libertinus Serif")
 /// #block(width: 80mm)[
-///   #text(font: "Libertinus Serif")[
-///     #ver(1)In the beginning God created the heavens and the earth.
-///   ]
+///   #ver[1]In the beginning God created the heavens and the earth.
 /// ]
 /// ```
 ///
 /// -> content
 #let ver(
-  /// The verse mark to render -> int | string | content
-  body,
-  /// The list of formatting named args that can be passed to a ```typst  #set  text(..fmt)```  or  a  ```typst  #text(..fmt)```
-  /// function call -> dictionary
-  fmt: pkg-pars.fmt.ver,
+  /// The list of formatting named args that can be passed to a ```typst #text(..text-pars)``` function call -> dictionary
+  text-pars: pkg-pars.fmt.text.ver,
+  /// The list of formatting named args that can be passed to a ```typst #box(..box-pars)``` function call -> dictionary
+  box-pars: pkg-pars.fmt.box.ver,
   /// The contents added meant for spacing between the rendered verse mark and the following contents in  the  calling  context.
   /// Note that in the provided example no space was left between the  function  call  closing  parenthesis  and  the  following
   /// contents, so that the exact spacing `content` is produced -> content
-  spc: [#h(0.2em)]) = {
-  box(baseline: fmt.size - 0.85em)[#text(..fmt)[#body#spc]]
+  spc: [#h(0.2em)],
+  /// The verse mark to render -> int | string | content
+  body,
+) = {
+  box(..box-pars)[#text(..text-pars)[#body#spc]]
 }
 
 /// Renders biblical excerpts in a consistent, citation-free format. Use directly only for repeating recent  quotes  to  prevent

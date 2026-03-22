@@ -332,14 +332,14 @@
 ///
 /// -> content
 #let quo-high(
-  /// Formatting named args that can be passed to a ```typst #text(..text-pars)``` function call -> dictionary
-  text-pars: pkg-pars.fmt.text.ver,
-  /// Formatting named args that can be passed to a ```typst #highlight(..highlight-pars)``` function call -> dictionary
-  highlight-pars: pkg-pars.fmt.highlight.ver,
+  /// Formatting named args that can be passed to a ```typst #text(..quo-text-pars)``` function call -> dictionary
+  quo-text-pars: pkg-pars.fmt.text.quo,
+  /// Formatting named args that can be passed to a ```typst #highlight(..quo-highlight-pars)``` function call -> dictionary
+  quo-highlight-pars: pkg-pars.fmt.highlight.quo,
   /// The excerpt or passage to be rendered -> content
   body,
 ) = {
-  [#highlight(..highlight-pars, text(..text-pars, body))]
+  [#highlight(..quo-highlight-pars, text(..quo-text-pars, body))]
 }
 
 /// Helper function for fully controlled (smart-)quoting, highlighted and formatting of `body` quoting.
@@ -358,21 +358,21 @@
 ///
 /// -> content
 #let quo-quot(
-  /// Formatting named args that can be passed to a ```typst #text(..text-pars)``` function call -> dictionary
-  text-pars: pkg-pars.fmt.text.ver,
-  /// Formatting named args that can be passed to a ```typst #highlight(..highlight-pars)``` function call -> dictionary
-  highlight-pars: pkg-pars.fmt.highlight.ver,
+  /// The excerpt or passage to be rendered -> content
+  body,
+  /// Formatting named args that can be passed to a ```typst #text(..quo-text-pars)``` function call -> dictionary
+  quo-text-pars: pkg-pars.fmt.text.ver,
+  /// Formatting named args that can be passed to a ```typst #highlight(..quo-highlight-pars)``` function call -> dictionary
+  quo-highlight-pars: pkg-pars.fmt.highlight.ver,
   /// Smartquote parameters that can be passed to a ```typst #set smartquote(..quote-pars)``` function call -> dictionary
   quote-pars: pkg-pars.quo.at("def"),
   /// The opening quote -> content
   oquot: ["],
   /// The closing quote -> content
   cquot: ["],
-  /// The excerpt or passage to be rendered -> content
-  body,
 ) = {
   set smartquote(..quote-pars)
-  [#oquot#quo-high(text-pars: text-pars, highlight-pars: highlight-pars, body)#cquot]
+  [#oquot#quo-high(quo-text-pars: quo-text-pars, quo-highlight-pars: quo-highlight-pars, body)#cquot]
 }
 
 /// Helper function for biblical  literature  passage  referencing,  according  to  various  language-traditions,  and  optional
@@ -390,43 +390,96 @@
   language-tradition: "en-USX",
   /// The biblical literature version (usually translation/source acronym) -> string | none
   version: none,
-  /// The bibliography citation label -> label | none
-  cit-label: none,
-  /// Formatting named args that can be passed to a ```typst #text(..text-pars)``` function call -> dictionary
-  text-pars: pkg-pars.fmt.text.ref,
+  /// The bibliography citation label or `none`, for no citation -> label | none
+  cite-label: none,
+  /// Named args (pars) that can be passed to a ```typst #cite(..cite-pars, cite-label)``` function call -> dictionary
+  cite-pars: (supplement: none, form: "normal", style: auto),
+  /// Formatting named args that can be passed to a ```typst #set text(..ref-text-pars)``` function call -> dictionary
+  ref-text-pars: pkg-pars.fmt.text.ref,
   /// Separator (from previous content) -> content
-  sep: [ ---],
+  ref-sep: [ ---],
 ) = {
-  set text(..text-pars)
-  [#sep~#abbrev-to-dict(book-abbrev, language-tradition: language-tradition).at(0).full~#pssg]
-  if version == none {
-    if cit-label != none [ #cite]
-  } else {
-    [ (#version#{if cite != none [ #cite]})]
-  }
+  let mk-cit() = { if cit-label != none [ #cite(..cite-pars, cite-label)] }
+  set text(..ref-text-pars)
+  [#ref-sep~#abbrev-to-dict(book-abbrev, language-tradition: language-tradition).at(0).full~#pssg]
+  if version == none { mk-cit() } else { [ (#version#mk-cit())] }
 }
 
-// "line" Citation of Biblical Literature
-#let lc(book-abbrev, pssg, language-tradition: "en-USX", version: none, cite: none,
-        lan: "en",
-        fmt: pkg-pars.fmt.cit,
-        sep: [ ---]) = {
-  set text(lang: lan)
-  if version == none {
-    text(..fmt)[#sep~#abbrev-to-dict(book-abbrev, language-tradition: language-tradition).at(0).full~#pssg#{if cite != none [ #cite]}]
-  }
-  else {
-    text(..fmt)[#sep~#abbrev-to-dict(book-abbrev, language-tradition: language-tradition).at(0).full~#pssg (#version#{if cite != none [ #cite]})]
-  }
-}
+/*----------------------------------------------------------------------------*/
+/*                     Main User-Facing Quoting Functions                     */
+/*----------------------------------------------------------------------------*/
 
-/// Inline quoting of biblical literature
-#let iq(body, book-abbrev, pssg, language-tradition: "en-USX", version: none, cite: none, qlanguage-tradition: "en", clanguage-tradition: "en",
-        quo: (fmt: pkg-pars.fmt.quo, bkg: pkg-pars.bkg.quo, quo: pkg-pars.quo, opq: ["], clq: ["]),
-        cit: (fmt: pkg-pars.fmt.cit, )) = {
-  rq(body, lan: qlanguage-tradition, ..quo)
-  lc(book-abbrev, pssg, language-tradition: language-tradition, version: version, cite: cite, lan: clanguage-tradition, ..cit)
-  blindex(book-abbrev, pssg, language-tradition: language-tradition)
+/// Indexed inline quoting-referencing(-citing) function.
+///
+/// This is one of the main user-facing functions of this library, meant  for  fully  configurable  inline  biblical  literature
+/// quoting, referencing, optional citation, and indexing.
+///
+/// === Example
+///
+/// ```example
+/// #set text(font: "Noto Sans")
+/// #block(width: 80mm)[
+///   It is written that
+///   #ind-inl([Abraham believed God, and it was reckoned unto him for
+///     righteousness,], "Gal", [3:6], version: "ASV")
+///   therefore...
+/// ]
+/// ```
+///
+/// -> content
+#let ind-inl(
+  /// The excerpt or passage to be rendered -> content
+  body,
+  /// The biblical literature book abbreviation (see @get-book-abbrevs()) -> string
+  book-abbrev,
+  /// The referencing passage such as `[1:1--7]` > contents
+  passage,
+  /// The language-tradition in which the `book-abbrev` is valid (see @get-language-traditions()) -> string
+  language-tradition: "en-USX",
+  /// The biblical literature version (usually translation/source acronym) -> string | none
+  version: none,
+  /// The bibliography citation label or `none`, for no citation -> label | none
+  cite-label: none,
+  /// Named args (pars) that can be passed to a ```typst #cite(..cite-pars, cite-label)``` function call -> dictionary
+  cite-pars: (supplement: none, form: "normal", style: auto),
+  /// Formatting named args that can be passed to a ```typst #text(..ref-text-pars)``` function call -> dictionary
+  ref-text-pars: pkg-pars.fmt.text.ref,
+  /// Separator (from previous content) -> content
+  ref-sep: [ ---],
+  /// Formatting named args that can be passed to a ```typst #text(..quo-text-pars)``` function call -> dictionary
+  quo-text-pars: pkg-pars.fmt.text.quo,
+  /// Formatting named args that can be passed to a ```typst #highlight(..quo-highlight-pars)``` function call -> dictionary
+  quo-highlight-pars: pkg-pars.fmt.highlight.quo,
+  /// Smartquote parameters that can be passed to a ```typst #set smartquote(..quote-pars)``` function call -> dictionary
+  quote-pars: pkg-pars.quo.at("def"),
+  /// The opening quote -> content
+  oquot: ["],
+  /// The closing quote -> content
+  cquot: ["],
+) = {
+  quo-quot(
+    body,
+    quo-text-pars: quo-text-pars,
+    quo-highlight-pars: quo-highlight-pars,
+    quote-pars: quote-pars,
+    oquot: oquot,
+    cquot: cquot,
+  )
+  ref-bare(
+    book-abbrev,
+    passage,
+    language-tradition: language-tradition,
+    version: version,
+    cite-label: cite-label,
+    cite-pars: cite-pars, 
+    ref-text-pars: ref-text-pars,
+    ref-sep: ref-sep,
+  )
+  blindex(
+    book-abbrev,
+    passage,
+    language-tradition: language-tradition,
+  )
 }
 
 /// Block quoting of biblical literature

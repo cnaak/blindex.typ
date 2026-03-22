@@ -349,16 +349,36 @@
   [#highlight(..highlight-pars, text(..text-pars, body))]
 }
 
-#let rq(body,
-        lan: "en",
-        fmt: pkg-pars.fmt.quo,
-        bkg: pkg-pars.bkg.quo,
-        quo: pkg-pars.quo,
-        opq: ["],
-        clq: ["]) = {
-  set text(lang: lan)
-  set smartquote(..quo)
-  [#opq#highlight(fill: bkg, text(..fmt)[#body])#clq]
+/// Places a call to @q-bare() amid specifiable opening and closing quotes with smartquote options  and  propagating  formatting
+/// options onto `q-bare`.
+///
+/// === Example
+///
+/// ```example
+/// #set text(font: "Libertinus Serif")
+/// #block(width: 80mm)[
+///   The shortest verse of the New Testament is
+///   #q-quot[Jesus wept.]
+/// ]
+/// ```
+///
+/// -> content
+#let q-quot(
+  /// Formatting named args that can be passed to a ```typst #text(..text-pars)``` function call -> dictionary
+  text-pars: pkg-pars.fmt.text.ver,
+  /// Formatting named args that can be passed to a ```typst #highlight(..highlight-pars)``` function call -> dictionary
+  highlight-pars: pkg-pars.fmt.highlight.ver,
+  /// Smartquote parameters that can be passed to a ```typst #set smartquote(..quote-pars)``` function call -> dictionary
+  quote-pars: pkg-pars.quo.at("def"),
+  /// The opening quote -> content
+  o-quot: ["],
+  /// The closing quote -> content
+  c-quot: ["],
+  /// The excerpt or passage to be rendered -> content
+  body,
+) = {
+  set smartquote(..quote-pars)
+  [#o-quot#q-bare(text-pars: text-pars, highlight-pars: highlight-pars, body)#c-quot]
 }
 
 // "line" Citation of Biblical Literature

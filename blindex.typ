@@ -25,7 +25,8 @@
   return ldict.at("1001").keys()
 }
 
-/// Returns valid biblical literature book `sorting-tradition` values, to be passed as the corresponding named argument in user-facing functions like @mk-index.
+/// Returns valid biblical literature book `sorting-tradition` values, to be passed  as  the  corresponding  named  argument  in
+/// user-facing functions like @mk-index.
 ///
 /// === Examples
 /// ```example
@@ -60,7 +61,8 @@
   for KV in ldict.pairs() { (KV.at(1).at(language-tradition).at(0),) }
 }
 
-/// Helper function (not user-facing) that converts a biblical literature book abbreviation (according to a given language-tradition) into an indexing dictionary.
+/// Helper  function  (not  user-facing)  that  converts  a  biblical  literature  book  abbreviation  (according  to  a   given
+/// language-tradition) into an indexing dictionary.
 ///
 /// -> dictionary
 #let abbrev-to-dict(
@@ -103,8 +105,9 @@
 
 /// Biblical literature indexing marking function.
 ///
-/// This function produces no visible output, but only adds to the document the appropriate indexing #raw("#metadata()", lang: "typst").
-///
+/// This function produces no visible output, but only adds to the document the appropriate indexing  #raw("#metadata()",  lang:
+/// "typst").
+/// 
 /// This function is perhaps best used indirectly, through the various quoting functions (see @iq and @bq, for instance).
 ///
 /// -> none
@@ -125,18 +128,36 @@
 
 /// Index-making (producing, typesetting) function.
 ///
-/// This function produces a biblical literature index, at the point of call in the document, based on the document's #raw("#metadata()", lang: "typst") entries placed directly through @blindex calls, or indirectly through one of the quoting functions (see @iq and @bq, for instance).
-///
-/// Since indices are produced and placed at the point of call of this function, the user has full control on the index location within the document. Moreover, there's no restriction on the number of times this function can be called, thus allowing multiple indices to be produced. This may be useful in polyglot documents, since it enables the production of indices of multiple languages.
-///
-/// The index language, ordering of books (according to various traditions), and apprearance is controlable through the function arguments.
+/// This function produces a biblical literature index, at  the  point  of  call  in  the  document,  based  on  the  document's
+/// #raw("#metadata()", lang: "typst") entries placed directly through @blindex calls, or indirectly through one of the  quoting
+/// functions (see @iq and @bq, for instance).
+/// 
+/// Since indices are produced and placed at the point of call of this function, the user has full control on the index location
+/// within the document. Moreover, there's no restriction on the number of times this function  can  be  called,  thus  allowing
+/// multiple indices to be produced. This may be useful in polyglot documents, since it enables the  production  of  indices  of
+/// multiple languages.
+/// 
+/// The index language, ordering of books (according to various traditions), and apprearance is controlable through the function
+/// arguments.
 ///
 #let mk-index(
-  /// The language-tradition code for printing full index book names (see @get-language-traditions). This can be freely specified regardless of the tradition-language used to marking index entries along the document, since during index-marking, language-tradition book abbreviations are converted into generic internal representation keys that are language-tradition independent, while during index making, the generic internal representations are converted back to whatever specified language-tradition -> string
+  /// The language-tradition code for printing full  index  book  names  (see  @get-language-traditions).  This  can  be  freely
+  /// specified regardless  of  the  tradition-language  used  to  marking  index  entries  along  the  document,  since  during
+  /// index-marking, language-tradition book abbreviations are converted into generic  internal  representation  keys  that  are
+  /// language-tradition independent, while during index making, the generic internal  representations  are  converted  back  to
+  /// whatever specified language-tradition -> string
   language-tradition: "en-USX",
-  /// The book sorting tradition (see @get-sorting-traditions). This parameter controls the _sorting order_ of biblical literature book entries. It is worth noting that most sorting traditions do not define book placements for all biblical literature books (owing to the inclusion of deuterocanonical and apocripha books only in certain sorting traditions). Therefore, apocripha or deutorocanonical books may _not be listed at all_ in some book sorting traditions, since their placement is not defined. The library includes the `code` and `USX` sorting traditions, which are all-inclusive, meaning indices made with these sorting traditions are guaranteed to include every indexed biblical literature citation in the document. -> string
+  /// The book sorting tradition (see  @get-sorting-traditions).  This  parameter  controls  the  _sorting  order_  of  biblical
+  /// literature book entries. It is worth noting that most sorting traditions do not define book placements  for  all  biblical
+  /// literature books (owing to the inclusion of deuterocanonical and apocripha books  only  in  certain  sorting  traditions).
+  /// Therefore, apocripha or deutorocanonical books may _not be listed at all_ in some book  sorting  traditions,  since  their
+  /// placement is not defined. The library includes the `code` and `USX` sorting traditions, which are  all-inclusive,  meaning
+  /// indices made with these sorting traditions are guaranteed to include every indexed biblical  literature  citation  in  the
+  /// document. -> string
   sorting-tradition: "USX",
-  /// The number of columns for the index rendering. It is worth noting that while `typst` does not implement automatic column balancing, some situations may call for manual column balancing, which can be accomplished externally to this function call -> int
+  /// The number of columns for the index rendering. It is worth noting that while `typst` does not implement  automatic  column
+  /// balancing, some situations may call for manual column balancing, which can be accomplished  externally  to  this  function
+  /// call -> int
   cols: 2,
   /// The `gutter` argument for the `#columns` function call -> length
   gutter: 8pt,
@@ -144,12 +165,17 @@
   book-text-page-weights: (book: "bold", text: "regular", page: "extrabold"),
   /// The pattern for the index leaders -> content
   pattern: [.],
-  /// Flags whether to fully merge index book headings for books merged on given language-traditions. In some traditions, a single book entry
-  /// may contain multiple books of other traditions. For instance, in some Catholic traditions,
-  /// the 6th chapter of the book of "Baruch" is listes as a separate book---the "Letter of Jeremiah"---in
-  /// other traditions. Since index metadata entries are made through the book abbreviation `book-abbrev` (see @get-book-abbrevs), there might be a 1:many associations between abbreviation and actual book(s). Whenever this happens, the stored #raw("#metadata()", lang: "typst") actually contains an _array_ of books, and this option controls whether or not all books get merged or just the first one (usually the most-encompassing) is displayed, i.e., using the example above, whether only "Baruch" or "Baruch / Letter of Jeremiah" is listed as a book heading in the index. -> bool
+  /// Flags whether to fully merge index book headings for books merged on given  language-traditions.  In  some  traditions,  a
+  /// single book entry may contain multiple books of other traditions. For instance,  in  some  Catholic  traditions,  the  6th
+  /// chapter of the book of "Baruch" is listes as a separate book---the "Letter of Jeremiah"---in other traditions. Since index
+  /// metadata entries are made through the book abbreviation `book-abbrev` (see @get-book-abbrevs), there  might  be  a  1:many
+  /// associations between abbreviation and actual book(s). Whenever this happens, the stored #raw("#metadata()", lang: "typst")
+  /// actually contains an _array_ of books, and this option controls whether or not all books get merged or just the first  one
+  /// (usually the most-encompassing) is displayed, i.e., using the example above, whether only "Baruch" or "Baruch / Letter  of
+  /// Jeremiah" is listed as a book heading in the index. -> bool
   merged-book-headings-full: false,
-  /// The book merging arguments for `join`. The entry `at(0)` is the positional argument for `join`, while optional entry `at(1)` is the named `last` argument for `join` -> array
+  /// The book merging arguments for `join`. The entry `at(0)` is the positional  argument  for  `join`,  while  optional  entry
+  /// `at(1)` is the named `last` argument for `join` -> array
   merged-book-headings-join: (" / ",),
 ) = context {
   let BIG  =  10000   // just above highest buid number, which is 9999
@@ -186,8 +212,8 @@
     }
   }
   let sorted-index-keys = index-dict.keys().sorted()
-  columns(cols, gutter: gutter)[
-    #for sorted-key in sorted-index-keys {
+  columns(cols, gutter: gutter)[#{
+    for sorted-key in sorted-index-keys {
       text(weight: book-text-page-weights.book, index-dict.at(sorted-key).at(0))
       linebreak()
       for index-entry-values in index-dict.at(sorted-key).at(1) {
@@ -199,7 +225,7 @@
         linebreak()
       }
     }
-  ]
+  }]
 }
 
 //============================================================================================//
@@ -211,13 +237,12 @@
 //--------------------------------------------------------------------------------------------//
 
 #let pkg-pars = (
+  fmt: (text: (:), block: (:),),    // Formattings
+  quo: (:),                         // Quotings
+)
+
+#pkg-pars.fmt.text.insert("ver", (font: "Noto Sans", style: "normal", weight: "black", size: 0.6em))
   fmt: (
-    ver: (
-      font: ("Noto Sans", ),
-      style: "normal",
-      weight: "black",
-      size: 0.6em,
-    ),
     quo: (
       font: ("EB Garamond", "Libertinus Serif"),
       style: "normal",
@@ -263,14 +288,18 @@
 #let ver(
   /// The verse mark to render -> int | string | content
   body,
-  /// The list of formatting named args that can be passed to a ```typst #set text(..fmt)``` or a ```typst #text(..fmt)``` function call -> dictionary
+  /// The list of formatting named args that can be passed to a ```typst  #set  text(..fmt)```  or  a  ```typst  #text(..fmt)```
+  /// function call -> dictionary
   fmt: pkg-pars.fmt.ver,
-  /// The contents added meant for spacing between the rendered verse mark and the following contents in the calling context.  Note that in the provided example no space was left between the function call closing parenthesis and the following contents, so that the exact spacing `content` is produced -> content
+  /// The contents added meant for spacing between the rendered verse mark and the following contents in  the  calling  context.
+  /// Note that in the provided example no space was left between the  function  call  closing  parenthesis  and  the  following
+  /// contents, so that the exact spacing `content` is produced -> content
   spc: [#h(0.2em)]) = {
   box(baseline: fmt.size - 0.85em)[#text(..fmt)[#body#spc]]
 }
 
-/// Renders biblical excerpts in a consistent, citation-free format. Use directly only for repeating recent quotes to prevent redundant citation rendering. Internally, it's heavily utilized for uniform formatting.
+/// Renders biblical excerpts in a consistent, citation-free format. Use directly only for repeating recent  quotes  to  prevent
+/// redundant citation rendering. Internally, it's heavily utilized for uniform formatting.
 ///
 /// === Examples
 ///
@@ -310,7 +339,8 @@
   lan: "en",
   /// Text formatting directives, used as ```typst #text(..fmt)``` -> dictionary
   fmt: pkg-pars.fmt.quo,
-  /// Highlight (background) formatting directives that feed the internal call to the `#highlight`'s `fill` function -> dictionary
+  /// Highlight (background) formatting directives that feed  the  internal  call  to  the  `#highlight`'s  `fill`  function  ->
+  /// dictionary
   bkg: pkg-pars.bkg.quo,
 ) = {
   [#highlight(fill: bkg, text(..fmt)[#body])]

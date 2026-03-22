@@ -237,23 +237,32 @@
 //--------------------------------------------------------------------------------------------//
 
 #let pkg-pars = (
-  fmt: (text: (:), block: (:),),    // Formattings
-  quo: (:),                         // Quotings
+  // Formattings
+  fmt: (text: (:), box: (:), block: (:),),
+  // Quotings
+  quo: (:),
 )
 
-#pkg-pars.fmt.text.insert("ver", (font: "Noto Sans", style: "normal", weight: "black", size: 0.6em))
-  fmt: (
-    quo: (
-      font: ("EB Garamond", "Libertinus Serif"),
-      style: "normal",
-      weight: "regular",
-    ),
-    cit: (
-      font: ("Crimson Pro", "Libertinus Serif"),
-      style: "normal",
-      weight: "regular",
-    ),
-  ),
+// Default verse mark: ensure font, style, weight, size:
+#pkg-pars.fmt.text.insert("ver",
+  (font: "Noto Sans", style: "normal", weight: "black", size: 0.6em))
+#pkg-pars.fmt.box.insert("ver",
+  (baseline: pkg-pars.fmt.text.at("ver").size - 0.85em))
+// Default passage quoting: ensure font, style, weight
+#pkg-pars.fmt.text.insert("quo",
+  (font: ("EB Garamond", "Libertinus Serif"), style: "normal", weight: "regular"))
+// Default citation mark: ensure style, weight
+#pkg-pars.fmt.text.insert("cit",
+  (style: "normal", weight: "regular"))
+
+// Default smart quotes options:
+#pkg-pars.quo.insert("def",
+  (enabled: true, double: true,))
+#pkg-pars.quo.insert("single",
+  (enabled: true, double: false,))
+#pkg-pars.quo.insert("",
+  (enabled: true, double: false,))
+
   quo: (
     double: true,
     enabled: true,

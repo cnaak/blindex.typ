@@ -108,7 +108,8 @@
 /// This function produces no visible output, but only adds to the document the appropriate indexing  #raw("#metadata()",  lang:
 /// "typst").
 /// 
-/// This function is perhaps best used indirectly, through the various quoting functions (see @iq and @bq, for instance).
+/// This function is perhaps best used indirectly, through the  various  quoting  functions  (see  @ind-inl  and  @ind-blk,  for
+/// instance).
 ///
 /// -> none
 #let blindex(
@@ -130,7 +131,7 @@
 ///
 /// This function produces a biblical literature index, at  the  point  of  call  in  the  document,  based  on  the  document's
 /// #raw("#metadata()", lang: "typst") entries placed directly through @blindex calls, or indirectly through one of the  quoting
-/// functions (see @iq and @bq, for instance).
+/// functions (see @ind-inl and @ind-blk, for instance).
 /// 
 /// Since indices are produced and placed at the point of call of this function, the user has full control on the index location
 /// within the document. Moreover, there's no restriction on the number of times this function  can  be  called,  thus  allowing
@@ -257,12 +258,17 @@
 #pkg-pars.fmt.text.insert("quo",
   (font: ("EB Garamond", "Libertinus Serif"), style: "normal", weight: "regular"))
 #pkg-pars.fmt.highlight.insert("quo",
-  (fill: rgb("D0D0D0FF")))
+  (fill: silver))
 // Default citation mark: ensure style, weight
 #pkg-pars.fmt.text.insert("ref",
   (style: "normal", weight: "regular"))
 #pkg-pars.fmt.highlight.insert("ref",
   (fill: none))
+// Default block options:
+#pkg-pars.fmt.block.insert("quo",
+  (width: 90%, inset: 4pt, fill: silver))
+#pkg-pars.fmt.block.insert("ref",
+  (width: 90%, inset: 4pt, fill: none))
 
 // Default smart quotes options:
 #pkg-pars.quo.insert("def",
@@ -361,9 +367,9 @@
   /// The excerpt or passage to be rendered -> content
   body,
   /// Formatting named args that can be passed to a ```typst #text(..quo-text-pars)``` function call -> dictionary
-  quo-text-pars: pkg-pars.fmt.text.ver,
+  quo-text-pars: pkg-pars.fmt.text.quo,
   /// Formatting named args that can be passed to a ```typst #highlight(..quo-highlight-pars)``` function call -> dictionary
-  quo-highlight-pars: pkg-pars.fmt.highlight.ver,
+  quo-highlight-pars: pkg-pars.fmt.highlight.quo,
   /// Smartquote parameters that can be passed to a ```typst #set smartquote(..quote-pars)``` function call -> dictionary
   quote-pars: pkg-pars.quo.at("def"),
   /// The opening quote -> content
@@ -399,9 +405,9 @@
   /// Separator (from previous content) -> content
   ref-sep: [ ---],
 ) = {
-  let mk-cit() = { if cit-label != none [ #cite(..cite-pars, cite-label)] }
+  let mk-cit() = { if cite-label != none [ #cite(..cite-pars, cite-label)] }
   set text(..ref-text-pars)
-  [#ref-sep~#abbrev-to-dict(book-abbrev, language-tradition: language-tradition).at(0).full~#pssg]
+  [#ref-sep~#abbrev-to-dict(book-abbrev, language-tradition: language-tradition).at(0).full~#passage]
   if version == none { mk-cit() } else { [ (#version#mk-cit())] }
 }
 
@@ -421,7 +427,7 @@
 /// #block(width: 80mm)[
 ///   It is written that
 ///   #ind-inl([Abraham believed God, and it was reckoned unto him for
-///     righteousness,], "Gal", [3:6], version: "ASV")
+///     righteousness,], "GAL", [3:6], version: "ASV")
 ///   therefore...
 /// ]
 /// ```
@@ -482,20 +488,94 @@
   )
 }
 
-/// Block quoting of biblical literature
-#let bq(body, book-abbrev, pssg, language-tradition: "en-USX", version: none, cite: none, qlanguage-tradition: "en", clanguage-tradition: "en",
-        quo: (fmt: pkg-pars.fmt.quo, bkg: none, quo: pkg-pars.quo, opq: [], clq: []),
-        cit: (fmt: pkg-pars.fmt.cit, ),
-        blk: (wid: 90%, ins: 4pt, bkg: pkg-pars.bkg.quo, cit: pkg-pars.bkg.cit)) = {
+/// Indexed blocked quoting-referencing(-citing) function.
+///
+/// This is one of the main user-facing functions of this library, meant for  fully  configurable  blocked  biblical  literature
+/// quoting, referencing, optional citation, and indexing.
+///
+/// === Example
+///
+/// ```example
+/// #set text(font: "Noto Sans")
+/// #block(width: 80mm)[
+///   The Revelation of Jesus Christ affirms:
+///   #ind-blk([Behold, he cometh with the clouds; and every eye shall
+///     see him, and they that pierced him; and all the tribes of the
+///     earth shall mourn over him. Even so, Amen.],
+///     "REV", [1:7], version: "ASV")
+///   therefore...
+/// ]
+/// ```
+///
+/// -> content
+#let ind-blk(
+  /// The excerpt or passage to be rendered -> content
+  body,
+  /// The biblical literature book abbreviation (see @get-book-abbrevs()) -> string
+  book-abbrev,
+  /// The referencing passage such as `[1:1--7]` > contents
+  passage,
+  /// The language-tradition in which the `book-abbrev` is valid (see @get-language-traditions()) -> string
+  language-tradition: "en-USX",
+  /// The biblical literature version (usually translation/source acronym) -> string | none
+  version: none,
+  /// The bibliography citation label or `none`, for no citation -> label | none
+  cite-label: none,
+  /// Named args (pars) that can be passed to a ```typst #cite(..cite-pars, cite-label)``` function call -> dictionary
+  cite-pars: (supplement: none, form: "normal", style: auto),
+  /// Formatting named args that can be passed to a ```typst #text(..ref-text-pars)``` function call -> dictionary
+  ref-text-pars: pkg-pars.fmt.text.ref,
+  /// Separator (from previous content) -> content
+  ref-sep: [---],
+  /// Formatting named args that can be passed to a ```typst #text(..quo-text-pars)``` function call -> dictionary
+  quo-text-pars: pkg-pars.fmt.text.quo,
+  /// Formatting named args that can be passed to a ```typst #highlight(..quo-highlight-pars)``` function call -> dictionary
+  quo-highlight-pars: pkg-pars.fmt.highlight.quo,
+  /// Smartquote parameters that can be passed to a ```typst #set smartquote(..quote-pars)``` function call -> dictionary
+  quote-pars: pkg-pars.quo.at("def"),
+  /// The opening quote -> content
+  oquot: [],
+  /// The closing quote -> content
+  cquot: [],
+  /// Formatting named args that can be passed to a ```typst #block(..quo-block-pars)``` function call -> dictionary
+  quo-block-pars: pkg-pars.fmt.block.quo,
+  /// Formatting named args that can be passed to a ```typst #block(..ref-block-pars)``` function call -> dictionary
+  ref-block-pars: pkg-pars.fmt.block.ref,
+) = {
   align(center,
     stack(dir: ttb,
-      block(width: blk.wid, fill: blk.bkg, inset: blk.ins,
-            align(left)[#rq(body, ..quo)]),
-      block(width: blk.wid, fill: blk.cit, inset: blk.ins,
-            align(right)[#lc(book-abbrev, pssg, language-tradition: language-tradition, version: version, cite: cite, ..cit, sep: [])]),
-      blindex(book-abbrev, pssg, language-tradition: language-tradition)
+      block(..quo-block-pars,
+        align(left,
+          quo-quot(
+            body,
+            quo-text-pars: quo-text-pars,
+            quo-highlight-pars: quo-highlight-pars,
+            quote-pars: quote-pars,
+            oquot: oquot,
+            cquot: cquot,
+          )
+        )
+      ),
+      block(..ref-block-pars,
+        align(left,
+          ref-bare(
+            book-abbrev,
+            passage,
+            language-tradition: language-tradition,
+            version: version,
+            cite-label: cite-label,
+            cite-pars: cite-pars, 
+            ref-text-pars: ref-text-pars,
+            ref-sep: ref-sep,
+          )
+        )
+      )
     )
   )
+  blindex(
+    book-abbrev,
+    passage,
+    language-tradition: language-tradition,
+  )
 }
-
 

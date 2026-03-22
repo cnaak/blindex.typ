@@ -6,7 +6,7 @@ includes authors of any area of knowledge that make frequent use of biblical lit
 citations in their work, including theologians, historians, philosophers, and classic linguists
 alike.
 
-Blindex user-facing functions are highly-customizable. Check the API documentation for details.
+Blindex user-facing functions are highly-customizable. Check the [API documentation](https://github.com/cnaak/blindex.typ/blob/release-0.4.0/api.pdf) for details.
 
 ## Index Sorting Options
 
@@ -88,7 +88,8 @@ respectively for **inline** and **block** quoting of Biblical literature, with a
 indexing and optional bibliography citation.  There's also a helper `#ver[...]` function for
 convenient verse number formatting, mostly aimed at being used within block quotes.
 
-Check the API for details.
+Check the [API documentation](https://github.com/cnaak/blindex.typ/blob/release-0.4.0/api.pdf)
+for details.
 
 ## Examples
 

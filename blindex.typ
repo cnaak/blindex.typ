@@ -269,23 +269,12 @@
   (enabled: true, double: true,))
 #pkg-pars.quo.insert("single",
   (enabled: true, double: false,))
-#pkg-pars.quo.insert("",
-  (enabled: true, double: false,))
-
-  quo: (
-    double: true,
-    enabled: true,
-    alternative: false,
-    quotes: (
-      single: auto, // ("\u{2018}", "\u{2019}"),
-      double: auto, // ("\u{201C}", "\u{201D}"),
-    )
-  ),
-  bkg: (
-    quo: rgb("D0D0D0FF"),
-    cit: none,
-  ),
-)
+#pkg-pars.quo.insert("plain",
+  (enabled: false,))
+#pkg-pars.quo.insert("alt",
+  (enabled: true, alternative: true, quotes: (
+    single: ("\u{2018}", "\u{2019}"),
+    double: ("\u{201C}", "\u{201D}"),)))
 
 //--------------------------------------------------------------------------------------------//
 //                                      Quote Functions                                       //

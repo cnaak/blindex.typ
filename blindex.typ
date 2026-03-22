@@ -330,8 +330,8 @@
 /// #block(width: 80mm)[
 ///   when scripture affirms
 ///   #q-bare(
-///     fmt: (style: "italic"),
-///     bkg: none
+///     text-pars: (style: "italic"),
+///     highlight-pars: (fill: none),
 ///   )[all kindreds],
 ///   none is excluded...
 /// ]

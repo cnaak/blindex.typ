@@ -238,7 +238,12 @@
 
 #let pkg-pars = (
   // Formattings
-  fmt: (text: (:), box: (:), block: (:),),
+  fmt: (
+    box: (:),
+    text: (:),
+    block: (:),
+    highlight: (:),
+  ),
   // Quotings
   quo: (:),
 )
@@ -251,9 +256,13 @@
 // Default passage quoting: ensure font, style, weight
 #pkg-pars.fmt.text.insert("quo",
   (font: ("EB Garamond", "Libertinus Serif"), style: "normal", weight: "regular"))
+#pkg-pars.fmt.highlight.insert("quo",
+  (fill: rgb("D0D0D0FF")))
 // Default citation mark: ensure style, weight
 #pkg-pars.fmt.text.insert("cit",
   (style: "normal", weight: "regular"))
+#pkg-pars.fmt.highlight.insert("cit",
+  (fill: none))
 
 // Default smart quotes options:
 #pkg-pars.quo.insert("def",

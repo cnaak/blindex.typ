@@ -259,9 +259,9 @@
 #pkg-pars.fmt.highlight.insert("quo",
   (fill: rgb("D0D0D0FF")))
 // Default citation mark: ensure style, weight
-#pkg-pars.fmt.text.insert("cit",
+#pkg-pars.fmt.text.insert("ref",
   (style: "normal", weight: "regular"))
-#pkg-pars.fmt.highlight.insert("cit",
+#pkg-pars.fmt.highlight.insert("ref",
   (fill: none))
 
 // Default smart quotes options:
@@ -306,39 +306,32 @@
   box(..box-pars, text(..text-pars, body + spc))
 }
 
-/// Renders biblical excerpts in a consistent, citation-free format. Use directly only for repeating recent  quotes  to  prevent
-/// redundant citation rendering. Internally, it's heavily utilized for uniform formatting.
+/// Helper function for fully controlled highlighted and formatting of `body` quoting.
 ///
-/// === Examples
+/// This function in only concerned with biblical literature passage formatting: full text and highlight specifications, without
+/// any "dressings" --- such as smart-quoting, biblical literature referencing, bibliography citation, or  indexing;  therefore,
+/// it has seldom cases of direct user-facing usage.
 ///
-/// With default arguments:
+/// Both `#text` and `#highlight` formatting abilities are complete for maximum usability, which makes this function a central
+/// component of the higher-level (user-facing) quoting-referencing-citing-indexing functions.
+///
+/// === Example
+///
+/// The rare function user-facing usage includes the repeating of immediate-context, previous, fully-qualified quoted passage
+/// excerpts within a discussion, such as:
 ///
 /// ```example
 /// #set text(font: "Libertinus Serif")
 /// #block(width: 80mm)[
 ///   we've seen that
-///   #q-bare([all kindreds of the earth
+///   #quo-high([all kindreds of the earth
 ///     shall wail because of him]),
 ///   (speaking of Jesus), therefore...
 /// ]
 /// ```
 ///
-/// With styling arguments:
-///
-/// ```example
-/// #set text(font: "Libertinus Serif")
-/// #block(width: 80mm)[
-///   when scripture affirms
-///   #q-bare(
-///     text-pars: (style: "italic"),
-///     highlight-pars: (fill: none),
-///   )[all kindreds],
-///   none is excluded...
-/// ]
-/// ```
-///
 /// -> content
-#let q-bare(
+#let quo-high(
   /// Formatting named args that can be passed to a ```typst #text(..text-pars)``` function call -> dictionary
   text-pars: pkg-pars.fmt.text.ver,
   /// Formatting named args that can be passed to a ```typst #highlight(..highlight-pars)``` function call -> dictionary
@@ -349,8 +342,9 @@
   [#highlight(..highlight-pars, text(..text-pars, body))]
 }
 
-/// Places a call to @q-bare() amid specifiable opening and closing quotes with smartquote options  and  propagating  formatting
-/// options onto `q-bare`.
+/// Helper function for fully controlled (smart-)quoting, highlighted and formatting of `body` quoting.
+///
+/// This function expands upon @quo-high() by optionally smart-quoting its generated contents.
 ///
 /// === Example
 ///
@@ -358,12 +352,12 @@
 /// #set text(font: "Libertinus Serif")
 /// #block(width: 80mm)[
 ///   The shortest verse of the New Testament is
-///   #q-quot[Jesus wept.]
+///   #quo-quot[Jesus wept.]
 /// ]
 /// ```
 ///
 /// -> content
-#let q-quot(
+#let quo-quot(
   /// Formatting named args that can be passed to a ```typst #text(..text-pars)``` function call -> dictionary
   text-pars: pkg-pars.fmt.text.ver,
   /// Formatting named args that can be passed to a ```typst #highlight(..highlight-pars)``` function call -> dictionary
@@ -371,14 +365,45 @@
   /// Smartquote parameters that can be passed to a ```typst #set smartquote(..quote-pars)``` function call -> dictionary
   quote-pars: pkg-pars.quo.at("def"),
   /// The opening quote -> content
-  o-quot: ["],
+  oquot: ["],
   /// The closing quote -> content
-  c-quot: ["],
+  cquot: ["],
   /// The excerpt or passage to be rendered -> content
   body,
 ) = {
   set smartquote(..quote-pars)
-  [#o-quot#q-bare(text-pars: text-pars, highlight-pars: highlight-pars, body)#c-quot]
+  [#oquot#quo-high(text-pars: text-pars, highlight-pars: highlight-pars, body)#cquot]
+}
+
+/// Helper function for biblical  literature  passage  referencing,  according  to  various  language-traditions,  and  optional
+/// bibliography citing.
+///
+/// This function isn't meant for direct user-facing usage.
+///
+/// -> content
+#let ref-bare(
+  /// The biblical literature book abbreviation (see @get-book-abbrevs()) -> string
+  book-abbrev,
+  /// The referencing passage such as `[1:1--7]` > contents
+  passage,
+  /// The language-tradition in which the `book-abbrev` is valid (see @get-language-traditions()) -> string
+  language-tradition: "en-USX",
+  /// The biblical literature version (usually translation/source acronym) -> string | none
+  version: none,
+  /// The bibliography citation label -> label | none
+  cit-label: none,
+  /// Formatting named args that can be passed to a ```typst #text(..text-pars)``` function call -> dictionary
+  text-pars: pkg-pars.fmt.text.ref,
+  /// Separator (from previous content) -> content
+  sep: [ ---],
+) = {
+  set text(..text-pars)
+  [#sep~#abbrev-to-dict(book-abbrev, language-tradition: language-tradition).at(0).full~#pssg]
+  if version == none {
+    if cit-label != none [ #cite]
+  } else {
+    [ (#version#{if cite != none [ #cite]})]
+  }
 }
 
 // "line" Citation of Biblical Literature

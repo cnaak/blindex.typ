@@ -95,7 +95,7 @@ Check the API for details.
 The [thumbnail.typ](https://github.com/cnaak/blindex.typ/blob/release-0.4.0/thumbnail.typ)
 briefly showcases likely common package workflows. It renders as
 
-![thumbnail](https://raw.githubusercontent.com/cnaak/blindex.typ/b81e91e58e63f1b77a2540b7f21693b1cb7a9bf1/thumbnail.png)
+![thumbnail](https://raw.githubusercontent.com/cnaak/blindex.typ/refs/heads/release-0.4.0/thumbnail.png)
 
 ## Brief Release Summary
 
